@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 import pandas as pd
+import requests
 import streamlit as st
 
 
@@ -22,7 +23,7 @@ RESIDENTIAL_TYPES = ["원룸", "투룸", "쓰리룸", "아파트", "빌라", "�
 FACTORY_TYPES = ["공장", "창고"]
 
 COLUMNS = [
-    "매물명", "주소", "지역", "매물종류", "거래유형", "네이버부동산 링크",
+    "매물명", "주소", "지역", "매물종류", "거래유형", "네이버 매물 ID", "네이버부동산 링크",
     "사진 파일명", "사진 데이터", "매매가(만원)", "보증금(만원)", "월세(만원)",
     "관리비(만원)", "권리금(만원)", "대지면적(㎡)", "전용면적(㎡)", "공급면적(㎡)",
     "건축면적(㎡)", "건물면적(㎡)", "대지면적(평)", "전용면적(평)", "공급면적(평)",
@@ -129,51 +130,109 @@ def normalize_deal_type(value):
     return "매매"
 
 
-def extract_naver_listing(url):
-    parsed = urlparse(url.strip())
-    if parsed.scheme not in ["http", "https"] or not parsed.netloc.endswith("naver.com"):
-        return None
+def extract_naver_article_id(url):
+    patterns = [
+        r"(?:articleNo=|/articles/)(\d+)",
+        r"(?:articleId=|article/)(\d+)",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, str(url))
+        if match:
+            return match.group(1)
+    return ""
 
-    request = Request(
-        url,
-        headers={
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 Chrome/124 Safari/537.36"
-            )
-        },
-    )
-    with urlopen(request, timeout=10) as response:
-        html = response.read().decode("utf-8", errors="ignore")
+
+def extract_json_from_html(html):
     objects = []
     scripts = re.findall(r"<script[^>]*>(.*?)</script>", html, flags=re.I | re.S)
     for script_text in scripts:
         try:
             collect_json_objects(json.loads(script_text), objects)
         except (json.JSONDecodeError, TypeError):
-            for match in re.findall(r"\{.*?\}", script_text):
-                try:
-                    collect_json_objects(json.loads(match), objects)
-                except (json.JSONDecodeError, TypeError):
-                    continue
+            continue
+    return objects
 
-    page_text = re.sub(r"<[^>]+>", " ", unescape(html))
-    page_text = re.sub(r"\s+", " ", page_text).strip()
-    address = first_value(objects, ["roadAddress", "jibunAddress", "address", "location"])
-    property_type = normalize_property_type(
-        first_value(objects, ["realEstateTypeName", "articleName", "buildingTypeName"])
+
+def parse_area(text, labels):
+    for label in labels:
+        match = re.search(rf"{label}\s*[:：]?\s*([\d,.]+)\s*(?:㎡|m²|m2)", text, re.I)
+        if match:
+            return parse_price(match.group(1))
+    return 0.0
+
+
+def parse_listing_text(text):
+    clean = re.sub(r"\s+", " ", str(text)).strip()
+    if not clean:
+        return None
+
+    address_match = re.search(
+        r"((?:서울특별시|부산광역시|대구광역시|인천광역시|광주광역시|"
+        r"대전광역시|울산광역시|세종특별자치시|경기도|강원특별자치도|"
+        r"충청북도|충청남도|전북특별자치도|전라남도|경상북도|경상남도|"
+        r"제주특별자치도)\s+[가-힣0-9\s\-로길동읍면리]+)",
+        clean,
     )
-    deal_type = normalize_deal_type(first_value(objects, ["tradeTypeName", "tradeType"]))
+    address = address_match.group(1).strip() if address_match else ""
+    if address:
+        address = re.split(
+            r"\s+(?:공장|창고|토지|상가|원룸|투룸|쓰리룸|아파트|빌라|"
+            r"오피스텔|사무실|매매|전세|월세|매매가|보증금|관리비|"
+            r"대지면적|전용면적|공급면적|건물면적|층수)\b",
+            address,
+            maxsplit=1,
+        )[0].strip()
+    property_type = normalize_property_type(clean)
+    deal_type = normalize_deal_type(clean)
+
+    sale_match = re.search(r"(?:매매가?|매매)\s*[:：]?\s*([0-9,.억만\s]+)", clean)
+    deposit_match = re.search(r"(?:보증금|전세가?|전세)\s*[:：]?\s*([0-9,.억만\s]+)", clean)
+    rent_match = re.search(r"(?:월세)\s*[:：]?\s*([0-9,.억만\s]+)", clean)
+    combined_rent = re.search(r"월세\s*[:：]?\s*([0-9,.억만]+)\s*/\s*([0-9,.억만]+)", clean)
+    floor_match = re.search(r"(?:해당층|층수|현재층)\s*[:：]?\s*(\d+)", clean)
+    room_match = re.search(r"(?:방\s*(?:개수|수)?|방수)\s*[:：]?\s*(\d+)", clean)
+    bath_match = re.search(r"(?:욕실\s*(?:개수|수)?|욕실수)\s*[:：]?\s*(\d+)", clean)
+
+    deposit = parse_price(deposit_match.group(1)) if deposit_match else 0
+    rent = parse_price(rent_match.group(1)) if rent_match else 0
+    if combined_rent:
+        deposit = parse_price(combined_rent.group(1))
+        rent = parse_price(combined_rent.group(2))
+
     result = {
-        "주소": str(address),
+        "주소": address,
         "매물종류": property_type,
         "거래유형": deal_type,
-        "매매가(만원)": parse_price(
-            first_value(objects, ["dealOrWarrantPrc", "dealPrice", "price"])
+        "매매가(만원)": parse_price(sale_match.group(1)) if sale_match else 0,
+        "보증금(만원)": deposit,
+        "월세(만원)": rent,
+        "관리비(만원)": parse_price(
+            re.search(r"관리비\s*[:：]?\s*([0-9,.억만\s]+)", clean).group(1)
+        ) if re.search(r"관리비\s*[:：]?\s*([0-9,.억만\s]+)", clean) else 0,
+        "전용면적(㎡)": parse_area(clean, ["전용면적", "전용"]),
+        "공급면적(㎡)": parse_area(clean, ["공급면적", "공급"]),
+        "대지면적(㎡)": parse_area(clean, ["대지면적", "토지면적"]),
+        "건물면적(㎡)": parse_area(clean, ["건물면적", "연면적"]),
+        "층수": int(floor_match.group(1)) if floor_match else 0,
+        "방 개수": int(room_match.group(1)) if room_match else 0,
+        "욕실 수": int(bath_match.group(1)) if bath_match else 0,
+        "주차 가능 여부": "가능" if re.search(r"주차\s*(?:가능|O|있음)", clean, re.I) else "미확인",
+        "엘리베이터": "있음" if re.search(r"(?:엘리베이터|승강기)\s*(?:있음|O|유)", clean, re.I) else "미확인",
+    }
+    meaningful = sum(bool(value) for key, value in result.items() if key not in ["매물종류", "거래유형"])
+    return result if meaningful else None
+
+
+def build_listing_result(objects, page_text):
+    address = first_value(objects, ["roadAddress", "jibunAddress", "address", "location"])
+    result = {
+        "주소": str(address),
+        "매물종류": normalize_property_type(
+            first_value(objects, ["realEstateTypeName", "articleName", "buildingTypeName"])
         ),
-        "보증금(만원)": parse_price(
-            first_value(objects, ["warrantPrice", "deposit", "depositPrice"])
-        ),
+        "거래유형": normalize_deal_type(first_value(objects, ["tradeTypeName", "tradeType"])),
+        "매매가(만원)": parse_price(first_value(objects, ["dealOrWarrantPrc", "dealPrice", "price"])),
+        "보증금(만원)": parse_price(first_value(objects, ["warrantPrice", "deposit", "depositPrice"])),
         "월세(만원)": parse_price(first_value(objects, ["rentPrc", "rentPrice", "monthlyRent"])),
         "관리비(만원)": parse_price(first_value(objects, ["maintenanceFee", "manageCost"])),
         "전용면적(㎡)": parse_price(first_value(objects, ["area2", "exclusiveArea"])),
@@ -196,6 +255,60 @@ def extract_naver_listing(url):
             result["주소"] = address_match.group(1).strip()
     meaningful = sum(bool(value) for key, value in result.items() if key not in ["매물종류", "거래유형"])
     return result if meaningful else None
+
+
+def extract_naver_listing(url):
+    logs = []
+    parsed = urlparse(url.strip())
+    if parsed.scheme not in ["http", "https"] or not parsed.netloc.endswith("naver.com"):
+        return None, ["URL 검증 실패: naver.com 주소가 아닙니다."]
+
+    article_id = extract_naver_article_id(url)
+    logs.append(f"매물 ID 추출: {article_id or '실패'}")
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 Chrome/124 Safari/537.36"
+        )
+    }
+
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        logs.append(f"requests 응답: HTTP {response.status_code}, {len(response.text):,}자")
+        response.raise_for_status()
+        html = response.text
+        objects = extract_json_from_html(html)
+        logs.append(f"requests JSON 객체 발견: {len(objects):,}개")
+        page_text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", unescape(html))).strip()
+        result = build_listing_result(objects, page_text)
+        if result:
+            logs.append("requests 단계에서 매물 정보 추출 성공")
+            return result, logs
+        logs.append("requests 단계 실패: 초기 HTML에 상세 매물 정보가 없습니다.")
+    except Exception as error:
+        logs.append(f"requests 단계 실패: {type(error).__name__}: {error}")
+
+    try:
+        request = Request(url, headers=headers)
+        with urlopen(request, timeout=10) as response:
+            html = response.read().decode("utf-8", errors="ignore")
+        logs.append(f"기본 HTTP 응답: {len(html):,}자")
+        objects = extract_json_from_html(html)
+        page_text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", unescape(html))).strip()
+        result = build_listing_result(objects, page_text)
+        if result:
+            logs.append("기본 HTTP 단계에서 매물 정보 추출 성공")
+            return result, logs
+        logs.append("기본 HTTP 단계 실패: 동적 렌더링 정보가 필요합니다.")
+    except Exception as error:
+        logs.append(f"기본 HTTP 단계 실패: {type(error).__name__}: {error}")
+
+    logs.append(
+        "Playwright/Selenium 검토 결과: Streamlit Cloud에서는 브라우저 설치와 "
+        "실행이 불안정하여 기본 기능으로 사용하지 않습니다."
+    )
+    logs.append("권장 대체 방법: 아래 매물 설명 붙여넣기를 사용하세요.")
+    return None, logs
 
 
 def option_index(options, value):
@@ -419,16 +532,53 @@ with url_2:
 
 if extract_clicked:
     try:
-        extracted = extract_naver_listing(extraction_url)
-    except Exception:
+        extracted, extraction_logs = extract_naver_listing(extraction_url)
+    except Exception as error:
         extracted = None
+        extraction_logs = [f"예상하지 못한 실패: {type(error).__name__}: {error}"]
+    st.session_state.extraction_logs = extraction_logs
     if extracted:
+        extracted["네이버 매물 ID"] = extract_naver_article_id(extraction_url)
         st.session_state.extracted_listing = extracted
         st.session_state.naver_extract_url = extraction_url
         st.success("가능한 매물 정보를 자동 입력했습니다. 저장 전에 내용을 확인해주세요.")
     else:
         st.session_state.extracted_listing = {}
-        st.warning("자동 추출 실패, 직접 입력해주세요")
+        st.warning("자동 추출 실패, 실패 이유를 확인하고 직접 입력해주세요")
+
+if st.session_state.get("extraction_logs"):
+    with st.expander("URL 자동 추출 단계별 로그", expanded=True):
+        for log_line in st.session_state.extraction_logs:
+            st.write(f"- {log_line}")
+
+with st.expander("URL + 매물 설명 붙여넣기", expanded=False):
+    pasted_description = st.text_area(
+        "네이버부동산 화면에서 복사한 전체 텍스트",
+        placeholder=(
+            "예: 경기도 화성시 ... 공장 매매 5억 대지면적 500㎡ "
+            "건물면적 300㎡ 층수 2층"
+        ),
+        height=180,
+    )
+    parse_text_clicked = st.button("붙여넣은 설명 자동 추출", use_container_width=True)
+
+if parse_text_clicked:
+    parsed_text = parse_listing_text(pasted_description)
+    if parsed_text:
+        parsed_text["네이버 매물 ID"] = extract_naver_article_id(extraction_url)
+        st.session_state.extracted_listing = parsed_text
+        st.session_state.naver_extract_url = extraction_url
+        st.session_state.extraction_logs = [
+            "붙여넣기 텍스트 읽기 성공",
+            "주소·가격·면적·층수·매물종류 등 인식 가능한 항목을 입력했습니다.",
+        ]
+        st.success("붙여넣은 매물 설명에서 가능한 정보를 자동 입력했습니다.")
+        st.rerun()
+    else:
+        st.session_state.extraction_logs = [
+            "붙여넣기 텍스트 읽기 실패: 인식 가능한 주소·가격·면적 정보가 없습니다."
+        ]
+        st.warning("자동 추출 실패, 붙여넣은 내용을 확인하고 직접 입력해주세요")
 
 auto = st.session_state.get("extracted_listing", {})
 selected_type = st.selectbox(
@@ -548,6 +698,7 @@ if submitted:
         row = {
             "매물명": name.strip(), "주소": address.strip(), "지역": get_region(address),
             "매물종류": selected_type, "거래유형": deal_type,
+            "네이버 매물 ID": extract_naver_article_id(naver_link),
             "네이버부동산 링크": naver_link.strip(), "사진 파일명": photo_name,
             "사진 데이터": photo_data, "매매가(만원)": sale_price,
             "보증금(만원)": deposit, "월세(만원)": monthly_rent,
@@ -564,6 +715,7 @@ if submitted:
         save_listings(st.session_state.listings)
         st.session_state.extracted_listing = {}
         st.session_state.naver_extract_url = ""
+        st.session_state.extraction_logs = []
         st.success("매물을 저장했습니다.")
 
 st.subheader("검색 및 필터")
