@@ -119,3 +119,17 @@ https://github.com/Sugoil/factory-manager
 실제 비밀번호가 저장된 `.streamlit/secrets.toml`은 업로드되지 않습니다.
 
 자동 GitHub 반영 테스트 완료
+
+## push.bat 사용 방법
+
+기능 수정 후 `push.bat`을 더블클릭하고 커밋 메시지를 입력하면 변경사항을
+자동으로 add, commit, push합니다.
+
+PowerShell 또는 명령 프롬프트에서 커밋 메시지를 바로 전달할 수도 있습니다.
+
+```powershell
+.\push.bat "기능 업데이트"
+```
+
+실제 비밀번호 파일인 `.streamlit/secrets.toml`은 `.gitignore`에 의해
+GitHub에 올라가지 않습니다.
