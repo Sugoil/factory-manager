@@ -1,0 +1,63 @@
+name: Daily Naver Real Estate Watch
+
+on:
+  schedule:
+    # GitHub Actions cron uses UTC. 00:00 UTC = 09:00 KST.
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-naver-watch
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NAVER_WATCH_URLS: ${{ secrets.NAVER_WATCH_URLS }}
+      WATCH_REGIONS: ${{ vars.WATCH_REGIONS }}
+      WATCH_PROPERTY_TYPES: ${{ vars.WATCH_PROPERTY_TYPES }}
+      WATCH_DEAL_TYPES: ${{ vars.WATCH_DEAL_TYPES }}
+      WATCH_MIN_PRICE: ${{ vars.WATCH_MIN_PRICE }}
+      WATCH_MAX_PRICE: ${{ vars.WATCH_MAX_PRICE }}
+      WATCH_MIN_RENT: ${{ vars.WATCH_MIN_RENT }}
+      WATCH_MAX_RENT: ${{ vars.WATCH_MAX_RENT }}
+      REQUEST_DELAY_SECONDS: "6"
+      MAX_DETAIL_REQUESTS: "10"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Collect small batch
+        run: python naver_collector.py
+
+      - name: Upload collector log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: naver-collector-log-${{ github.run_number }}
+          path: logs/naver_collector.log
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Commit new listings
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add listings.csv
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update daily Naver listings"
+            git push
+          fi
