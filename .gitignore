@@ -1,5 +1,8 @@
 .streamlit/secrets.toml
 __pycache__/
 *.pyc
+<<<<<<< HEAD
 logs/*.log
 !logs/.gitkeep
+=======
+>>>>>>> 6b61f5762b97e3c22446bf2ee6f478d968926922
