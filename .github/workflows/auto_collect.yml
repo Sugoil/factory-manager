@@ -33,5 +33,6 @@ jobs:
             echo "No collection changes"
           else
             git commit -m "chore: hourly small listing collection"
+            git pull --rebase origin main
             git push
           fi

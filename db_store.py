@@ -38,7 +38,8 @@ def init_db(db_file=DB_FILE):
                 ON listings(naver_article_id) WHERE naver_article_id != '';
             CREATE UNIQUE INDEX IF NOT EXISTS idx_listings_url
                 ON listings(naver_url) WHERE naver_url != '';
-            CREATE UNIQUE INDEX IF NOT EXISTS idx_listings_duplicate
+            DROP INDEX IF EXISTS idx_listings_duplicate;
+            CREATE UNIQUE INDEX idx_listings_duplicate
                 ON listings(duplicate_key) WHERE duplicate_key != '';
 
             CREATE TABLE IF NOT EXISTS search_conditions (

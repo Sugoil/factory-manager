@@ -908,7 +908,6 @@ def save_listings(data):
     prepared = prepare_listings(data)
     db_replace_listings(prepared.to_dict("records"))
     prepared.to_csv(DATA_FILE, index=False, encoding="utf-8-sig")
-    sync_file_to_github(DB_FILE, "chore: update listings database")
 
 
 def load_conditions():
@@ -951,19 +950,93 @@ def github_condition_settings():
         return "", "", "main"
 
 
-def sync_file_to_github(path, commit_message):
-    token, repository, branch = github_condition_settings()
-    if not token or not repository:
-        return False
-    api_url = f"https://api.github.com/repos/{repository}/contents/{path.name}"
-    headers = {
+def save_github_api_logs(logs):
+    try:
+        st.session_state.github_api_logs = logs
+    except Exception:
+        pass
+
+
+def github_api_headers(token):
+    return {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
     }
+
+
+def github_response_error(response):
+    try:
+        message = str(response.json().get("message", "")).strip()
+    except Exception:
+        message = ""
+    status = getattr(response, "status_code", "")
+    return f"HTTP {status}{f' - {message}' if message else ''}"
+
+
+def test_github_connection():
+    token, repository, branch = github_condition_settings()
+    logs = [
+        f"GITHUB_TOKEN 인식: {'성공' if token else '실패'}",
+        f"GITHUB_REPOSITORY 인식: {repository or '실패'}",
+        f"GITHUB_BRANCH 인식: {branch or '실패'}",
+    ]
+    if not token or not repository or not branch:
+        save_github_api_logs(logs)
+        return False, "GitHub Secrets 설정을 확인해주세요.", "", "", "", {}
+
+    headers = github_api_headers(token)
+    try:
+        repository_response = requests.get(
+            f"https://api.github.com/repos/{repository}", headers=headers, timeout=20
+        )
+        if repository_response.status_code != 200:
+            logs.append(f"저장소 연결: 실패 ({github_response_error(repository_response)})")
+            save_github_api_logs(logs)
+            return False, "GitHub 저장소 연결에 실패했습니다.", "", "", "", {}
+        logs.append("저장소 연결: 성공")
+
+        branch_response = requests.get(
+            f"https://api.github.com/repos/{repository}/branches/{quote_plus(branch)}",
+            headers=headers,
+            timeout=20,
+        )
+        if branch_response.status_code != 200:
+            logs.append(f"브랜치 확인: 실패 ({github_response_error(branch_response)})")
+            save_github_api_logs(logs)
+            return False, "GitHub 브랜치 확인에 실패했습니다.", "", "", "", {}
+        logs.append(f"브랜치 확인: 성공 ({branch})")
+        save_github_api_logs(logs)
+        return True, "", token, repository, branch, headers
+    except requests.Timeout:
+        logs.append("GitHub 연결: 실패 (서버 응답 지연)")
+        save_github_api_logs(logs)
+        return False, "GitHub 서버 응답이 지연되었습니다.", "", "", "", {}
+    except requests.RequestException as error:
+        status = getattr(getattr(error, "response", None), "status_code", "")
+        logs.append(f"GitHub 연결: 실패{f' (HTTP {status})' if status else ''}")
+        save_github_api_logs(logs)
+        return False, "GitHub API 연결에 실패했습니다.", "", "", "", {}
+
+
+def sync_file_to_github(path, commit_message):
+    connected, error, token, repository, branch, headers = test_github_connection()
+    logs = list(st.session_state.get("github_api_logs", []))
+    if not connected:
+        return False, error
+    api_url = f"https://api.github.com/repos/{repository}/contents/{path.name}"
     try:
         current = requests.get(api_url, headers=headers, params={"ref": branch}, timeout=20)
-        sha = current.json().get("sha", "") if current.status_code == 200 else ""
+        if current.status_code == 200:
+            sha = current.json().get("sha", "")
+            logs.append(f"{path.name} 확인: 기존 파일 수정")
+        elif current.status_code == 404:
+            sha = ""
+            logs.append(f"{path.name} 확인: 새 파일 생성")
+        else:
+            logs.append(f"{path.name} 확인: 실패 ({github_response_error(current)})")
+            save_github_api_logs(logs)
+            return False, f"GitHub 파일 확인 실패: {github_response_error(current)}"
         payload = {
             "message": commit_message,
             "content": base64.b64encode(path.read_bytes()).decode("ascii"),
@@ -973,20 +1046,34 @@ def sync_file_to_github(path, commit_message):
             payload["sha"] = sha
         response = requests.put(api_url, headers=headers, json=payload, timeout=20)
         response.raise_for_status()
-        return True
-    except Exception:
-        return False
+        logs.append(f"{path.name} 저장: 성공 ({'수정' if sha else '생성'})")
+        save_github_api_logs(logs)
+        return True, ""
+    except requests.Timeout:
+        logs.append(f"{path.name} 저장: 실패 (서버 응답 지연)")
+        save_github_api_logs(logs)
+        return False, "GitHub 서버 응답이 지연되었습니다."
+    except requests.RequestException as error:
+        status = getattr(getattr(error, "response", None), "status_code", "")
+        logs.append(f"{path.name} 저장: 실패{f' (HTTP {status})' if status else ''}")
+        save_github_api_logs(logs)
+        return False, f"GitHub API 저장 실패{f' (HTTP {status})' if status else ''}"
+    except OSError as error:
+        logs.append(f"{path.name} 저장: 실패 (로컬 파일 읽기 오류)")
+        save_github_api_logs(logs)
+        return False, f"저장 파일을 읽지 못했습니다: {error}"
 
 
 def sync_conditions_to_github():
     token, repository, _ = github_condition_settings()
     if not token or not repository:
         return False, "조건 저장 실패: Streamlit Secrets에 GITHUB_TOKEN을 설정해주세요."
-    json_synced = sync_file_to_github(CONDITIONS_FILE, "chore: update auto collect conditions")
-    db_synced = sync_file_to_github(DB_FILE, "chore: update automation database")
+    json_synced, error = sync_file_to_github(
+        CONDITIONS_FILE, "chore: update auto collect conditions"
+    )
     if json_synced:
-        return True, "조건이 저장되었습니다."
-    return db_synced, "조건 저장 실패: GitHub 연결을 확인해주세요."
+        return True, "조건 저장 완료"
+    return False, f"조건 저장 실패: {error}"
 
 
 def normalize_condition(condition):
@@ -1132,7 +1219,20 @@ with st.expander("자동수집 관심 조건 관리"):
     conditions = load_conditions()
     if st.session_state.get("condition_notice"):
         notice = st.session_state.pop("condition_notice")
-        st.error(notice) if notice.startswith("조건 저장 실패") else st.success(notice)
+        if notice.startswith("조건 저장 실패") or notice.startswith("GitHub 연결 실패"):
+            st.error(notice)
+        else:
+            st.success(notice)
+    if st.button("GitHub 연결 확인", key="github_connection_test"):
+        connected, error, _, _, _, _ = test_github_connection()
+        if connected:
+            st.success("GitHub 연결 성공")
+        else:
+            st.error(f"GitHub 연결 실패: {error}")
+    if st.session_state.get("github_api_logs"):
+        with st.expander("GitHub API 저장 로그", expanded=False):
+            for github_log in st.session_state.github_api_logs:
+                st.write(f"- {github_log}")
     condition_ids = [item["id"] for item in conditions]
     edit_id = st.selectbox(
         "수정할 조건", ["새 조건", *condition_ids], key="condition_edit_id"
@@ -1185,9 +1285,7 @@ with st.expander("자동수집 관심 조건 관리"):
                 "last_collected_at": "",
             })
             synced, notice = save_conditions(conditions)
-            st.session_state.condition_notice = (
-                f"{notice} 자동수집이 활성화되었습니다." if synced and condition_enabled else notice
-            )
+            st.session_state.condition_notice = notice
             st.rerun()
     if action_2.button("선택 조건 수정", key="condition_update") and selected_condition:
         updated = {
@@ -1197,16 +1295,12 @@ with st.expander("자동수집 관심 조건 관리"):
             "enabled": condition_enabled, "search_url": effective_url,
         }
         synced, notice = save_conditions([updated if item["id"] == edit_id else item for item in conditions])
-        st.session_state.condition_notice = (
-            f"{notice} 자동수집이 활성화되었습니다." if synced and condition_enabled else notice
-        )
+        st.session_state.condition_notice = notice
         st.rerun()
     if action_3.button("선택 조건 ON/OFF 전환", key="condition_toggle") and selected_condition:
         selected_condition["enabled"] = not selected_condition.get("enabled", True)
         synced, notice = save_conditions(conditions)
-        st.session_state.condition_notice = (
-            "자동수집이 활성화되었습니다." if synced and selected_condition["enabled"] else notice
-        )
+        st.session_state.condition_notice = notice
         st.rerun()
     if conditions:
         condition_table = pd.DataFrame([

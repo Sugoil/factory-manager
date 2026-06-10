@@ -150,7 +150,9 @@ GITHUB_BRANCH = "main"
 
 `GITHUB_TOKEN`에는 `Sugoil/factory-manager` 저장소의 **Contents: Read and write** 권한이 필요합니다.
 이 설정 후에는 앱에서 관심 조건을 등록, 수정, 삭제하거나 ON/OFF 할 때
-`listings.db`와 `search_conditions.json`이 GitHub에 자동 반영됩니다.
+`search_conditions.json`이 GitHub에 즉시 자동 반영됩니다.
+GitHub Actions는 최신 조건을 읽어 `listings.db`의 조건, 매물, 수집 로그를 갱신합니다.
+앱이 오래된 SQLite 파일로 최신 자동수집 결과를 덮어쓰지 않도록 조건 저장 시 DB 파일 자체는 업로드하지 않습니다.
 
 GitHub Actions의 `Hourly Small Naver Real Estate Collect` 작업은 매시간 실행되어
 활성 조건을 읽고 신규 매물을 최대 3개까지 저장합니다. 요청 간에는 최소 10초를 기다리며,
