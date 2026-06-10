@@ -8,6 +8,7 @@ import re
 import sys
 import time
 from pathlib import Path
+from urllib.parse import urlparse
 
 from auto_collect import (
     CONDITIONS_FILE,
@@ -41,6 +42,10 @@ AUTOMATION_BLOCKED_MESSAGE = (
     "네이버부동산이 자동 브라우저 접근을 제한하고 있습니다. "
     "수동 URL 저장 또는 텍스트 붙여넣기 방식을 사용해주세요."
 )
+REAL_ESTATE_LINK_TEXTS = ("네이버 부동산", "Npay 부동산", "N pay 부동산", "부동산 홈")
+ALLOWED_LINK_HOSTS = ("land.naver.com", "new.land.naver.com", "fin.land.naver.com")
+VALID_RESULT_HOSTS = ("land.naver.com", "new.land.naver.com")
+BLOCKED_LINK_PARTS = ("financial.pstatic.net", "financial.naver.com", "pstatic.net/404")
 
 
 class CollectionStepError(RuntimeError):
@@ -125,6 +130,26 @@ def failure_log(condition, step, page, message):
     log(condition, "Collection failed", detail, current_url)
 
 
+def host_allowed(url, allowed_hosts):
+    hostname = (urlparse(str(url)).hostname or "").lower()
+    return any(hostname == host or hostname.endswith(f".{host}") for host in allowed_hosts)
+
+
+def forbidden_link(url):
+    lowered = str(url).lower()
+    return any(part in lowered for part in BLOCKED_LINK_PARTS)
+
+
+def link_priority(url):
+    hostname = (urlparse(str(url)).hostname or "").lower()
+    priorities = {
+        "land.naver.com": 0,
+        "new.land.naver.com": 1,
+        "fin.land.naver.com": 2,
+    }
+    return priorities.get(hostname, 99)
+
+
 def enter_naver_real_estate(context, page, condition):
     step = "Step 1: Open Naver"
     log(condition, step, NAVER_MAIN_URL, NAVER_MAIN_URL)
@@ -145,53 +170,98 @@ def enter_naver_real_estate(context, page, condition):
 
     step = "Step 3: Click Real Estate Link"
     log(condition, step, "네이버 부동산 또는 N pay 부동산 링크 탐색", page.url)
-    link_selectors = [
-        "a[href*='land.naver.com']:has-text('N pay 부동산')",
-        "a[href*='land.naver.com']:has-text('Npay 부동산')",
-        "a[href*='land.naver.com']:has-text('네이버 부동산')",
-        "a:has-text('N pay 부동산')",
-        "a:has-text('Npay 부동산')",
-        "a:has-text('네이버 부동산')",
-        "a[href*='new.land.naver.com']",
-        "a[href*='land.naver.com']",
-    ]
-    link = None
-    for selector in link_selectors:
-        candidates = page.locator(selector)
-        for index in range(min(candidates.count(), 10)):
-            candidate = candidates.nth(index)
-            try:
-                if candidate.is_visible():
-                    link = candidate
-                    break
-            except Exception:
+    candidates = page.locator("a[href]")
+    candidate_details = []
+    for index in range(min(candidates.count(), 200)):
+        candidate = candidates.nth(index)
+        try:
+            text = re.sub(r"\s+", " ", candidate.inner_text()).strip()
+            href = str(candidate.get_attribute("href") or "").strip()
+            if not text or not href or not candidate.is_visible():
                 continue
-        if link is not None:
-            break
-    if link is None:
-        raise CollectionStepError(step, "네이버 검색 결과에서 부동산 링크를 찾지 못했습니다.")
+            if not any(label in text for label in REAL_ESTATE_LINK_TEXTS):
+                continue
+            if forbidden_link(href) or not host_allowed(href, ALLOWED_LINK_HOSTS):
+                continue
+            candidate_details.append((candidate, text, href))
+            print(f"Found link:\nText = {text}\nHref = {href}")
+            log(condition, "Found link text", text, href)
+            log(condition, "Found link href", href, href)
+        except Exception:
+            continue
+    if not candidate_details:
+        raise CollectionStepError(step, "허용된 부동산 도메인의 검색 결과 링크를 찾지 못했습니다.")
+    candidate_details.sort(key=lambda item: link_priority(item[2]))
 
-    pages_before = len(context.pages)
-    link.click()
-    page.wait_for_timeout(8000)
-    target_page = context.pages[-1] if len(context.pages) > pages_before else page
-    target_page.wait_for_load_state("domcontentloaded", timeout=60000)
-    target_page.wait_for_timeout(5000)
-    step = "Step 4: Current URL"
-    log(condition, step, target_page.url, target_page.url)
-    print(f"{step}: {target_page.url}")
-    if "/404" in target_page.url or page_is_blocked(target_page):
-        raise CollectionStepError(step, AUTOMATION_BLOCKED_MESSAGE)
-    return target_page
+    for candidate, text, href in candidate_details:
+        pages_before = list(context.pages)
+        search_result_url = page.url
+        try:
+            candidate.click()
+            page.wait_for_timeout(8000)
+            new_pages = [item for item in context.pages if item not in pages_before]
+            target_page = new_pages[-1] if new_pages else page
+            target_page.wait_for_load_state("domcontentloaded", timeout=60000)
+            target_page.wait_for_timeout(5000)
+            current_url = target_page.url
+            print(f"Clicked link:\nText = {text}")
+            print(f"Clicked href:\n{href}")
+            print(f"Current URL:\n{current_url}")
+            log(condition, "Clicked link text", text, href)
+            log(condition, "Clicked link href", href, href)
+            log(condition, "Step 4: Current URL", current_url, current_url)
+            if (
+                host_allowed(current_url, VALID_RESULT_HOSTS)
+                and not forbidden_link(current_url)
+                and "/404" not in current_url
+                and not page_is_blocked(target_page)
+            ):
+                log(condition, "Entered Naver Real Estate", current_url, current_url)
+                return target_page
+            log(
+                condition,
+                "Rejected clicked link",
+                f"Text={text} | Href={href} | Current URL={current_url}",
+                current_url,
+            )
+            if target_page is not page:
+                target_page.close()
+            elif page.url != search_result_url:
+                page.go_back(wait_until="domcontentloaded", timeout=60000)
+                page.wait_for_timeout(3000)
+        except Exception as error:
+            log(
+                condition,
+                "Link candidate failed",
+                f"Text={text} | Href={href} | {type(error).__name__}: {error}",
+                href,
+            )
+    raise CollectionStepError(step, "정상 네이버부동산 링크로 진입하지 못했습니다.")
 
 
 def finish_browser(context):
     if os.environ.get("KEEP_BROWSER_OPEN") == "1":
         print("Browser inspection mode: close the browser window or press Enter to finish.")
         try:
-            input()
+            input("Press Enter to close...")
         except (EOFError, KeyboardInterrupt):
-            pass
+            print("Input wait was interrupted. The browser will remain open.")
+            return
+    try:
+        context.close()
+    except Exception:
+        pass
+
+
+def keep_browser_open_after_error(context, error):
+    print(f"Collection error: {type(error).__name__}: {error}")
+    if os.environ.get("KEEP_BROWSER_OPEN") == "1":
+        print("The browser will remain open so you can inspect the current page.")
+        try:
+            input("Press Enter to close...")
+        except (EOFError, KeyboardInterrupt):
+            print("Input wait was interrupted. The browser will remain open.")
+            return
     try:
         context.close()
     except Exception:
@@ -201,8 +271,11 @@ def finish_browser(context):
 def region_search_text(condition):
     region = str((condition.get("regions") or ["충북 전체"])[0]).strip()
     aliases = {
-        "충북 전체": "충북",
-        "청주시 전체": "충북 청주시",
+        "충북 전체": "충청북도",
+        "청주시 전체": "청주시",
+        "청주": "청주시",
+        "진천": "진천군",
+        "음성": "음성군",
     }
     return aliases.get(region, region)
 
@@ -210,15 +283,17 @@ def region_search_text(condition):
 def perform_region_search(page, condition, playwright_timeout_error):
     query = region_search_text(condition)
     input_selectors = [
-        "input[placeholder*='지역']",
         "input[placeholder*='단지']",
+        "input[placeholder*='지역']",
         "input[placeholder*='검색']",
+        "input[type='text']",
         "input.search_input",
         ".search_input input",
         "input[type='search']",
     ]
     search_input = None
     search_scope = page
+    found_selector = ""
     for scope in [page, *page.frames]:
         for selector in input_selectors:
             candidate = scope.locator(selector).first
@@ -226,11 +301,23 @@ def perform_region_search(page, condition, playwright_timeout_error):
                 candidate.wait_for(state="visible", timeout=2000)
                 search_input = candidate
                 search_scope = scope
+                found_selector = selector
                 break
             except playwright_timeout_error:
                 continue
         if search_input is not None:
             break
+    if search_input is None:
+        for scope in [page, *page.frames]:
+            candidate = scope.get_by_role("textbox").first
+            try:
+                candidate.wait_for(state="visible", timeout=2000)
+                search_input = candidate
+                search_scope = scope
+                found_selector = "role=textbox"
+                break
+            except playwright_timeout_error:
+                continue
     if search_input is None:
         for selector in [
             "button[aria-label*='검색']",
@@ -253,18 +340,54 @@ def perform_region_search(page, condition, playwright_timeout_error):
                     candidate.wait_for(state="visible", timeout=1500)
                     search_input = candidate
                     search_scope = scope
+                    found_selector = selector
                     break
                 except playwright_timeout_error:
                     continue
             if search_input is not None:
                 break
     if search_input is None:
-        raise RuntimeError("네이버부동산 홈에서 지역 검색창을 찾지 못했습니다.")
+        input_details = []
+        for frame_index, scope in enumerate([page, *page.frames]):
+            inputs = scope.locator("input")
+            for index in range(min(inputs.count(), 50)):
+                candidate = inputs.nth(index)
+                try:
+                    input_details.append({
+                        "frame": frame_index,
+                        "type": candidate.get_attribute("type") or "",
+                        "placeholder": candidate.get_attribute("placeholder") or "",
+                        "aria_label": candidate.get_attribute("aria-label") or "",
+                        "visible": candidate.is_visible(),
+                    })
+                except Exception as error:
+                    input_details.append({"frame": frame_index, "error": str(error)})
+        detail = json.dumps(input_details, ensure_ascii=False, default=str)
+        print(f"Input elements: {detail}")
+        log(condition, "Input elements and placeholders", detail, page.url)
+        raise CollectionStepError(
+            "Step 5: Search Region",
+            "네이버부동산 내부 지역 검색창을 찾지 못했습니다.",
+        )
 
     before_url = page.url
+    print(f"Current URL before region search: {before_url}")
+    log(condition, "Current URL before region search", before_url, before_url)
+    print("Region search input found")
+    print(f"Search input selector found: {found_selector}")
+    log(condition, "Search input selector found", found_selector, before_url)
+    print(f"Search query: {query}")
+    log(condition, "Search query", query, before_url)
     search_input.click()
-    search_input.fill(query)
-    page.wait_for_timeout(1500)
+    page.wait_for_timeout(1000)
+    try:
+        search_input.fill("")
+        search_input.type(query, delay=150)
+    except Exception:
+        search_input.fill(query)
+    page.wait_for_timeout(1000)
+    print(f"Search query typed: {query}")
+    log(condition, "Search query typed", query, before_url)
 
     suggestion_selectors = [
         "[role='listbox'] [role='option']",
@@ -280,15 +403,31 @@ def perform_region_search(page, condition, playwright_timeout_error):
             suggestion.wait_for(state="visible", timeout=1500)
             suggestion.click()
             clicked = True
+            print("Suggestion clicked")
+            log(condition, "Suggestion clicked", query, page.url)
             break
         except playwright_timeout_error:
             continue
     if not clicked:
+        print("Suggestion not found. Pressing Enter.")
+        log(condition, "Suggestion not found", query, page.url)
         search_input.press("Enter")
+        log(condition, "Search input Enter pressed", query, page.url)
 
     page.wait_for_timeout(10000)
     if page.url == before_url:
         page.wait_for_timeout(5000)
+    print(f"Current URL after region search: {page.url}")
+    log(condition, "Current URL after region search", page.url, page.url)
+    if "/404" in page.url:
+        detail = f"검색어={query} | Current URL={page.url}"
+        log(condition, "404 detected step", detail, page.url)
+        raise CollectionStepError("Step 5: Search Region", detail)
+    if page_is_blocked(page):
+        raise CollectionStepError(
+            "Step 5: Search Region",
+            "CAPTCHA 또는 접근 제한 화면 감지",
+        )
     return query, page.url
 
 
@@ -495,7 +634,7 @@ def main():
         if AUTOMATION_BLOCKED_MESSAGE in message:
             log(condition, "브라우저 자동화 수집 불가", AUTOMATION_BLOCKED_MESSAGE, page.url if page else "")
         if context is not None:
-            finish_browser(context)
+            keep_browser_open_after_error(context, error)
         return 1
     finally:
         condition["new_listing_count"] = new_count
