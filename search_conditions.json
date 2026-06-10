@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "id": "20260610094838704354",
+    "regions": [
+      "충북 전체"
+    ],
+    "property_types": [
+      "전체"
+    ],
+    "deal_types": [
+      "전체"
+    ],
+    "min_price": 0.0,
+    "max_price": 0.0,
+    "enabled": true,
+    "search_url": "https://new.land.naver.com/search?keyword=%EC%B6%A9%EB%B6%81+%EC%A0%84%EC%B2%B4",
+    "registered_at": "2026-06-10T09:48:38",
+    "last_collected_at": "",
+    "new_listing_count": 0
+  }
+]
