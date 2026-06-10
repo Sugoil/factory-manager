@@ -133,3 +133,28 @@ PowerShell 또는 명령 프롬프트에서 커밋 메시지를 바로 전달할
 
 실제 비밀번호 파일인 `.streamlit/secrets.toml`은 `.gitignore`에 의해
 GitHub에 올라가지 않습니다.
+
+## 완전 자동수집 설정
+
+앱은 `listings.db` SQLite 파일에 매물, 관심 조건, 수집 로그를 함께 저장합니다.
+기존 `listings.csv`와 `search_conditions.json`도 호환 및 엑셀 다운로드 용도로 계속 유지됩니다.
+
+Streamlit Community Cloud의 `Advanced settings > Secrets`에 아래 값을 한 번만 설정하세요.
+
+```toml
+APP_PASSWORD = "앱 로그인 비밀번호"
+GITHUB_TOKEN = "GitHub fine-grained token"
+GITHUB_REPOSITORY = "Sugoil/factory-manager"
+GITHUB_BRANCH = "main"
+```
+
+`GITHUB_TOKEN`에는 `Sugoil/factory-manager` 저장소의 **Contents: Read and write** 권한이 필요합니다.
+이 설정 후에는 앱에서 관심 조건을 등록, 수정, 삭제하거나 ON/OFF 할 때
+`listings.db`와 `search_conditions.json`이 GitHub에 자동 반영됩니다.
+
+GitHub Actions의 `Hourly Small Naver Real Estate Collect` 작업은 매시간 실행되어
+활성 조건을 읽고 신규 매물을 최대 3개까지 저장합니다. 요청 간에는 최소 10초를 기다리며,
+실패와 중복 매물은 로그에 남기고 다음 매물 확인을 계속합니다.
+
+`push.bat`은 앱 기능 자체를 수정해 GitHub에 올릴 때만 사용하면 됩니다.
+관심 조건 등록과 자동수집 결과 반영에는 필요하지 않습니다.

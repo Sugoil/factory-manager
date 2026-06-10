@@ -6,12 +6,22 @@ import time
 from datetime import datetime
 from html import unescape
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import quote_plus, urlparse
 from urllib.request import Request, urlopen
 
 import pandas as pd
 import requests
 import streamlit as st
+
+from db_store import (
+    DB_FILE,
+    init_db,
+    load_conditions as db_load_conditions,
+    load_listings as db_load_listings,
+    load_logs as db_load_logs,
+    replace_conditions as db_replace_conditions,
+    replace_listings as db_replace_listings,
+)
 
 
 DATA_FILE = Path(__file__).with_name("listings.csv")
@@ -20,12 +30,22 @@ COLLECT_LOG_FILE = Path(__file__).with_name("collect_logs.csv")
 PYEONG = 3.3058
 PROPERTY_TYPES = [
     "공장", "창고", "토지", "상가", "원룸", "투룸", "쓰리룸",
-    "아파트", "빌라", "오피스텔", "사무실", "기타",
+    "아파트", "빌라", "오피스텔", "사무실", "분양권", "재개발", "기타",
 ]
 DEAL_TYPES = ["매매", "전세", "월세"]
 RESIDENTIAL_TYPES = ["원룸", "투룸", "쓰리룸", "아파트", "빌라", "오피스텔"]
 FACTORY_TYPES = ["공장", "창고"]
 PROPERTY_STATUSES = ["신규", "검토중", "현장방문", "계약진행", "계약완료", "보류"]
+AUTO_PROPERTY_TYPES = [
+    "전체", "공장", "창고", "토지", "상가", "원룸", "투룸", "쓰리룸",
+    "아파트", "빌라", "오피스텔", "사무실", "기타",
+]
+AUTO_DEAL_TYPES = ["전체", "매매", "전세", "월세"]
+AUTO_REGIONS = [
+    "충북 전체", "청주시 전체", "청주시 흥덕구", "청주시 상당구", "청주시 서원구",
+    "청주시 청원구", "진천군", "음성군", "증평군", "괴산군", "보은군", "옥천군",
+    "영동군", "충주시", "제천시", "단양군",
+]
 
 COLUMNS = [
     "매물명", "주소", "지역", "매물종류", "거래유형", "네이버 매물 ID", "네이버부동산 링크",
@@ -42,7 +62,7 @@ COLUMNS = [
     "즉시 입주 가능 여부", "현재 임차인 여부", "예상 수익률(%)", "공실 여부",
     "임차인 여부", "계약만료일", "투자 메모", "담당자", "연락처", "현장방문일",
     "매물 상태", "즐겨찾기", "naver_url", "naver_article_id", "auto_collected",
-    "collected_at", "source_search_url", "extraction_status", "extraction_error",
+    "collected_at", "source_search_url", "collection_condition", "extraction_status", "extraction_error",
     "agency_name", "agency_owner", "agent_name", "agent_phone", "office_phone",
     "mobile_phone", "agency_address", "agency_registration_number", "platform",
     "provider_agency_name", "listing_provider", "is_verified_listing", "verified_date",
@@ -149,6 +169,8 @@ def normalize_property_type(value):
         (["빌라", "다세대"], "빌라"),
         (["오피스텔"], "오피스텔"),
         (["사무실", "오피스"], "사무실"),
+        (["분양권"], "분양권"),
+        (["재개발"], "재개발"),
     ]
     for keywords, property_type in rules:
         if any(keyword in text for keyword in keywords):
@@ -866,32 +888,134 @@ def filter_listings(
 
 
 def load_listings():
-    if not DATA_FILE.exists():
-        return pd.DataFrame(columns=COLUMNS)
     try:
-        return prepare_listings(read_csv_file(DATA_FILE))
+        init_db()
+        rows = db_load_listings()
+        if rows:
+            return prepare_listings(pd.DataFrame(rows))
+        if DATA_FILE.exists():
+            data = prepare_listings(read_csv_file(DATA_FILE))
+            if not data.empty:
+                db_replace_listings(data.to_dict("records"))
+            return data
+        return pd.DataFrame(columns=COLUMNS)
     except Exception as error:
-        st.warning(f"기존 CSV를 읽지 못했습니다: {error}")
+        st.warning(f"저장된 매물을 읽지 못했습니다: {error}")
         return pd.DataFrame(columns=COLUMNS)
 
 
 def save_listings(data):
-    data.to_csv(DATA_FILE, index=False, encoding="utf-8-sig")
+    prepared = prepare_listings(data)
+    db_replace_listings(prepared.to_dict("records"))
+    prepared.to_csv(DATA_FILE, index=False, encoding="utf-8-sig")
+    sync_file_to_github(DB_FILE, "chore: update listings database")
 
 
 def load_conditions():
-    if not CONDITIONS_FILE.exists():
-        return []
     try:
-        return json.loads(CONDITIONS_FILE.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
+        init_db()
+        conditions = db_load_conditions()
+        if CONDITIONS_FILE.exists():
+            try:
+                conditions = json.loads(CONDITIONS_FILE.read_text(encoding="utf-8"))
+                db_replace_conditions(conditions)
+            except (json.JSONDecodeError, OSError):
+                pass
+        return [normalize_condition(item) for item in conditions]
+    except (json.JSONDecodeError, OSError, ValueError):
         return []
 
 
 def save_conditions(conditions):
-    CONDITIONS_FILE.write_text(
-        json.dumps(conditions, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    conditions = [normalize_condition(item) for item in conditions]
+    try:
+        db_replace_conditions(conditions)
+    except Exception as error:
+        return False, f"조건 저장 실패: {error}"
+    try:
+        CONDITIONS_FILE.write_text(
+            json.dumps(conditions, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+    except OSError as error:
+        return False, f"조건 저장 실패: {error}"
+    return sync_conditions_to_github()
+
+
+def github_condition_settings():
+    try:
+        token = str(st.secrets.get("GITHUB_TOKEN", "")).strip()
+        repository = str(st.secrets.get("GITHUB_REPOSITORY", "Sugoil/factory-manager")).strip()
+        branch = str(st.secrets.get("GITHUB_BRANCH", "main")).strip()
+        return token, repository, branch
+    except Exception:
+        return "", "", "main"
+
+
+def sync_file_to_github(path, commit_message):
+    token, repository, branch = github_condition_settings()
+    if not token or not repository:
+        return False
+    api_url = f"https://api.github.com/repos/{repository}/contents/{path.name}"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    try:
+        current = requests.get(api_url, headers=headers, params={"ref": branch}, timeout=20)
+        sha = current.json().get("sha", "") if current.status_code == 200 else ""
+        payload = {
+            "message": commit_message,
+            "content": base64.b64encode(path.read_bytes()).decode("ascii"),
+            "branch": branch,
+        }
+        if sha:
+            payload["sha"] = sha
+        response = requests.put(api_url, headers=headers, json=payload, timeout=20)
+        response.raise_for_status()
+        return True
+    except Exception:
+        return False
+
+
+def sync_conditions_to_github():
+    token, repository, _ = github_condition_settings()
+    if not token or not repository:
+        return False, "조건 저장 실패: Streamlit Secrets에 GITHUB_TOKEN을 설정해주세요."
+    json_synced = sync_file_to_github(CONDITIONS_FILE, "chore: update auto collect conditions")
+    db_synced = sync_file_to_github(DB_FILE, "chore: update automation database")
+    if json_synced:
+        return True, "조건이 저장되었습니다."
+    return db_synced, "조건 저장 실패: GitHub 연결을 확인해주세요."
+
+
+def normalize_condition(condition):
+    item = dict(condition)
+    regions = item.get("regions") or [item.get("region", "충북 전체")]
+    property_types = item.get("property_types") or [item.get("property_type", "전체")]
+    deal_types = item.get("deal_types") or [item.get("deal_type", "전체")]
+    item["regions"] = [value for value in regions if value] or ["충북 전체"]
+    item["property_types"] = (
+        ["전체"] if "전체" in property_types else [value for value in property_types if value]
+    ) or ["전체"]
+    item["deal_types"] = (
+        ["전체"] if "전체" in deal_types else [value for value in deal_types if value]
+    ) or ["전체"]
+    item["enabled"] = bool(item.get("enabled", True))
+    item["search_url"] = str(item.get("search_url", "")).strip()
+    item["registered_at"] = item.get("registered_at") or datetime.now().isoformat(timespec="seconds")
+    item["last_collected_at"] = item.get("last_collected_at", "")
+    item["new_listing_count"] = int(item.get("new_listing_count", 0) or 0)
+    return item
+
+
+def build_condition_search_url(regions, property_types, deal_types):
+    keywords = []
+    keywords.extend([] if "전체" in regions else regions)
+    keywords.extend([] if "전체" in property_types else property_types)
+    keywords.extend([] if "전체" in deal_types else deal_types)
+    keyword = " ".join(keywords) or "충북 부동산"
+    return f"https://new.land.naver.com/search?keyword={quote_plus(keyword)}"
 
 
 def get_app_password():
@@ -1006,49 +1130,128 @@ with st.expander("CSV 불러오기 / 전체 다운로드"):
 
 with st.expander("자동수집 관심 조건 관리"):
     conditions = load_conditions()
+    if st.session_state.get("condition_notice"):
+        notice = st.session_state.pop("condition_notice")
+        st.error(notice) if notice.startswith("조건 저장 실패") else st.success(notice)
+    condition_ids = [item["id"] for item in conditions]
+    edit_id = st.selectbox(
+        "수정할 조건", ["새 조건", *condition_ids], key="condition_edit_id"
+    )
+    selected_condition = next((item for item in conditions if item["id"] == edit_id), None)
+    if st.button("선택 조건 불러오기", key="condition_load") and selected_condition:
+        st.session_state.condition_regions = selected_condition["regions"]
+        st.session_state.condition_property_types = selected_condition["property_types"]
+        st.session_state.condition_deal_types = selected_condition["deal_types"]
+        st.session_state.condition_min = float(selected_condition.get("min_price", 0))
+        st.session_state.condition_max = float(selected_condition.get("max_price", 0))
+        st.session_state.condition_enabled = selected_condition.get("enabled", True)
+        st.session_state.condition_url = selected_condition.get("search_url", "")
+        st.rerun()
+
     c1, c2, c3, c4 = st.columns(4)
-    condition_region = c1.text_input("관심 지역", placeholder="예: 청주, 진천, 충북", key="condition_region")
-    condition_type = c2.selectbox("관심 매물종류", PROPERTY_TYPES, key="condition_type")
-    condition_deal = c3.selectbox("관심 거래유형", DEAL_TYPES, key="condition_deal")
+    condition_regions = c1.multiselect(
+        "지역 선택", AUTO_REGIONS, default=["충북 전체"], key="condition_regions"
+    )
+    condition_property_types = c2.multiselect(
+        "관심 매물종류", AUTO_PROPERTY_TYPES, default=["전체"], key="condition_property_types"
+    )
+    condition_deal_types = c3.multiselect(
+        "관심 거래유형", AUTO_DEAL_TYPES, default=["전체"], key="condition_deal_types"
+    )
     condition_enabled = c4.checkbox("자동수집 ON", value=True, key="condition_enabled")
     p1, p2, p3 = st.columns([1, 1, 2])
     condition_min = p1.number_input("최소 가격(만원)", min_value=0.0, step=1000.0, key="condition_min")
     condition_max = p2.number_input("최대 가격(만원)", min_value=0.0, step=1000.0, key="condition_max")
-    condition_url = p3.text_input("네이버 관심 검색 URL", placeholder="직접 만든 검색 결과 URL", key="condition_url")
-    if st.button("관심 조건 등록", key="condition_add"):
-        if not condition_url.strip():
-            st.error("네이버 관심 검색 URL을 입력하세요.")
+    condition_url = p3.text_input(
+        "네이버 관심 검색 URL",
+        placeholder="비워두면 선택 조건으로 검색 URL을 자동 구성합니다.",
+        key="condition_url",
+    )
+    effective_url = condition_url.strip() or build_condition_search_url(
+        condition_regions, condition_property_types, condition_deal_types
+    )
+    action_1, action_2, action_3 = st.columns(3)
+    if action_1.button("자동수집 조건 추가", key="condition_add"):
+        if not condition_regions or not condition_property_types or not condition_deal_types:
+            st.error("지역, 매물종류, 거래유형을 각각 하나 이상 선택하세요.")
         else:
             conditions.append({
                 "id": datetime.now().strftime("%Y%m%d%H%M%S%f"),
-                "region": condition_region.strip(), "property_type": condition_type,
-                "deal_type": condition_deal, "min_price": condition_min,
+                "regions": condition_regions, "property_types": condition_property_types,
+                "deal_types": condition_deal_types, "min_price": condition_min,
                 "max_price": condition_max, "enabled": condition_enabled,
-                "search_url": condition_url.strip(),
+                "search_url": effective_url,
+                "registered_at": datetime.now().isoformat(timespec="seconds"),
+                "last_collected_at": "",
             })
-            save_conditions(conditions)
-            st.success("자동수집 관심 조건을 등록했습니다.")
+            synced, notice = save_conditions(conditions)
+            st.session_state.condition_notice = (
+                f"{notice} 자동수집이 활성화되었습니다." if synced and condition_enabled else notice
+            )
             st.rerun()
+    if action_2.button("선택 조건 수정", key="condition_update") and selected_condition:
+        updated = {
+            **selected_condition, "regions": condition_regions,
+            "property_types": condition_property_types, "deal_types": condition_deal_types,
+            "min_price": condition_min, "max_price": condition_max,
+            "enabled": condition_enabled, "search_url": effective_url,
+        }
+        synced, notice = save_conditions([updated if item["id"] == edit_id else item for item in conditions])
+        st.session_state.condition_notice = (
+            f"{notice} 자동수집이 활성화되었습니다." if synced and condition_enabled else notice
+        )
+        st.rerun()
+    if action_3.button("선택 조건 ON/OFF 전환", key="condition_toggle") and selected_condition:
+        selected_condition["enabled"] = not selected_condition.get("enabled", True)
+        synced, notice = save_conditions(conditions)
+        st.session_state.condition_notice = (
+            "자동수집이 활성화되었습니다." if synced and selected_condition["enabled"] else notice
+        )
+        st.rerun()
     if conditions:
-        st.dataframe(pd.DataFrame(conditions), use_container_width=True, hide_index=True)
-        st.download_button(
-            "관심 조건 JSON 다운로드",
-            json.dumps(conditions, ensure_ascii=False, indent=2).encode("utf-8"),
-            "search_conditions.json",
-            "application/json",
-            key="condition_download_json",
+        condition_table = pd.DataFrame([
+            {
+                "지역": ", ".join(item["regions"]),
+                "매물종류": ", ".join(item["property_types"]),
+                "거래유형": ", ".join(item["deal_types"]),
+                "최소 가격": item.get("min_price", 0),
+                "최대 가격": item.get("max_price", 0),
+                "자동수집": "ON" if item.get("enabled", True) else "OFF",
+                "등록일": item.get("registered_at", ""),
+                "마지막 수집 시간": item.get("last_collected_at", ""),
+                "최근 신규 매물 수": item.get("new_listing_count", 0),
+            }
+            for item in conditions
+        ])
+        st.dataframe(
+            condition_table.drop(columns=["regions", "property_types", "deal_types"], errors="ignore"),
+            use_container_width=True, hide_index=True,
         )
-        delete_id = st.selectbox(
-            "삭제할 조건", ["선택하지 않음", *[item["id"] for item in conditions]], key="condition_delete_id"
-        )
-        if st.button("선택 조건 삭제", key="condition_delete") and delete_id != "선택하지 않음":
-            save_conditions([item for item in conditions if item["id"] != delete_id])
+        if st.button("현재 선택 조건 삭제", key="condition_delete") and selected_condition:
+            _, notice = save_conditions([item for item in conditions if item["id"] != edit_id])
+            st.session_state.condition_notice = notice
             st.rerun()
-    if COLLECT_LOG_FILE.exists():
+    db_logs = db_load_logs(limit=100)
+    logs = pd.DataFrame(db_logs)
+    if logs.empty and COLLECT_LOG_FILE.exists():
         logs = read_csv_file(COLLECT_LOG_FILE)
-        if not logs.empty:
-            st.caption(f"마지막 수집 시간: {logs.iloc[-1].get('수집시간', '')}")
-            st.dataframe(logs.tail(20), use_container_width=True, hide_index=True)
+    enabled_count = sum(1 for item in conditions if item.get("enabled", True))
+    status_1, status_2, status_3 = st.columns(3)
+    status_1.metric("자동수집 상태", "ON" if enabled_count else "OFF")
+    if not logs.empty:
+        time_column = "collected_at" if "collected_at" in logs.columns else "수집시간"
+        status_column = "status" if "status" in logs.columns else "상태"
+        last_time = str(logs.iloc[0 if time_column == "collected_at" else -1].get(time_column, ""))
+        successful_count = sum(int(item.get("new_listing_count", 0) or 0) for item in conditions)
+        status_2.metric("마지막 수집 시간", last_time or "-")
+        status_3.metric("신규 수집 매물 수", f"{successful_count:,}개")
+        failed = logs[~logs[status_column].astype(str).isin(["신규 저장", "new", "검색 성공", "search_ok"])]
+        if not failed.empty:
+            st.markdown("##### 수집 실패 로그")
+            st.dataframe(failed.head(20), use_container_width=True, hide_index=True)
+    else:
+        status_2.metric("마지막 수집 시간", "-")
+        status_3.metric("신규 수집 매물 수", "0개")
     auto_rows = st.session_state.listings[
         st.session_state.listings["auto_collected"].astype(str) == "예"
     ]
@@ -1059,10 +1262,6 @@ with st.expander("자동수집 관심 조건 관리"):
             use_container_width=True,
             hide_index=True,
         )
-    st.caption(
-        "Streamlit Cloud에서 조건을 등록한 경우 다운로드한 search_conditions.json을 "
-        "프로젝트에 넣고 push.bat으로 GitHub에 반영해야 Actions가 사용합니다."
-    )
 
 st.subheader("새 매물 등록")
 url_1, url_2 = st.columns([4, 1])
