@@ -76,6 +76,29 @@ PROPERTY_TYPE_CODES = {
     "공장": "GJCG", "창고": "GJCG", "토지": "TJ", "기타": "GM",
 }
 DEAL_TYPE_CODES = {"전체": "A1:B1:B2", "매매": "A1", "전세": "B1", "월세": "B2"}
+ROUTE_TYPE_CODES = {
+    "complexes": {
+        "전체": "APT:ABYG:JGC:PRE",
+        "아파트": "APT",
+    },
+    "houses": {
+        "전체": "VL:DDDGG:JWJT:SGJT:HOJT",
+        "빌라": "VL",
+        "원룸": "DDDGG",
+        "투룸": "DDDGG",
+        "쓰리룸": "DDDGG",
+    },
+    "offices": {
+        "전체": "OPST:SMS:GJCG:GM:TJ",
+        "오피스텔": "OPST",
+        "상가": "SMS",
+        "사무실": "SMS",
+        "공장": "GJCG",
+        "창고": "GJCG",
+        "토지": "TJ",
+        "기타": "GM",
+    },
+}
 REGION_MAP_CENTERS = {
     "충북 전체": (36.8000, 127.7000, 9),
     "청주시 전체": (36.6424, 127.4890, 12),
@@ -181,9 +204,10 @@ def build_search_url(condition):
     else:
         route = "offices"
 
+    route_codes = ROUTE_TYPE_CODES[route]
     type_codes = ":".join(dict.fromkeys(
         code for item in property_types
-        for code in PROPERTY_TYPE_CODES.get(item, "GM").split(":")
+        for code in route_codes.get(item, route_codes["전체"]).split(":")
     ))
     deal_codes = ":".join(dict.fromkeys(
         code for item in deal_types

@@ -36,7 +36,7 @@ BLOCKED_TEXTS = [
     "captcha", "자동입력 방지", "비정상적인 접근", "요청이 너무 많",
     "too many requests", "접근이 제한", "서비스 이용이 제한",
 ]
-INVALID_SEARCH_PATHS = ("/search", "/404")
+DEFAULT_ROUTE_URL = "https://new.land.naver.com/offices"
 
 
 def log(condition, status, message="", url=""):
@@ -74,10 +74,15 @@ def read_conditions():
 
 
 def browser_search_url(condition):
-    configured_url = str(condition.get("search_url", "")).strip()
-    if configured_url and not any(path in configured_url for path in INVALID_SEARCH_PATHS):
-        return configured_url
-    return build_search_url(condition)
+    """Always generate a fresh browser URL from the normalized condition."""
+    generated_url = build_search_url(condition)
+    if generated_url.startswith((
+        "https://new.land.naver.com/offices",
+        "https://new.land.naver.com/complexes",
+        "https://new.land.naver.com/houses",
+    )):
+        return generated_url
+    return DEFAULT_ROUTE_URL
 
 
 def price_fields(text, deal_type):
@@ -185,7 +190,8 @@ def main():
     search_url = browser_search_url(condition)
     condition["search_url"] = search_url
     log(condition, "처리한 조건", json.dumps(condition, ensure_ascii=False, default=str))
-    log(condition, "Generated URL", search_url, search_url)
+    original_condition = json.dumps(condition, ensure_ascii=False, default=str)
+    log(condition, "Generated URL from condition", search_url, search_url)
     time.sleep(random.uniform(10, 30))
 
     new_count = 0
@@ -203,28 +209,56 @@ def main():
                     viewport={"width": 1440, "height": 1000},
                 )
             page = context.pages[0] if context.pages else context.new_page()
+            browser_goto_url = search_url or DEFAULT_ROUTE_URL
+            print(f"Generated URL from condition: {search_url}")
+            print(f"Browser goto URL: {browser_goto_url}")
+            log(condition, "Browser goto URL", browser_goto_url, browser_goto_url)
             navigation_response = page.goto(
-                search_url, wait_until="domcontentloaded", timeout=60000
+                browser_goto_url, wait_until="domcontentloaded", timeout=60000
             )
             page.wait_for_timeout(10000)
             current_url = page.url
-            print(f"Current URL: {current_url}")
-            log(condition, "Current URL", current_url, current_url)
+            print(f"Current URL after load: {current_url}")
+            log(condition, "Current URL after load", current_url, current_url)
             response_status = navigation_response.status if navigation_response else 0
             if "/404" in current_url or response_status == 404:
+                print(f"Original condition: {original_condition}")
                 print(f"Generated URL: {search_url}")
+                print(f"Browser goto URL: {browser_goto_url}")
+                print(f"Current URL: {current_url}")
                 print("404 detected")
                 log(
                     condition,
                     "404 detected",
                     (
-                        f"Current URL: {current_url} | Generated URL: {search_url} | "
+                        f"Original condition: {original_condition} | "
+                        f"Generated URL: {search_url} | "
+                        f"Browser goto URL: {browser_goto_url} | "
+                        f"Current URL: {current_url} | "
                         f"Status Code: {response_status}"
                     ),
                     current_url,
                 )
-                context.close()
-                return 0
+                browser_goto_url = DEFAULT_ROUTE_URL
+                print(f"Browser fallback URL: {browser_goto_url}")
+                log(condition, "Browser fallback URL", browser_goto_url, browser_goto_url)
+                navigation_response = page.goto(
+                    browser_goto_url, wait_until="domcontentloaded", timeout=60000
+                )
+                page.wait_for_timeout(10000)
+                current_url = page.url
+                response_status = navigation_response.status if navigation_response else 0
+                print(f"Current URL after fallback: {current_url}")
+                log(condition, "Current URL after fallback", current_url, current_url)
+                if "/404" in current_url or response_status == 404:
+                    log(
+                        condition,
+                        "브라우저 수집 실패",
+                        "기본 네이버부동산 화면도 404로 이동했습니다.",
+                        current_url,
+                    )
+                    context.close()
+                    return 0
             visible_text = page.locator("body").inner_text(timeout=10000)
             if any(item.lower() in visible_text.lower() for item in BLOCKED_TEXTS):
                 log(condition, "브라우저 수집 중단", "CAPTCHA 또는 요청 제한 화면 감지", page.url)
