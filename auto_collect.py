@@ -27,6 +27,7 @@ LISTINGS_FILE = ROOT / "listings.csv"
 CONDITIONS_FILE = ROOT / "search_conditions.json"
 LOG_FILE = ROOT / "collect_logs.csv"
 MAX_NEW = 3
+MAX_CANDIDATES = 10
 REQUEST_DELAY = 10
 TIMEOUT = 30
 HEADERS = {
@@ -529,9 +530,9 @@ def main():
                     emit_log(condition, "Raw response length", str(response_length), search_url)
                     api_articles = discover_api_articles(search_payload)
                     if api_articles:
-                        candidates.extend(("api", article) for article in api_articles)
+                        candidates.extend(("api", article) for article in api_articles[:MAX_CANDIDATES])
                     else:
-                        candidates.extend(("url", url) for url in discover_urls(search_payload))
+                        candidates.extend(("url", url) for url in discover_urls(search_payload)[:MAX_CANDIDATES])
                 except Exception as error:
                     failed_count += 1
                     response = getattr(error, "response", None)
@@ -546,6 +547,8 @@ def main():
                         )
                     emit_log(condition, "Error reason if failed", friendly_error(error), search_url)
                 time.sleep(REQUEST_DELAY)
+                if len(candidates) >= MAX_CANDIDATES:
+                    break
             unique_candidates = {}
             for kind, value in candidates:
                 aid = str(value.get("articleNo") or value.get("articleId")) if kind == "api" else article_id(value)
