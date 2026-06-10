@@ -1216,6 +1216,11 @@ with st.expander("CSV 불러오기 / 전체 다운로드"):
     st.download_button("전체 CSV 다운로드", all_csv, "부동산_전체매물.csv", "text/csv", key="csv_download_all")
 
 with st.expander("자동수집 관심 조건 관리"):
+    st.info(
+        "GitHub Actions는 네이버 요청 제한이 발생할 수 있어 로컬 PC 자동수집을 권장합니다.\n\n"
+        "`setup_local_scheduler.bat`을 실행하면 3시간마다 자동수집됩니다.\n\n"
+        "PC가 꺼져 있으면 자동수집은 실행되지 않습니다."
+    )
     conditions = load_conditions()
     if st.session_state.get("condition_notice"):
         notice = st.session_state.pop("condition_notice")
@@ -1339,6 +1344,11 @@ with st.expander("자동수집 관심 조건 관리"):
         successful_count = sum(int(item.get("new_listing_count", 0) or 0) for item in conditions)
         status_2.metric("마지막 수집 시간", last_time or "-")
         status_3.metric("신규 수집 매물 수", f"{successful_count:,}개")
+        rate_limited = logs.head(30)[status_column].astype(str).str.contains(
+            "네이버 요청 제한 감지", case=False, regex=False
+        ).any()
+        if rate_limited:
+            st.error("네이버 요청 제한 감지: 추가 요청을 중단하고 다음 실행까지 기다립니다.")
         st.markdown("##### 최근 수집 로그")
         st.dataframe(logs.head(30), use_container_width=True, hide_index=True)
         failure_mask = logs[status_column].astype(str).str.contains(

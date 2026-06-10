@@ -2,6 +2,7 @@
 
 import csv
 import json
+import random
 import re
 import time
 from datetime import datetime, timezone
@@ -28,12 +29,15 @@ CONDITIONS_FILE = ROOT / "search_conditions.json"
 LOG_FILE = ROOT / "collect_logs.csv"
 MAX_NEW = 3
 MAX_CANDIDATES = 10
-REQUEST_DELAY = 10
+MAX_REQUESTS_PER_RUN = 2
+MIN_RANDOM_DELAY = 10
+MAX_RANDOM_DELAY = 30
+MAX_ATTEMPTS = 2
 TIMEOUT = 30
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
     ),
     "Referer": "https://new.land.naver.com/",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8",
@@ -228,33 +232,65 @@ def listing_date(value):
     return match.group(1) if match else ""
 
 
+class RequestLimitReached(Exception):
+    pass
+
+
+class RateLimitDetected(Exception):
+    pass
+
+
+def low_volume_get(session, url, **kwargs):
+    request_count = int(getattr(session, "collect_request_count", 0))
+    if request_count >= MAX_REQUESTS_PER_RUN:
+        raise RequestLimitReached(f"실행당 요청 최대 {MAX_REQUESTS_PER_RUN}회 도달")
+    wait_seconds = random.uniform(MIN_RANDOM_DELAY, MAX_RANDOM_DELAY)
+    time.sleep(wait_seconds)
+    session.collect_request_count = request_count + 1
+    return session.get(url, **kwargs)
+
+
 def fetch(session, url):
     last_error = None
-    for attempt in range(1, 4):
+    for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
-            response = session.get(url, timeout=TIMEOUT)
+            response = low_volume_get(session, url, timeout=TIMEOUT)
+            if response.status_code == 429:
+                raise RateLimitDetected("네이버 요청 제한 감지 (HTTP 429)")
             response.raise_for_status()
             return response.text
         except Exception as error:
             last_error = error
-            if attempt < 3:
-                time.sleep(2)
+            if isinstance(error, (RateLimitDetected, RequestLimitReached)):
+                raise
+            if attempt >= MAX_ATTEMPTS:
+                break
     raise last_error
 
 
-def fetch_with_metadata(session, url):
+def fetch_with_metadata(session, url, log_attempt=None, request_headers=None):
     last_error = None
-    for attempt in range(1, 4):
+    for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
-            response = session.get(url, timeout=TIMEOUT)
+            response = low_volume_get(
+                session, url, timeout=TIMEOUT, headers=request_headers
+            )
             status_code = response.status_code
             response_length = len(response.content or b"")
+            if log_attempt:
+                log_attempt(status_code, response_length, attempt)
+            if status_code == 429:
+                raise RateLimitDetected("네이버 요청 제한 감지 (HTTP 429)")
             response.raise_for_status()
-            return response.text, status_code, response_length
+            return response.text, status_code, response_length, attempt
         except Exception as error:
             last_error = error
-            if attempt < 3:
-                time.sleep(2)
+            if log_attempt and getattr(error, "response", None) is None:
+                log_attempt("request-error", 0, attempt)
+            if isinstance(error, (RateLimitDetected, RequestLimitReached)):
+                raise
+            if attempt >= MAX_ATTEMPTS:
+                break
     raise last_error
 
 
@@ -340,6 +376,27 @@ def extract_api_row(article, condition):
         "매물 상태": "신규",
     }
     return row, url
+
+
+def extract_html_fallback_row(url, condition):
+    aid = article_id(url)
+    property_types = condition.get("property_types") or ["기타"]
+    deal_types = condition.get("deal_types") or ["매매"]
+    property_type = property_types[0] if property_types[0] != "전체" else "기타"
+    deal_type = deal_types[0] if deal_types[0] != "전체" else "매매"
+    return {
+        "매물명": f"{property_type} HTML 자동수집",
+        "주소": ", ".join(condition.get("regions", [])),
+        "지역": ", ".join(condition.get("regions", [])),
+        "매물종류": property_type, "거래유형": deal_type,
+        "네이버부동산 링크": url, "네이버 매물 ID": aid,
+        "naver_url": url, "naver_article_id": aid, "auto_collected": "예",
+        "collected_at": now(), "source_search_url": condition.get("search_url", ""),
+        "collection_condition": json.dumps(condition, ensure_ascii=False, default=str),
+        "extraction_status": "HTML 목록 자동수집", "extraction_error": "",
+        "platform": "네이버부동산", "first_seen_at": now(), "last_seen_at": now(),
+        "매물 상태": "신규",
+    }
 
 
 def extract_row(url, html, condition):
@@ -449,7 +506,18 @@ def emit_log(condition, status, message="", url=""):
     append_log(condition, status, message, url)
 
 
+def header_summary():
+    return (
+        f"User-Agent={HEADERS['User-Agent']}; Referer={HEADERS['Referer']}; "
+        f"Accept-Language={HEADERS['Accept-Language']}"
+    )
+
+
 def friendly_error(error, fallback="자동 추출 실패"):
+    if isinstance(error, RateLimitDetected):
+        return "네이버 요청 제한 감지 (HTTP 429)"
+    if isinstance(error, RequestLimitReached):
+        return str(error)
     if isinstance(error, (requests.Timeout, requests.ConnectionError)):
         return "네이버 서버 응답 지연"
     return f"{fallback}: {type(error).__name__}: {error}"
@@ -476,6 +544,7 @@ def duplicate_keys(rows):
 
 
 def main():
+    emit_log({}, "실행 시간", now())
     init_db()
     raw_conditions = db_load_conditions()
     if CONDITIONS_FILE.exists():
@@ -487,7 +556,10 @@ def main():
     conditions = [normalize_condition(item) for item in raw_conditions]
     for condition in conditions:
         condition["new_listing_count"] = 0
-    active_conditions = [item for item in conditions if item.get("enabled", True)]
+    active_conditions = sorted(
+        [item for item in conditions if item.get("enabled", True)],
+        key=lambda item: item.get("last_collected_at", ""),
+    )[:1]
     emit_log({}, "Loaded conditions", f"{len(conditions)} total, {len(active_conditions)} active")
     if not active_conditions:
         emit_log({}, "Collection complete", "0 new listing(s): no active conditions")
@@ -507,17 +579,29 @@ def main():
     filtered_count = 0
     failed_count = 0
     with requests.Session() as session:
+        session.collect_request_count = 0
         session.headers.update(HEADERS)
+        emit_log({}, "Request headers", header_summary())
         for condition in active_conditions:
             if len(new_rows) >= MAX_NEW:
                 break
             condition["last_collected_at"] = now()
+            emit_log(
+                condition, "처리한 조건",
+                json.dumps({
+                    "regions": condition.get("regions", []),
+                    "property_types": condition.get("property_types", []),
+                    "deal_types": condition.get("deal_types", []),
+                    "min_price": condition.get("min_price", 0),
+                    "max_price": condition.get("max_price", 0),
+                }, ensure_ascii=False),
+            )
             configured_url = str(condition.get("search_url", "")).strip()
             targets = []
             if configured_url and "new.land.naver.com/search?keyword=" not in configured_url:
                 targets.append(configured_url)
             targets.extend(build_naver_api_urls(condition))
-            targets = list(dict.fromkeys(targets))
+            targets = list(dict.fromkeys(targets))[:1]
             condition["search_url"] = configured_url or (targets[0] if targets else build_search_url(condition))
             candidates = []
             for search_url in targets:
@@ -525,28 +609,63 @@ def main():
                     break
                 emit_log(condition, "Generated search URL", search_url, search_url)
                 try:
-                    search_payload, status_code, response_length = fetch_with_metadata(session, search_url)
-                    emit_log(condition, "Request status code", str(status_code), search_url)
-                    emit_log(condition, "Raw response length", str(response_length), search_url)
+                    def log_attempt(status_code, response_length, retry_count):
+                        emit_log(condition, "Status Code", str(status_code), search_url)
+                        emit_log(condition, "Retry Count", str(retry_count), search_url)
+                        emit_log(condition, "Raw response length", str(response_length), search_url)
+
+                    search_payload, status_code, response_length, retry_count = fetch_with_metadata(
+                        session, search_url, log_attempt=log_attempt
+                    )
                     api_articles = discover_api_articles(search_payload)
                     if api_articles:
                         candidates.extend(("api", article) for article in api_articles[:MAX_CANDIDATES])
                     else:
                         candidates.extend(("url", url) for url in discover_urls(search_payload)[:MAX_CANDIDATES])
+                    emit_log(condition, "Final Result", f"API request success after {retry_count} attempt(s)")
                 except Exception as error:
                     failed_count += 1
-                    response = getattr(error, "response", None)
-                    if response is not None:
-                        emit_log(
-                            condition, "Request status code",
-                            str(getattr(response, "status_code", "unknown")), search_url,
-                        )
-                        emit_log(
-                            condition, "Raw response length",
-                            str(len(getattr(response, "content", b"") or b"")), search_url,
-                        )
                     emit_log(condition, "Error reason if failed", friendly_error(error), search_url)
-                time.sleep(REQUEST_DELAY)
+                    if isinstance(error, RateLimitDetected):
+                        emit_log(
+                            condition, "네이버 요청 제한 감지",
+                            "HTTP 429 감지. 추가 요청 없이 다음 실행까지 대기합니다.", search_url,
+                        )
+                        emit_log(condition, "Final Result", "Stopped safely after HTTP 429", search_url)
+                        break
+                    html_url = build_search_url(condition)
+                    emit_log(condition, "HTML fallback URL", html_url, html_url)
+                    try:
+                        html_headers = {
+                            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        }
+                        html_payload, html_status, html_length, html_retry = fetch_with_metadata(
+                            session,
+                            html_url,
+                            log_attempt=lambda status, length, retry: (
+                                emit_log(condition, "Status Code", str(status), html_url),
+                                emit_log(condition, "Retry Count", str(retry), html_url),
+                                emit_log(condition, "Raw response length", str(length), html_url),
+                            ),
+                            request_headers=html_headers,
+                        )
+                        html_urls = discover_urls(html_payload)[:MAX_CANDIDATES]
+                        candidates.extend(("url", url) for url in html_urls)
+                        emit_log(
+                            condition, "Final Result",
+                            f"HTML fallback success after {html_retry} attempt(s)", html_url,
+                        )
+                    except Exception as html_error:
+                        failed_count += 1
+                        if isinstance(html_error, RateLimitDetected):
+                            emit_log(
+                                condition, "네이버 요청 제한 감지",
+                                "HTML 요청에서 HTTP 429 감지. 다음 실행까지 대기합니다.", html_url,
+                            )
+                        emit_log(
+                            condition, "Final Result",
+                            f"API and HTML fallback failed: {friendly_error(html_error)}", html_url,
+                        )
                 if len(candidates) >= MAX_CANDIDATES:
                     break
             unique_candidates = {}
@@ -556,6 +675,7 @@ def main():
                 unique_candidates[key] = (kind, value)
             candidates = list(unique_candidates.values())
             total_collected += len(candidates)
+            emit_log(condition, "Parsed Listing Count", str(len(candidates)))
             emit_log(condition, "Found listings count", str(len(candidates)))
             if not candidates:
                 emit_log(
@@ -571,7 +691,7 @@ def main():
                     row, url = extract_api_row(candidate, condition)
                 else:
                     url = candidate
-                    row = None
+                    row = extract_html_fallback_row(url, condition)
                 aid = article_id(url)
                 if f"id:{aid}" in known or f"url:{url}" in known:
                     duplicate_count += 1
@@ -585,8 +705,6 @@ def main():
                             break
                     continue
                 try:
-                    if row is None:
-                        row = extract_row(url, fetch(session, url), condition)
                     duplicate_address = row.get("duplicate_address", row.get("주소", ""))
                     combo_parts = [
                         str(duplicate_address).strip(),
@@ -610,7 +728,6 @@ def main():
                 except Exception as error:
                     failed_count += 1
                     emit_log(condition, "Extraction failed", friendly_error(error), url)
-                time.sleep(REQUEST_DELAY)
     if new_rows or updated_existing:
         db_replace_listings(rows + new_rows)
         columns = list(dict.fromkeys(columns + [key for row in new_rows for key in row]))

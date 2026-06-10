@@ -1,8 +1,8 @@
-name: Hourly Small Naver Real Estate Collect
+name: Low-volume Naver Real Estate Collect
 
 on:
-  schedule:
-    - cron: "17 * * * *"
+  # GitHub-hosted runners may receive HTTP 429 from Naver.
+  # Keep this workflow as a manual backup; local Windows scheduling is primary.
   workflow_dispatch:
 
 permissions:
