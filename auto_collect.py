@@ -7,7 +7,7 @@ import time
 from datetime import datetime, timezone
 from html import unescape
 from pathlib import Path
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, urlencode
 
 import requests
 
@@ -36,6 +36,7 @@ HEADERS = {
     ),
     "Referer": "https://new.land.naver.com/",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8",
+    "Accept": "application/json, text/plain, */*",
 }
 META_COLUMNS = [
     "네이버부동산 링크", "네이버 매물 ID", "naver_url", "naver_article_id",
@@ -48,6 +49,28 @@ META_COLUMNS = [
     "ai_risks", "ai_investment_points", "ai_location_score", "ai_price_score",
     "ai_access_score", "ai_investment_score", "ai_scarcity_score", "ai_total_score",
 ]
+
+REGION_CODES = {
+    "충북 전체": [
+        "4311100000", "4311200000", "4311300000", "4311400000", "4313000000",
+        "4315000000", "4372000000", "4373000000", "4374000000", "4374500000",
+        "4375000000", "4376000000", "4377000000", "4380000000",
+    ],
+    "청주시 전체": ["4311100000", "4311200000", "4311300000", "4311400000"],
+    "청주시 상당구": ["4311100000"], "청주시 서원구": ["4311200000"],
+    "청주시 흥덕구": ["4311300000"], "청주시 청원구": ["4311400000"],
+    "충주시": ["4313000000"], "제천시": ["4315000000"], "보은군": ["4372000000"],
+    "옥천군": ["4373000000"], "영동군": ["4374000000"], "증평군": ["4374500000"],
+    "진천군": ["4375000000"], "괴산군": ["4376000000"], "음성군": ["4377000000"],
+    "단양군": ["4380000000"],
+}
+PROPERTY_TYPE_CODES = {
+    "전체": "APT:OPST:VL:OR:DDDGG:SGJT:SMS:GJCG:GM:TJ",
+    "아파트": "APT", "오피스텔": "OPST", "빌라": "VL", "원룸": "OR",
+    "투룸": "OR", "쓰리룸": "OR", "상가": "SMS", "사무실": "SMS",
+    "공장": "GJCG", "창고": "GJCG", "토지": "TJ", "기타": "GM",
+}
+DEAL_TYPE_CODES = {"전체": "A1:B1:B2", "매매": "A1", "전세": "B1", "월세": "B2"}
 
 
 def now():
@@ -121,6 +144,41 @@ def build_search_url(condition):
     return f"https://new.land.naver.com/search?keyword={quote_plus(' '.join(keywords))}"
 
 
+def build_naver_api_urls(condition):
+    regions = condition.get("regions") or ["충북 전체"]
+    property_types = condition.get("property_types") or ["전체"]
+    deal_types = condition.get("deal_types") or ["전체"]
+    type_codes = ":".join(dict.fromkeys(
+        code for item in property_types for code in PROPERTY_TYPE_CODES.get(item, "GM").split(":")
+    ))
+    deal_codes = ":".join(dict.fromkeys(
+        code for item in deal_types for code in DEAL_TYPE_CODES.get(item, "A1:B1:B2").split(":")
+    ))
+    urls = []
+    for region in regions:
+        cortar_numbers = REGION_CODES.get(region, [])
+        if not cortar_numbers:
+            continue
+        for cortar_no in cortar_numbers:
+            params = {
+                "cortarNo": cortar_no,
+                "order": "rank",
+                "realEstateType": type_codes,
+                "tradeType": deal_codes,
+                "priceMin": int(float(condition.get("min_price", 0) or 0)),
+                "priceMax": int(float(condition.get("max_price", 0) or 900000000)),
+                "rentPriceMin": 0,
+                "rentPriceMax": 900000000,
+                "areaMin": 0,
+                "areaMax": 900000000,
+                "showArticle": "false",
+                "sameAddressGroup": "true",
+                "page": 1,
+            }
+            urls.append(f"https://new.land.naver.com/api/articles?{urlencode(params)}")
+    return urls
+
+
 def matches_condition(row, condition):
     address = str(row.get("주소", ""))
     regions = condition["regions"]
@@ -183,6 +241,22 @@ def fetch(session, url):
     raise last_error
 
 
+def fetch_with_metadata(session, url):
+    last_error = None
+    for attempt in range(1, 4):
+        try:
+            response = session.get(url, timeout=TIMEOUT)
+            status_code = response.status_code
+            response_length = len(response.content or b"")
+            response.raise_for_status()
+            return response.text, status_code, response_length
+        except Exception as error:
+            last_error = error
+            if attempt < 3:
+                time.sleep(2)
+    raise last_error
+
+
 def discover_urls(html):
     decoded = unescape(html).replace("\\u002F", "/").replace("\\/", "/")
     urls = set(re.findall(r"https?://[^\"' <]+", decoded))
@@ -193,6 +267,78 @@ def discover_urls(html):
         for url in urls
         if "new.land.naver.com" in url and article_id(url)
     )
+
+
+def discover_api_articles(payload):
+    try:
+        data = json.loads(payload)
+    except json.JSONDecodeError:
+        return []
+    found = []
+
+    def walk(value):
+        if isinstance(value, dict):
+            article_no = value.get("articleNo") or value.get("articleId")
+            if article_no:
+                found.append(value)
+            for child in value.values():
+                walk(child)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child)
+
+    walk(data.get("articleList", data))
+    unique = {}
+    for article in found:
+        aid = str(article.get("articleNo") or article.get("articleId") or "").strip()
+        if aid:
+            unique[aid] = article
+    return list(unique.values())
+
+
+def extract_api_row(article, condition):
+    aid = str(article.get("articleNo") or article.get("articleId") or "").strip()
+    url = f"https://new.land.naver.com/articles/{aid}"
+    actual_address = str(
+        article.get("roadAddress") or article.get("jibunAddress")
+        or article.get("cortarAddress") or article.get("address") or ""
+    ).strip()
+    address = actual_address or ", ".join(condition.get("regions", []))
+    property_type = normalize_type(
+        f"{article.get('realEstateTypeName', '')} {article.get('articleName', '')}"
+    )
+    deal_type = normalize_deal(
+        f"{article.get('tradeTypeName', '')} {article.get('dealOrWarrantPrc', '')}"
+    )
+    area1 = float(article.get("area1", 0) or 0)
+    area2 = float(article.get("area2", 0) or 0)
+    price = parse_price(article.get("dealOrWarrantPrc", 0))
+    rent = parse_price(article.get("rentPrc", 0))
+    row = {
+        "매물명": str(article.get("articleName") or f"{property_type} 자동수집"),
+        "주소": address, "duplicate_address": actual_address,
+        "지역": address.split()[0] if address else ", ".join(condition["regions"]),
+        "매물종류": property_type, "거래유형": deal_type,
+        "매매가(만원)": price if deal_type == "매매" else 0,
+        "전세금(만원)": price if deal_type == "전세" else 0,
+        "보증금(만원)": price if deal_type == "월세" else 0,
+        "월세(만원)": rent, "전용면적(㎡)": area2, "공급면적(㎡)": area1,
+        "층수": article.get("floorInfo", ""), "네이버부동산 링크": url,
+        "네이버 매물 ID": aid, "naver_url": url, "naver_article_id": aid,
+        "auto_collected": "예", "collected_at": now(),
+        "source_search_url": condition.get("search_url", ""),
+        "collection_condition": json.dumps(condition, ensure_ascii=False, default=str),
+        "extraction_status": "네이버 목록 API 자동수집", "extraction_error": "",
+        "provider_agency_name": str(article.get("realtorName", "")),
+        "agency_name": str(article.get("realtorName", "")),
+        "listing_provider": str(article.get("cpName", "")),
+        "is_verified_listing": "확인매물" if article.get("verificationTypeCode") else "",
+        "verified_date": str(article.get("articleConfirmYmd", "")),
+        "listed_date": str(article.get("articleConfirmYmd", "")),
+        "platform": "네이버부동산", "first_seen_at": now(), "last_seen_at": now(),
+        "매물 상태": "신규",
+    }
+    return row, url
 
 
 def extract_row(url, html, condition):
@@ -297,6 +443,11 @@ def append_log(condition, status, message="", url=""):
         })
 
 
+def emit_log(condition, status, message="", url=""):
+    print(f"{status}: {message}")
+    append_log(condition, status, message, url)
+
+
 def friendly_error(error, fallback="자동 추출 실패"):
     if isinstance(error, (requests.Timeout, requests.ConnectionError)):
         return "네이버 서버 응답 지연"
@@ -308,8 +459,18 @@ def duplicate_keys(rows):
     for row in rows:
         aid = row.get("naver_article_id") or row.get("네이버 매물 ID", "")
         url = row.get("naver_url") or row.get("네이버부동산 링크", "")
-        combo = "|".join(str(row.get(key, "")) for key in ["주소", "매매가(만원)", "전용면적(㎡)"])
-        keys.update(item for item in [f"id:{aid}" if aid else "", f"url:{url}" if url else "", f"combo:{combo}"] if item)
+        address = row.get("duplicate_address", row.get("주소", ""))
+        parts = [
+            str(address).strip(), str(row.get("매매가(만원)", "")).strip(),
+            str(row.get("전용면적(㎡)", "")).strip(),
+        ]
+        if not parts[0]:
+            parts = []
+        combo = "|".join(parts) if any(parts) else ""
+        keys.update(item for item in [
+            f"id:{aid}" if aid else "", f"url:{url}" if url else "",
+            f"combo:{combo}" if combo else "",
+        ] if item)
     return keys
 
 
@@ -326,8 +487,9 @@ def main():
     for condition in conditions:
         condition["new_listing_count"] = 0
     active_conditions = [item for item in conditions if item.get("enabled", True)]
+    emit_log({}, "Loaded conditions", f"{len(conditions)} total, {len(active_conditions)} active")
     if not active_conditions:
-        print("auto collect complete: no active conditions")
+        emit_log({}, "Collection complete", "0 new listing(s): no active conditions")
         return
     rows = db_load_listings()
     csv_rows, columns = load_csv(LISTINGS_FILE)
@@ -339,28 +501,78 @@ def main():
     known = duplicate_keys(rows)
     new_rows = []
     updated_existing = False
+    total_collected = 0
+    duplicate_count = 0
+    filtered_count = 0
+    failed_count = 0
     with requests.Session() as session:
         session.headers.update(HEADERS)
         for condition in active_conditions:
             if len(new_rows) >= MAX_NEW:
                 break
             condition["last_collected_at"] = now()
-            try:
-                search_url = condition.get("search_url") or build_search_url(condition)
-                condition["search_url"] = search_url
-                search_html = fetch(session, search_url)
-                candidates = discover_urls(search_html)
-                append_log(condition, "검색 성공", f"후보 {len(candidates)}개")
-            except Exception as error:
-                append_log(condition, "검색 실패", friendly_error(error, "자동 추출 실패"), condition.get("search_url", ""))
-                continue
-            time.sleep(REQUEST_DELAY)
-            for url in candidates:
+            configured_url = str(condition.get("search_url", "")).strip()
+            targets = []
+            if configured_url and "new.land.naver.com/search?keyword=" not in configured_url:
+                targets.append(configured_url)
+            targets.extend(build_naver_api_urls(condition))
+            targets = list(dict.fromkeys(targets))
+            condition["search_url"] = configured_url or (targets[0] if targets else build_search_url(condition))
+            candidates = []
+            for search_url in targets:
                 if len(new_rows) >= MAX_NEW:
                     break
+                emit_log(condition, "Generated search URL", search_url, search_url)
+                try:
+                    search_payload, status_code, response_length = fetch_with_metadata(session, search_url)
+                    emit_log(condition, "Request status code", str(status_code), search_url)
+                    emit_log(condition, "Raw response length", str(response_length), search_url)
+                    api_articles = discover_api_articles(search_payload)
+                    if api_articles:
+                        candidates.extend(("api", article) for article in api_articles)
+                    else:
+                        candidates.extend(("url", url) for url in discover_urls(search_payload))
+                except Exception as error:
+                    failed_count += 1
+                    response = getattr(error, "response", None)
+                    if response is not None:
+                        emit_log(
+                            condition, "Request status code",
+                            str(getattr(response, "status_code", "unknown")), search_url,
+                        )
+                        emit_log(
+                            condition, "Raw response length",
+                            str(len(getattr(response, "content", b"") or b"")), search_url,
+                        )
+                    emit_log(condition, "Error reason if failed", friendly_error(error), search_url)
+                time.sleep(REQUEST_DELAY)
+            unique_candidates = {}
+            for kind, value in candidates:
+                aid = str(value.get("articleNo") or value.get("articleId")) if kind == "api" else article_id(value)
+                key = aid or str(value)
+                unique_candidates[key] = (kind, value)
+            candidates = list(unique_candidates.values())
+            total_collected += len(candidates)
+            emit_log(condition, "Found listings count", str(len(candidates)))
+            if not candidates:
+                emit_log(
+                    condition, "No new listings",
+                    "검색 응답에서 매물 목록을 찾지 못했습니다. 검색 조건 또는 네이버 응답을 확인하세요.",
+                    condition["search_url"],
+                )
+                continue
+            for kind, candidate in candidates:
+                if len(new_rows) >= MAX_NEW:
+                    break
+                if kind == "api":
+                    row, url = extract_api_row(candidate, condition)
+                else:
+                    url = candidate
+                    row = None
                 aid = article_id(url)
                 if f"id:{aid}" in known or f"url:{url}" in known:
-                    append_log(condition, "중복 매물", "이미 저장된 매물 ID 또는 URL입니다.", url)
+                    duplicate_count += 1
+                    emit_log(condition, "Duplicate skipped", "매물 ID 또는 URL 중복", url)
                     for existing in rows:
                         existing_id = existing.get("naver_article_id") or existing.get("네이버 매물 ID", "")
                         existing_url = existing.get("naver_url") or existing.get("네이버부동산 링크", "")
@@ -370,19 +582,31 @@ def main():
                             break
                     continue
                 try:
-                    row = extract_row(url, fetch(session, url), condition)
-                    combo = "combo:" + "|".join(str(row.get(key, "")) for key in ["주소", "매매가(만원)", "전용면적(㎡)"])
-                    if combo in known:
-                        append_log(condition, "중복 매물", "주소 + 가격 + 면적이 같은 매물입니다.", url)
+                    if row is None:
+                        row = extract_row(url, fetch(session, url), condition)
+                    duplicate_address = row.get("duplicate_address", row.get("주소", ""))
+                    combo_parts = [
+                        str(duplicate_address).strip(),
+                        str(row.get("매매가(만원)", "")).strip(),
+                        str(row.get("전용면적(㎡)", "")).strip(),
+                    ]
+                    if not combo_parts[0]:
+                        combo_parts = []
+                    combo = "combo:" + "|".join(combo_parts) if any(combo_parts) else ""
+                    if combo and combo in known:
+                        duplicate_count += 1
+                        emit_log(condition, "Duplicate skipped", "주소 + 가격 + 면적 중복", url)
                         continue
                     if not matches_condition(row, condition):
+                        filtered_count += 1
                         continue
                     new_rows.append(row)
                     condition["new_listing_count"] += 1
-                    known.update([f"id:{article_id(url)}", f"url:{url}", combo])
-                    append_log(condition, "신규 저장", url=url)
+                    known.update(item for item in [f"id:{article_id(url)}", f"url:{url}", combo] if item)
+                    emit_log(condition, "New listing", "저장 대상에 추가", url)
                 except Exception as error:
-                    append_log(condition, "상세 추출 실패", friendly_error(error), url)
+                    failed_count += 1
+                    emit_log(condition, "Extraction failed", friendly_error(error), url)
                 time.sleep(REQUEST_DELAY)
     if new_rows or updated_existing:
         db_replace_listings(rows + new_rows)
@@ -395,7 +619,23 @@ def main():
         json.dumps(conditions, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     db_replace_conditions(conditions)
-    print(f"auto collect complete: {len(new_rows)} new listing(s)")
+    emit_log({}, "New listings saved count", str(len(new_rows)))
+    emit_log({}, "Duplicate skipped count", str(duplicate_count))
+    if not new_rows:
+        if total_collected == 0:
+            reason = "검색 결과 후보 매물이 없습니다."
+        elif duplicate_count == total_collected:
+            reason = "수집된 매물이 모두 중복입니다."
+        elif filtered_count:
+            reason = f"조건 불일치 {filtered_count}개, 중복 {duplicate_count}개, 추출 실패 {failed_count}개"
+        else:
+            reason = f"중복 {duplicate_count}개, 추출 실패 {failed_count}개"
+        emit_log({}, "No new listings", reason)
+    emit_log(
+        {}, "Collection complete",
+        f"Found listings count={total_collected}, New listings saved count={len(new_rows)}, "
+        f"Duplicate skipped count={duplicate_count}, Filtered={filtered_count}, Failed={failed_count}",
+    )
 
 
 if __name__ == "__main__":

@@ -1328,18 +1328,23 @@ with st.expander("자동수집 관심 조건 관리"):
     db_logs = db_load_logs(limit=100)
     logs = pd.DataFrame(db_logs)
     if logs.empty and COLLECT_LOG_FILE.exists():
-        logs = read_csv_file(COLLECT_LOG_FILE)
+        logs = read_csv_file(COLLECT_LOG_FILE).iloc[::-1].reset_index(drop=True)
     enabled_count = sum(1 for item in conditions if item.get("enabled", True))
     status_1, status_2, status_3 = st.columns(3)
     status_1.metric("자동수집 상태", "ON" if enabled_count else "OFF")
     if not logs.empty:
         time_column = "collected_at" if "collected_at" in logs.columns else "수집시간"
         status_column = "status" if "status" in logs.columns else "상태"
-        last_time = str(logs.iloc[0 if time_column == "collected_at" else -1].get(time_column, ""))
+        last_time = str(logs.iloc[0].get(time_column, ""))
         successful_count = sum(int(item.get("new_listing_count", 0) or 0) for item in conditions)
         status_2.metric("마지막 수집 시간", last_time or "-")
         status_3.metric("신규 수집 매물 수", f"{successful_count:,}개")
-        failed = logs[~logs[status_column].astype(str).isin(["신규 저장", "new", "검색 성공", "search_ok"])]
+        st.markdown("##### 최근 수집 로그")
+        st.dataframe(logs.head(30), use_container_width=True, hide_index=True)
+        failure_mask = logs[status_column].astype(str).str.contains(
+            "실패|failed|No new listings", case=False, regex=True
+        )
+        failed = logs[failure_mask]
         if not failed.empty:
             st.markdown("##### 수집 실패 로그")
             st.dataframe(failed.head(20), use_container_width=True, hide_index=True)

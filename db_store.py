@@ -65,7 +65,7 @@ def init_db(db_file=DB_FILE):
 def listing_identity(row):
     article_id = str(row.get("naver_article_id") or row.get("네이버 매물 ID", "")).strip()
     url = str(row.get("naver_url") or row.get("네이버부동산 링크", "")).strip()
-    address = str(row.get("주소", "")).strip()
+    address = str(row.get("duplicate_address", row.get("주소", ""))).strip()
     price = row.get("매매가(만원)", 0) or row.get("전세금(만원)", 0) or 0
     area = row.get("전용면적(㎡)") or row.get("건물면적(㎡)") or row.get("대지면적(㎡)") or 0
     duplicate_key = "|".join([address, str(price), str(area)]) if address or price or area else ""
