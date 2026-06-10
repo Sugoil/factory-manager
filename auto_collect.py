@@ -61,6 +61,7 @@ REGION_CODES = {
         "4315000000", "4372000000", "4373000000", "4374000000", "4374500000",
         "4375000000", "4376000000", "4377000000", "4380000000",
     ],
+    "청주시": ["4311100000", "4311200000", "4311300000", "4311400000"],
     "청주시 전체": ["4311100000", "4311200000", "4311300000", "4311400000"],
     "청주시 상당구": ["4311100000"], "청주시 서원구": ["4311200000"],
     "청주시 흥덕구": ["4311300000"], "청주시 청원구": ["4311400000"],
@@ -127,7 +128,7 @@ def normalize_deal(text):
 
 def normalize_condition(condition):
     item = dict(condition)
-    item["regions"] = item.get("regions") or [item.get("region", "충북 전체")]
+    item["regions"] = item.get("regions") or [item.get("region", "청주시")]
     item["property_types"] = item.get("property_types") or [item.get("property_type", "전체")]
     item["deal_types"] = item.get("deal_types") or [item.get("deal_type", "전체")]
     if "전체" in item["property_types"]:

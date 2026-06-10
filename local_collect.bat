@@ -5,12 +5,10 @@ cd /d "%~dp0"
 set "SCHEDULED_MODE=0"
 if /I "%~1"=="--scheduled" set "SCHEDULED_MODE=1"
 if "%SCHEDULED_MODE%"=="0" (
-  set "KEEP_BROWSER_OPEN=1"
-  echo [INFO] Browser inspection mode is enabled.
-  echo [INFO] The browser stays open until you close it or press Enter.
+  echo [INFO] Reading the currently open Naver Real Estate Chrome tab.
+  echo [INFO] Run start_chrome_debug.bat first and keep the results tab open.
 ) else (
-  set "KEEP_BROWSER_OPEN=0"
-  echo [INFO] Scheduled collection mode is enabled.
+  echo [INFO] Scheduled CDP collection mode is enabled.
 )
 
 where python >nul 2>nul
@@ -50,6 +48,6 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo [SUCCESS] Local collection completed.
+echo [SUCCESS] Collection completed and GitHub sync completed.
 if "%SCHEDULED_MODE%"=="0" pause
 exit /b 0

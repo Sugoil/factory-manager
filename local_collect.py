@@ -3,6 +3,7 @@
 from pathlib import Path
 
 from browser_collect import main
+from git_sync import sync_collected_data
 
 
 if __name__ == "__main__":
@@ -17,3 +18,10 @@ if __name__ == "__main__":
         raise
     else:
         print("Local low-volume collection finished.")
+        sync_success, sync_message = sync_collected_data()
+        print(sync_message)
+        if sync_success:
+            print("수집 완료 및 GitHub 반영 완료")
+        else:
+            print("수집 완료, GitHub 반영 실패")
+            raise SystemExit(3)

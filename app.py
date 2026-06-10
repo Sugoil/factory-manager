@@ -42,9 +42,13 @@ AUTO_PROPERTY_TYPES = [
 ]
 AUTO_DEAL_TYPES = ["전체", "매매", "전세", "월세"]
 AUTO_REGIONS = [
-    "충북 전체", "청주시 전체", "청주시 흥덕구", "청주시 상당구", "청주시 서원구",
+    "청주시", "충북 전체", "청주시 전체", "청주시 흥덕구", "청주시 상당구", "청주시 서원구",
     "청주시 청원구", "진천군", "음성군", "증평군", "괴산군", "보은군", "옥천군",
     "영동군", "충주시", "제천시", "단양군",
+]
+INVALID_UI_LISTING_TERMS = [
+    "본문 바로가기", "메뉴 접기", "지도 바로가기",
+    "단지, 지역, 지하철, 초등학교 검색", "검색", "메뉴", "바로가기",
 ]
 
 COLUMNS = [
@@ -541,6 +545,24 @@ def parse_listing_text(text):
     return result if meaningful else None
 
 
+def parse_manual_paste(url="", description="", agency_text="", verification_text=""):
+    combined_text = "\n".join(
+        value.strip()
+        for value in [description, agency_text, verification_text]
+        if str(value).strip()
+    )
+    result = parse_listing_text(combined_text) or {}
+    clean_url = str(url).strip()
+    if clean_url:
+        result["네이버부동산 링크"] = clean_url
+        result["naver_url"] = clean_url
+        article_id = extract_naver_article_id(clean_url)
+        result["네이버 매물 ID"] = article_id
+        result["naver_article_id"] = article_id
+        result["platform"] = result.get("platform") or detect_platform(clean_url)
+    return result or None
+
+
 def build_listing_result(objects, page_text):
     address = first_value(objects, ["roadAddress", "jibunAddress", "address", "location"])
     property_text = first_value(
@@ -795,6 +817,10 @@ def prepare_listings(data):
     data["매물종류"] = data["매물종류"].replace("", "기타").fillna("기타")
     data["거래유형"] = data["거래유형"].replace("", "매매").fillna("매매")
     data["매물 상태"] = data["매물 상태"].replace("", "신규").fillna("신규")
+    invalid_ui_rows = data["매물명"].fillna("").astype(str).apply(
+        lambda name: any(term in name for term in INVALID_UI_LISTING_TERMS)
+    )
+    data = data.loc[~invalid_ui_rows].copy()
     data.loc[data["naver_url"].astype(str) == "", "naver_url"] = data["네이버부동산 링크"]
     data.loc[data["naver_article_id"].astype(str) == "", "naver_article_id"] = data["네이버 매물 ID"]
     for column in NUMBER_COLUMNS:
@@ -809,7 +835,9 @@ def prepare_listings(data):
     rows = []
     for _, source in data.iterrows():
         row = source.to_dict()
-        row["지역"] = get_region(row["주소"])
+        row["지역"] = get_region(row["주소"]) if str(row["주소"]).strip() else (
+            str(row.get("지역", "")).strip() or "지역 미입력"
+        )
         row.update(calculate(row))
         if not row.get("ai_summary"):
             row.update(generate_ai_analysis(row))
@@ -1078,10 +1106,10 @@ def sync_conditions_to_github():
 
 def normalize_condition(condition):
     item = dict(condition)
-    regions = item.get("regions") or [item.get("region", "충북 전체")]
+    regions = item.get("regions") or [item.get("region", "청주시")]
     property_types = item.get("property_types") or [item.get("property_type", "전체")]
     deal_types = item.get("deal_types") or [item.get("deal_type", "전체")]
-    item["regions"] = [value for value in regions if value] or ["충북 전체"]
+    item["regions"] = [value for value in regions if value] or ["청주시"]
     item["property_types"] = (
         ["전체"] if "전체" in property_types else [value for value in property_types if value]
     ) or ["전체"]
@@ -1191,6 +1219,10 @@ with st.sidebar:
 
 st.title("전체 부동산 매물 관리")
 st.caption("주거·상업·토지·공장 매물을 한 곳에서 관리합니다.")
+st.success(
+    "추천 사용법: 네이버부동산 매물 상세페이지에서 필요한 내용을 복사해 "
+    "붙여넣으면 자동으로 정리됩니다."
+)
 
 if "listings" not in st.session_state:
     st.session_state.listings = load_listings()
@@ -1215,8 +1247,10 @@ with st.expander("CSV 불러오기 / 전체 다운로드"):
     all_csv = st.session_state.listings.to_csv(index=False).encode("utf-8-sig")
     st.download_button("전체 CSV 다운로드", all_csv, "부동산_전체매물.csv", "text/csv", key="csv_download_all")
 
-with st.expander("자동수집 관심 조건 관리"):
+with st.expander("실험 기능: 자동수집 관심 조건 관리", expanded=False):
+    st.warning("네이버부동산은 자동 접근 제한이 있어 현재 자동수집이 불안정합니다.")
     st.info(
+        "자동수집은 실험 기능입니다. 기본 사용은 아래 URL/텍스트 붙여넣기를 권장합니다.\n\n"
         "GitHub Actions는 네이버 요청 제한이 발생할 수 있어 로컬 PC 자동수집을 권장합니다.\n\n"
         "네이버 API 방식이 제한될 경우 브라우저 수집 방식으로 실행됩니다.\n\n"
         "최초 1회 Playwright 설치가 필요합니다.\n\n"
@@ -1258,7 +1292,7 @@ with st.expander("자동수집 관심 조건 관리"):
 
     c1, c2, c3, c4 = st.columns(4)
     condition_regions = c1.multiselect(
-        "지역 선택", AUTO_REGIONS, default=["충북 전체"], key="condition_regions"
+        "지역 선택", AUTO_REGIONS, default=["청주시"], key="condition_regions"
     )
     condition_property_types = c2.multiselect(
         "관심 매물종류", AUTO_PROPERTY_TYPES, default=["전체"], key="condition_property_types"
@@ -1375,7 +1409,11 @@ with st.expander("자동수집 관심 조건 관리"):
             hide_index=True,
         )
 
-st.subheader("새 매물 등록")
+st.subheader("URL/텍스트 붙여넣기 자동정리")
+st.info(
+    "네이버부동산에서 매물 URL과 화면의 매물 설명을 복사해 붙여넣으세요. "
+    "인식된 내용은 아래 입력칸에 채워지며 저장 전에 수정할 수 있습니다."
+)
 url_1, url_2 = st.columns([4, 1])
 with url_1:
     extraction_url = st.text_input(
@@ -1387,7 +1425,7 @@ with url_1:
 with url_2:
     st.write("")
     st.write("")
-    extract_clicked = st.button("URL 자동 추출", use_container_width=True, key="naver_extract_button")
+    extract_clicked = st.button("URL 정보 확인 (보조)", use_container_width=True, key="naver_extract_button")
 
 current_url_type = classify_naver_url(extraction_url) if extraction_url.strip() else "URL 미입력"
 st.info(f"현재 입력된 URL 종류: **{current_url_type}**")
@@ -1443,12 +1481,9 @@ if st.session_state.get("extraction_logs"):
         for log_line in st.session_state.extraction_logs:
             st.write(f"- {log_line}")
 
-with st.expander(
-    "URL + 매물 설명 붙여넣기",
-    expanded=bool(st.session_state.get("extraction_logs") and not st.session_state.get("extracted_listing")),
-):
+with st.expander("매물 정보 붙여넣기 (추천)", expanded=True):
     pasted_description = st.text_area(
-        "네이버부동산 화면에서 복사한 전체 텍스트",
+        "매물 설명 텍스트",
         placeholder=(
             "예: 경기도 화성시 ... 공장 매매 5억 대지면적 500㎡ "
             "건물면적 300㎡ 층수 2층"
@@ -1456,17 +1491,34 @@ with st.expander(
         height=180,
         key="pasted_listing_description",
     )
-    parse_text_clicked = st.button("붙여넣은 설명 자동 추출", use_container_width=True, key="parse_pasted_text")
+    paste_1, paste_2 = st.columns(2)
+    agency_pasted_text = paste_1.text_area(
+        "중개사무소 정보",
+        placeholder="예: 중개사무소명, 담당자, 연락처, 사무실 주소, 등록번호",
+        height=130,
+        key="pasted_agency_info",
+    )
+    verification_pasted_text = paste_2.text_area(
+        "확인매물/확인일 정보",
+        placeholder="예: 확인매물, 확인일 26.06.11, 등록일 26.06.10, 제공 부동산명",
+        height=130,
+        key="pasted_verification_info",
+    )
+    parse_text_clicked = st.button("붙여넣은 내용 자동 정리", use_container_width=True, key="parse_pasted_text")
 
 if parse_text_clicked:
-    parsed_text = parse_listing_text(pasted_description)
+    parsed_text = parse_manual_paste(
+        extraction_url,
+        pasted_description,
+        agency_pasted_text,
+        verification_pasted_text,
+    )
     if parsed_text:
-        parsed_text["네이버 매물 ID"] = extract_naver_article_id(extraction_url)
         st.session_state.extracted_listing = parsed_text
         st.session_state.naver_extract_url = extraction_url
         st.session_state.extraction_logs = [
             "붙여넣기 텍스트 읽기 성공",
-            "주소·가격·면적·층수·매물종류 등 인식 가능한 항목을 입력했습니다.",
+            "매물·가격·면적·중개사무소·확인매물 정보 중 인식 가능한 항목을 입력했습니다.",
         ]
         st.success("붙여넣은 매물 설명에서 가능한 정보를 자동 입력했습니다.")
         st.rerun()
