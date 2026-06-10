@@ -45,6 +45,8 @@ COLUMNS = [
     "collected_at", "source_search_url", "extraction_status", "extraction_error",
     "agency_name", "agency_owner", "agent_name", "agent_phone", "office_phone",
     "mobile_phone", "agency_address", "agency_registration_number", "platform",
+    "provider_agency_name", "listing_provider", "is_verified_listing", "verified_date",
+    "listed_date", "updated_date",
     "first_seen_at", "last_seen_at", "ai_summary", "ai_strengths", "ai_risks",
     "ai_investment_points", "ai_location_score", "ai_price_score",
     "ai_access_score", "ai_investment_score", "ai_scarcity_score", "ai_total_score",
@@ -177,6 +179,35 @@ def extract_naver_article_id(url):
     return ""
 
 
+def classify_naver_url(url):
+    parsed = urlparse(str(url).strip())
+    if parsed.scheme not in ["http", "https"] or not parsed.netloc.endswith("naver.com"):
+        return "잘못된 URL"
+    return "매물 상세 URL" if extract_naver_article_id(url) else "검색 결과 URL"
+
+
+def discover_naver_listing_urls(html):
+    decoded = unescape(str(html)).replace("\\u002F", "/").replace("\\/", "/")
+    urls = []
+    seen = set()
+    def add_url(candidate):
+        clean = candidate.rstrip("\\,}")
+        key = listing_url_key(clean)
+        if key and key not in seen:
+            seen.add(key)
+            urls.append(clean)
+
+    for match in re.findall(r"https?://[^\"' <]+", decoded):
+        if "new.land.naver.com" in match and extract_naver_article_id(match):
+            add_url(match)
+    for article_id in re.findall(r"/articles/(\d+)", decoded):
+        add_url(f"https://new.land.naver.com/articles/{article_id}")
+    for pattern in [r'"articleNo"\s*:\s*"?(\d+)"?', r'"articleId"\s*:\s*"?(\d+)"?']:
+        for article_id in re.findall(pattern, decoded):
+            add_url(f"https://new.land.naver.com/articles/{article_id}")
+    return urls
+
+
 def listing_url_key(url):
     normalized = str(url).strip().rstrip("/")
     if not normalized:
@@ -241,7 +272,8 @@ def extract_labeled_text(text, labels, max_length=100):
         rf"(?:{label_pattern})\s*[:：]?\s*([^\n|]{{2,{max_length}}}?)"
         rf"(?=\s+(?:중개사무소명|중개사무소 주소|중개사 담당자|중개사 연락처|상호|"
         rf"대표자|담당자|연락처|전화|휴대폰|주소|등록번호|매물명|매매|전세|월세|"
-        rf"가격|면적|네이버부동산|직방|다방)|[\n|]|$)",
+        rf"가격|면적|제공 부동산명|제공 부동산|매물 제공처|제공처|확인매물 여부|"
+        rf"확인일|등록일|수정일|업데이트일|네이버부동산|직방|다방)|[\n|]|$)",
         str(text),
     )
     return match.group(1).strip() if match else ""
@@ -290,6 +322,53 @@ def extract_agency_info(text, objects=None, source_url=""):
             first_value(objects, ["registrationNumber", "realtorRegistrationNumber"])
         ).strip() or extract_labeled_text(text, ["중개사무소 등록번호", "등록번호"]),
         "platform": detect_platform(f"{source_url} {text}"),
+    }
+
+
+def normalize_listing_date(value):
+    text = str(value).strip()
+    match = re.search(r"\b(\d{2,4}[./-]\d{1,2}[./-]\d{1,2})\b", text)
+    return match.group(1) if match else ""
+
+
+def extract_source_info(text, objects=None):
+    objects = objects or []
+    verified_text = str(first_value(
+        objects, ["verifiedListing", "isVerified", "verificationType", "verificationName"]
+    ))
+    if not verified_text:
+        verified_text = extract_labeled_text(text, ["확인매물 여부", "확인 여부"])
+    is_verified = ""
+    if re.search(r"확인매물|확인 매물|true|Y", f"{verified_text} {text}", re.I):
+        is_verified = "확인매물"
+    elif re.search(r"미확인매물|미확인 매물|false|N", verified_text, re.I):
+        is_verified = "미확인"
+
+    provider = str(first_value(
+        objects, ["providerName", "sourceName", "listingProvider", "articleProviderName"]
+    )).strip() or extract_labeled_text(text, ["매물 제공처", "제공처"])
+    if not provider:
+        provider_match = re.search(
+            r"((?:네이버부동산|부동산써브|직방|다방|한방|부동산114)\s*제공)",
+            str(text),
+        )
+        provider = provider_match.group(1).strip() if provider_match else ""
+
+    return {
+        "provider_agency_name": str(first_value(
+            objects, ["providerAgencyName", "providerRealtorName", "realtorName", "agencyName"]
+        )).strip() or extract_labeled_text(text, ["제공 부동산명", "제공 부동산"]),
+        "listing_provider": provider,
+        "is_verified_listing": is_verified,
+        "verified_date": normalize_listing_date(
+            first_value(objects, ["verifiedDate", "verificationDate", "confirmDate"])
+        ) or normalize_listing_date(extract_labeled_text(text, ["확인일", "확인매물일"])),
+        "listed_date": normalize_listing_date(
+            first_value(objects, ["listedDate", "registeredDate", "registrationDate", "createDate"])
+        ) or normalize_listing_date(extract_labeled_text(text, ["등록일", "최초 등록일"])),
+        "updated_date": normalize_listing_date(
+            first_value(objects, ["updatedDate", "modifiedDate", "updateDate", "lastModifiedDate"])
+        ) or normalize_listing_date(extract_labeled_text(text, ["수정일", "업데이트일", "최종 수정일"])),
     }
 
 
@@ -432,6 +511,7 @@ def parse_listing_text(text):
         else "미확인",
     }
     result.update(extract_agency_info(text))
+    result.update(extract_source_info(text))
     observed_at = datetime.now().isoformat(timespec="seconds")
     result["first_seen_at"] = observed_at
     result["last_seen_at"] = observed_at
@@ -491,6 +571,7 @@ def build_listing_result(objects, page_text):
         result["주소"], result["매물종류"], result["거래유형"], page_text
     )
     result.update(extract_agency_info(page_text, objects))
+    result.update(extract_source_info(page_text, objects))
     meaningful = sum(bool(value) for key, value in result.items() if key not in ["매물종류", "거래유형"])
     return result if meaningful else None
 
@@ -564,6 +645,56 @@ def extract_naver_listing(url):
     )
     logs.append("권장 대체 방법: 아래 매물 설명 붙여넣기를 사용하세요.")
     return None, logs
+
+
+def extract_naver_url(url):
+    url_type = classify_naver_url(url)
+    if url_type == "잘못된 URL":
+        return None, ["URL 검증 실패: naver.com 주소가 아닙니다."], url_type, []
+    if url_type == "매물 상세 URL":
+        result, logs = extract_naver_listing(url)
+        if result:
+            result["네이버부동산 링크"] = url.strip()
+            result["source_search_url"] = ""
+        return result, [f"URL 종류: {url_type}", *logs], url_type, []
+
+    logs = [f"URL 종류: {url_type}", "검색 URL 감지"]
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+        ),
+        "Referer": "https://new.land.naver.com/",
+        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8",
+    }
+    candidates = []
+    with requests.Session() as session:
+        session.headers.update(headers)
+        for attempt in range(1, 4):
+            try:
+                logs.append(f"검색 결과 요청 {attempt}/3")
+                response = session.get(url, timeout=30)
+                response.raise_for_status()
+                candidates = discover_naver_listing_urls(response.text)
+                logs.append(f"검색 결과에서 매물 URL {len(candidates):,}개 발견")
+                break
+            except Exception as error:
+                logs.append(f"검색 결과 요청 {attempt} 실패: {type(error).__name__}: {error}")
+                if attempt < 3:
+                    time.sleep(1)
+    if not candidates:
+        logs.append("검색 결과 목록 추출 실패: 상세 매물 URL을 찾지 못했습니다.")
+        return None, logs, url_type, []
+
+    first_url = candidates[0]
+    logs.append(f"첫 번째 매물 자동 추출: {extract_naver_article_id(first_url)}")
+    result, detail_logs = extract_naver_listing(first_url)
+    logs.extend(detail_logs)
+    if result:
+        result["네이버부동산 링크"] = first_url
+        result["네이버 매물 ID"] = extract_naver_article_id(first_url)
+        result["source_search_url"] = url.strip()
+    return result, logs, url_type, candidates
 
 
 def option_index(options, value):
@@ -947,24 +1078,54 @@ with url_2:
     st.write("")
     extract_clicked = st.button("URL 자동 추출", use_container_width=True, key="naver_extract_button")
 
+current_url_type = classify_naver_url(extraction_url) if extraction_url.strip() else "URL 미입력"
+st.info(f"현재 입력된 URL 종류: **{current_url_type}**")
+
 if extract_clicked:
     try:
-        extracted, extraction_logs = extract_naver_listing(extraction_url)
+        extracted, extraction_logs, detected_url_type, search_candidates = extract_naver_url(extraction_url)
     except Exception as error:
         extracted = None
         extraction_logs = [f"예상하지 못한 실패: {type(error).__name__}: {error}"]
+        detected_url_type = classify_naver_url(extraction_url)
+        search_candidates = []
     st.session_state.extraction_logs = extraction_logs
     st.session_state.naver_extract_url = extraction_url
+    st.session_state.detected_url_type = detected_url_type
+    known_url_keys = {
+        listing_url_key(value)
+        for value in st.session_state.listings["네이버부동산 링크"].fillna("")
+        if listing_url_key(value)
+    }
+    st.session_state.search_result_listings = [
+        {
+            "순서": index + 1,
+            "네이버 매물 ID": extract_naver_article_id(candidate),
+            "URL": candidate,
+            "신규 여부": "신규" if listing_url_key(candidate) not in known_url_keys else "등록됨",
+        }
+        for index, candidate in enumerate(search_candidates)
+    ]
+    if detected_url_type == "검색 결과 URL":
+        st.info("검색 URL 감지")
     if extracted:
-        extracted["네이버 매물 ID"] = extract_naver_article_id(extraction_url)
         st.session_state.extracted_listing = extracted
-        st.session_state.naver_extract_url = extraction_url
+        st.session_state.naver_extract_url = extracted.get("네이버부동산 링크", extraction_url)
         st.success("가능한 매물 정보를 자동 입력했습니다. 저장 전에 내용을 확인해주세요.")
     else:
         st.session_state.extracted_listing = {}
         if any("ReadTimeout" in log or "응답 지연" in log for log in extraction_logs):
             st.warning("네이버 서버 응답 지연, 나중에 다시 시도하거나 직접 입력해주세요.")
         st.warning("자동 추출 실패, URL은 저장하고 직접 입력하거나 매물 설명을 붙여넣어주세요.")
+
+if st.session_state.get("detected_url_type"):
+    st.caption(f"마지막 감지 URL 종류: {st.session_state.detected_url_type}")
+
+search_result_listings = st.session_state.get("search_result_listings", [])
+if search_result_listings:
+    with st.expander("검색 URL 신규 매물 목록", expanded=True):
+        st.write(f"검색 결과 매물 **{len(search_result_listings):,}개**")
+        st.dataframe(pd.DataFrame(search_result_listings), use_container_width=True, hide_index=True)
 
 if st.session_state.get("extraction_logs"):
     with st.expander("URL 자동 추출 단계별 로그", expanded=True):
@@ -1018,7 +1179,11 @@ with st.form("listing_form", clear_on_submit=True):
             key="listing_deal_type",
         )
         address = st.text_input("주소", value=str(auto.get("주소", "")), key="listing_address")
-        naver_link = st.text_input("네이버부동산 링크", value=extraction_url, key="listing_naver_link")
+        naver_link = st.text_input(
+            "네이버부동산 링크",
+            value=str(auto.get("네이버부동산 링크", extraction_url)),
+            key="listing_naver_link",
+        )
         memo = st.text_area("메모", height=100, key="listing_memo")
     with common_2:
         st.markdown("#### 금액")
@@ -1180,6 +1345,30 @@ with st.form("listing_form", clear_on_submit=True):
     first_seen_at = a4.text_input("최초 확인일", value=str(auto.get("first_seen_at", "")), key="agency_first_seen_detail")
     last_seen_at = a4.text_input("마지막 확인일", value=str(auto.get("last_seen_at", "")), key="agency_last_seen_detail")
 
+    st.markdown("#### 중개/출처 정보")
+    p1, p2, p3 = st.columns(3)
+    provider_agency_name = p1.text_input(
+        "제공 부동산", value=str(auto.get("provider_agency_name", "")), key="source_provider_agency"
+    )
+    listing_provider = p1.text_input(
+        "제공처", value=str(auto.get("listing_provider", "")), key="source_listing_provider"
+    )
+    verified_options = ["", "확인매물", "미확인"]
+    is_verified_listing = p2.selectbox(
+        "확인매물 여부", verified_options,
+        index=option_index(verified_options, auto.get("is_verified_listing", "")),
+        key="source_verified_listing",
+    )
+    verified_date = p2.text_input(
+        "확인일", value=str(auto.get("verified_date", "")), key="source_verified_date"
+    )
+    listed_date = p3.text_input(
+        "등록일", value=str(auto.get("listed_date", "")), key="source_listed_date"
+    )
+    updated_date = p3.text_input(
+        "수정일", value=str(auto.get("updated_date", "")), key="source_updated_date"
+    )
+
     submitted = st.form_submit_button("매물 저장", use_container_width=True, key="listing_submit")
 
 if submitted:
@@ -1199,7 +1388,8 @@ if submitted:
             "네이버부동산 링크": naver_link.strip(), "사진 파일명": photo_name,
             "naver_url": naver_link.strip(), "naver_article_id": extract_naver_article_id(naver_link),
             "auto_collected": "아니오", "collected_at": "",
-            "source_search_url": "", "extraction_status": "수동 등록", "extraction_error": "",
+            "source_search_url": str(auto.get("source_search_url", "")),
+            "extraction_status": "수동 등록", "extraction_error": "",
             "사진 데이터": photo_data, "매매가(만원)": sale_price,
             "전세금(만원)": jeonse_price, "보증금(만원)": deposit, "월세(만원)": monthly_rent,
             "관리비(만원)": maintenance_fee, "대지면적(㎡)": land_area,
@@ -1217,6 +1407,11 @@ if submitted:
             "agency_address": agency_address.strip(),
             "agency_registration_number": agency_registration.strip(),
             "platform": platform,
+            "provider_agency_name": provider_agency_name.strip(),
+            "listing_provider": listing_provider.strip(),
+            "is_verified_listing": is_verified_listing,
+            "verified_date": verified_date.strip(), "listed_date": listed_date.strip(),
+            "updated_date": updated_date.strip(),
             "first_seen_at": first_seen_at.strip() or datetime.now().isoformat(timespec="seconds"),
             "last_seen_at": last_seen_at.strip() or datetime.now().isoformat(timespec="seconds"),
             **extra,
@@ -1230,6 +1425,8 @@ if submitted:
         st.session_state.extracted_listing = {}
         st.session_state.naver_extract_url = ""
         st.session_state.extraction_logs = []
+        st.session_state.search_result_listings = []
+        st.session_state.detected_url_type = ""
         st.success("매물을 저장했습니다.")
 
 st.subheader("검색 및 필터")

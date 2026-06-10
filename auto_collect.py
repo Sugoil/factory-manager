@@ -31,7 +31,9 @@ META_COLUMNS = [
     "auto_collected", "collected_at", "source_search_url", "extraction_status",
     "extraction_error", "agency_name", "agency_owner", "agent_name", "agent_phone",
     "office_phone", "mobile_phone", "agency_address", "agency_registration_number",
-    "platform", "first_seen_at", "last_seen_at", "ai_summary", "ai_strengths",
+    "platform", "provider_agency_name", "listing_provider", "is_verified_listing",
+    "verified_date", "listed_date", "updated_date", "first_seen_at", "last_seen_at",
+    "ai_summary", "ai_strengths",
     "ai_risks", "ai_investment_points", "ai_location_score", "ai_price_score",
     "ai_access_score", "ai_investment_score", "ai_scarcity_score", "ai_total_score",
 ]
@@ -94,6 +96,11 @@ def phone(value):
     return re.sub(r"\s+", "-", match.group(1)) if match else ""
 
 
+def listing_date(value):
+    match = re.search(r"\b(\d{2,4}[./-]\d{1,2}[./-]\d{1,2})\b", str(value))
+    return match.group(1) if match else ""
+
+
 def fetch(session, url):
     last_error = None
     for attempt in range(1, 4):
@@ -136,6 +143,9 @@ def extract_row(url, html, condition):
     office_phone = phone(labeled(text, ["사무실 전화번호", "대표전화", "전화"]))
     mobile_phone = phone(labeled(text, ["휴대폰 번호", "휴대폰", "핸드폰"]))
     agent_phone = phone(labeled(text, ["중개사 연락처", "담당자 연락처", "연락처"]))
+    provider_match = re.search(
+        r"((?:네이버부동산|부동산써브|직방|다방|한방|부동산114)\s*제공)", text
+    )
     observed_at = now()
     property_type = normalize_type(f"{condition.get('property_type', '')} {text}")
     deal_type = normalize_deal(f"{condition.get('deal_type', '')} {text}")
@@ -161,7 +171,15 @@ def extract_row(url, html, condition):
         "agent_phone": agent_phone, "office_phone": office_phone, "mobile_phone": mobile_phone,
         "agency_address": labeled(text, ["중개사무소 주소", "사무실 주소"]),
         "agency_registration_number": labeled(text, ["중개사무소 등록번호", "등록번호"]),
-        "platform": "네이버부동산", "first_seen_at": observed_at, "last_seen_at": observed_at,
+        "platform": "네이버부동산",
+        "provider_agency_name": labeled(text, ["제공 부동산명", "제공 부동산"]),
+        "listing_provider": labeled(text, ["매물 제공처", "제공처"])
+        or (provider_match.group(1) if provider_match else ""),
+        "is_verified_listing": "확인매물" if re.search(r"확인매물|확인 매물", text) else "",
+        "verified_date": listing_date(labeled(text, ["확인일", "확인매물일"])),
+        "listed_date": listing_date(labeled(text, ["등록일", "최초 등록일"])),
+        "updated_date": listing_date(labeled(text, ["수정일", "업데이트일", "최종 수정일"])),
+        "first_seen_at": observed_at, "last_seen_at": observed_at,
         "ai_summary": ai_summary, "ai_strengths": "", "ai_risks": "상세 내용과 현장 상태 확인 필요",
         "ai_investment_points": "추가 확인 후 투자 판단 필요", "ai_location_score": 55,
         "ai_price_score": 55, "ai_access_score": 50, "ai_investment_score": 50,
