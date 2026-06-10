@@ -36,7 +36,7 @@ BLOCKED_TEXTS = [
     "captcha", "자동입력 방지", "비정상적인 접근", "요청이 너무 많",
     "too many requests", "접근이 제한", "서비스 이용이 제한",
 ]
-DEFAULT_ROUTE_URL = "https://new.land.naver.com/offices"
+NAVER_HOME_URL = "https://new.land.naver.com/"
 
 
 def log(condition, status, message="", url=""):
@@ -74,15 +74,110 @@ def read_conditions():
 
 
 def browser_search_url(condition):
-    """Always generate a fresh browser URL from the normalized condition."""
-    generated_url = build_search_url(condition)
-    if generated_url.startswith((
-        "https://new.land.naver.com/offices",
-        "https://new.land.naver.com/complexes",
-        "https://new.land.naver.com/houses",
-    )):
-        return generated_url
-    return DEFAULT_ROUTE_URL
+    """Always enter through Naver Land home and use its visible search UI."""
+    return build_search_url(condition)
+
+
+def region_search_text(condition):
+    region = str((condition.get("regions") or ["충북 전체"])[0]).strip()
+    aliases = {
+        "충북 전체": "충북",
+        "청주시 전체": "충북 청주시",
+    }
+    return aliases.get(region, region)
+
+
+def perform_region_search(page, condition, playwright_timeout_error):
+    query = region_search_text(condition)
+    input_selectors = [
+        "input[placeholder*='지역']",
+        "input[placeholder*='단지']",
+        "input[placeholder*='검색']",
+        "input.search_input",
+        ".search_input input",
+        "input[type='search']",
+    ]
+    search_input = None
+    search_scope = page
+    for scope in [page, *page.frames]:
+        for selector in input_selectors:
+            candidate = scope.locator(selector).first
+            try:
+                candidate.wait_for(state="visible", timeout=2000)
+                search_input = candidate
+                search_scope = scope
+                break
+            except playwright_timeout_error:
+                continue
+        if search_input is not None:
+            break
+    if search_input is None:
+        for selector in [
+            "button[aria-label*='검색']",
+            "button[class*='search']",
+            "a[class*='search']",
+            "button:has-text('검색')",
+        ]:
+            button = page.locator(selector).first
+            try:
+                button.wait_for(state="visible", timeout=1000)
+                button.click()
+                page.wait_for_timeout(1000)
+                break
+            except playwright_timeout_error:
+                continue
+        for scope in [page, *page.frames]:
+            for selector in input_selectors:
+                candidate = scope.locator(selector).first
+                try:
+                    candidate.wait_for(state="visible", timeout=1500)
+                    search_input = candidate
+                    search_scope = scope
+                    break
+                except playwright_timeout_error:
+                    continue
+            if search_input is not None:
+                break
+    if search_input is None:
+        raise RuntimeError("네이버부동산 홈에서 지역 검색창을 찾지 못했습니다.")
+
+    before_url = page.url
+    search_input.click()
+    search_input.fill(query)
+    page.wait_for_timeout(1500)
+
+    suggestion_selectors = [
+        "[role='listbox'] [role='option']",
+        ".search_result_list li",
+        ".autocomplete_list li",
+        ".search_list li",
+        "ul[class*='search'] li",
+    ]
+    clicked = False
+    for selector in suggestion_selectors:
+        suggestion = search_scope.locator(selector).first
+        try:
+            suggestion.wait_for(state="visible", timeout=1500)
+            suggestion.click()
+            clicked = True
+            break
+        except playwright_timeout_error:
+            continue
+    if not clicked:
+        search_input.press("Enter")
+
+    page.wait_for_timeout(10000)
+    if page.url == before_url:
+        page.wait_for_timeout(5000)
+    return query, page.url
+
+
+def update_condition_snapshot(all_conditions, current):
+    current_id = str(current.get("id", ""))
+    for index, item in enumerate(all_conditions):
+        if str(item.get("id", "")) == current_id:
+            all_conditions[index] = dict(current)
+            return
 
 
 def price_fields(text, deal_type):
@@ -148,7 +243,10 @@ def export_csv():
 
 
 def collect_visible_cards(page):
-    selector = "a[href*='/articles/'], a[href*='articleNo='], [data-article-no]"
+    selector = (
+        "a[href*='/articles/'], a[href*='articleNo='], [data-article-no], "
+        ".item_inner, .item_link, li[class*='item']"
+    )
     return page.locator(selector).evaluate_all(
         """
         elements => elements
@@ -165,6 +263,22 @@ def collect_visible_cards(page):
           })
         """
     )
+
+
+def first_card_summary(cards):
+    for card in cards:
+        text = re.sub(r"\s+", " ", str(card.get("text", ""))).strip()
+        if not text:
+            continue
+        lines = [line.strip() for line in str(card.get("text", "")).splitlines() if line.strip()]
+        title = lines[0] if lines else text[:80]
+        price_match = re.search(
+            r"(?:매매|전세|월세)\s*[\d,.억천만\s/]+|[\d,.]+\s*억(?:\s*[\d,.]+\s*천)?",
+            text,
+        )
+        price = price_match.group(0).strip() if price_match else "가격 확인 필요"
+        return title, price
+    return "", ""
 
 
 def main():
@@ -187,11 +301,10 @@ def main():
 
     condition = conditions[0]
     condition["last_collected_at"] = now()
-    search_url = browser_search_url(condition)
-    condition["search_url"] = search_url
+    entry_url = browser_search_url(condition)
     log(condition, "처리한 조건", json.dumps(condition, ensure_ascii=False, default=str))
     original_condition = json.dumps(condition, ensure_ascii=False, default=str)
-    log(condition, "Generated URL from condition", search_url, search_url)
+    log(condition, "Browser entry URL", entry_url, entry_url)
     time.sleep(random.uniform(10, 30))
 
     new_count = 0
@@ -209,8 +322,7 @@ def main():
                     viewport={"width": 1440, "height": 1000},
                 )
             page = context.pages[0] if context.pages else context.new_page()
-            browser_goto_url = search_url or DEFAULT_ROUTE_URL
-            print(f"Generated URL from condition: {search_url}")
+            browser_goto_url = NAVER_HOME_URL
             print(f"Browser goto URL: {browser_goto_url}")
             log(condition, "Browser goto URL", browser_goto_url, browser_goto_url)
             navigation_response = page.goto(
@@ -223,7 +335,6 @@ def main():
             response_status = navigation_response.status if navigation_response else 0
             if "/404" in current_url or response_status == 404:
                 print(f"Original condition: {original_condition}")
-                print(f"Generated URL: {search_url}")
                 print(f"Browser goto URL: {browser_goto_url}")
                 print(f"Current URL: {current_url}")
                 print("404 detected")
@@ -232,33 +343,36 @@ def main():
                     "404 detected",
                     (
                         f"Original condition: {original_condition} | "
-                        f"Generated URL: {search_url} | "
                         f"Browser goto URL: {browser_goto_url} | "
                         f"Current URL: {current_url} | "
                         f"Status Code: {response_status}"
                     ),
                     current_url,
                 )
-                browser_goto_url = DEFAULT_ROUTE_URL
-                print(f"Browser fallback URL: {browser_goto_url}")
-                log(condition, "Browser fallback URL", browser_goto_url, browser_goto_url)
-                navigation_response = page.goto(
-                    browser_goto_url, wait_until="domcontentloaded", timeout=60000
+                context.close()
+                return 0
+
+            search_query, search_result_url = perform_region_search(
+                page, condition, PlaywrightTimeoutError
+            )
+            condition["search_url"] = search_result_url
+            print(f"Search query: {search_query}")
+            print(f"Search result URL: {search_result_url}")
+            log(condition, "Search query", search_query)
+            log(condition, "Search result URL", search_result_url, search_result_url)
+            if "/404" in search_result_url:
+                log(
+                    condition,
+                    "404 detected after search",
+                    (
+                        f"Original condition: {original_condition} | "
+                        f"Browser goto URL: {browser_goto_url} | "
+                        f"Current URL: {search_result_url}"
+                    ),
+                    search_result_url,
                 )
-                page.wait_for_timeout(10000)
-                current_url = page.url
-                response_status = navigation_response.status if navigation_response else 0
-                print(f"Current URL after fallback: {current_url}")
-                log(condition, "Current URL after fallback", current_url, current_url)
-                if "/404" in current_url or response_status == 404:
-                    log(
-                        condition,
-                        "브라우저 수집 실패",
-                        "기본 네이버부동산 화면도 404로 이동했습니다.",
-                        current_url,
-                    )
-                    context.close()
-                    return 0
+                context.close()
+                return 0
             visible_text = page.locator("body").inner_text(timeout=10000)
             if any(item.lower() in visible_text.lower() for item in BLOCKED_TEXTS):
                 log(condition, "브라우저 수집 중단", "CAPTCHA 또는 요청 제한 화면 감지", page.url)
@@ -266,7 +380,8 @@ def main():
                 return 0
             try:
                 page.locator(
-                    "a[href*='/articles/'], a[href*='articleNo='], [data-article-no]"
+                    "a[href*='/articles/'], a[href*='articleNo='], [data-article-no], "
+                    ".item_inner, .item_link, li[class*='item']"
                 ).first.wait_for(
                     state="visible", timeout=30000
                 )
@@ -275,6 +390,12 @@ def main():
                 context.close()
                 return 0
             cards = collect_visible_cards(page)
+            first_title, first_price = first_card_summary(cards)
+            if first_title:
+                print(f"First listing title: {first_title}")
+                print(f"First listing price: {first_price}")
+                log(condition, "First listing title", first_title, page.url)
+                log(condition, "First listing price", first_price, page.url)
             unique = {}
             for card in cards:
                 aid = article_id(card.get("url", ""))
@@ -292,10 +413,11 @@ def main():
         message = f"{type(error).__name__}: {error}"
         if "Executable doesn't exist" in str(error):
             message += " | 최초 1회 실행: python -m playwright install chromium"
-        log(condition, "브라우저 수집 실패", message, search_url)
+        log(condition, "브라우저 수집 실패", message, entry_url)
         return 1
     finally:
         condition["new_listing_count"] = new_count
+        update_condition_snapshot(all_conditions, condition)
         replace_conditions(all_conditions)
         export_csv()
 
