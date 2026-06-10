@@ -2,6 +2,8 @@
 import hmac
 import json
 import re
+import time
+from datetime import datetime
 from html import unescape
 from pathlib import Path
 from urllib.parse import urlparse
@@ -13,6 +15,8 @@ import streamlit as st
 
 
 DATA_FILE = Path(__file__).with_name("listings.csv")
+CONDITIONS_FILE = Path(__file__).with_name("search_conditions.json")
+COLLECT_LOG_FILE = Path(__file__).with_name("collect_logs.csv")
 PYEONG = 3.3058
 PROPERTY_TYPES = [
     "공장", "창고", "토지", "상가", "원룸", "투룸", "쓰리룸",
@@ -21,10 +25,11 @@ PROPERTY_TYPES = [
 DEAL_TYPES = ["매매", "전세", "월세"]
 RESIDENTIAL_TYPES = ["원룸", "투룸", "쓰리룸", "아파트", "빌라", "오피스텔"]
 FACTORY_TYPES = ["공장", "창고"]
+PROPERTY_STATUSES = ["신규", "검토중", "현장방문", "계약진행", "계약완료", "보류"]
 
 COLUMNS = [
     "매물명", "주소", "지역", "매물종류", "거래유형", "네이버 매물 ID", "네이버부동산 링크",
-    "사진 파일명", "사진 데이터", "매매가(만원)", "보증금(만원)", "월세(만원)",
+    "사진 파일명", "사진 데이터", "매매가(만원)", "전세금(만원)", "보증금(만원)", "월세(만원)",
     "관리비(만원)", "권리금(만원)", "대지면적(㎡)", "전용면적(㎡)", "공급면적(㎡)",
     "건축면적(㎡)", "건물면적(㎡)", "대지면적(평)", "전용면적(평)", "공급면적(평)",
     "건물면적(평)", "평당가 기준", "평당가(만원)", "월세 수익률(%)", "전세가율(%)",
@@ -32,14 +37,27 @@ COLUMNS = [
     "엘리베이터", "옵션", "준공연도", "용도지역", "업종 제한", "유동인구 메모",
     "지목", "도로 접함 여부", "개발 가능성 메모", "진입도로 폭(m)", "전력량(kW)",
     "상수도", "하수도", "호이스트", "폐수 가능 여부", "공장등록 가능 여부",
-    "대형차 진입 가능 여부", "건폐율(%)", "용적률(%)", "전력당 가격(만원/kW)",
-    "메모",
+    "대형차 진입 가능 여부", "층고(m)", "허용 건폐율(%)", "허용 용적률(%)",
+    "개발행위 가능 여부", "농지전용 가능 여부", "분할 가능 여부", "관리비 포함 항목",
+    "즉시 입주 가능 여부", "현재 임차인 여부", "예상 수익률(%)", "공실 여부",
+    "임차인 여부", "계약만료일", "투자 메모", "담당자", "연락처", "현장방문일",
+    "매물 상태", "즐겨찾기", "naver_url", "naver_article_id", "auto_collected",
+    "collected_at", "source_search_url", "extraction_status", "extraction_error",
+    "agency_name", "agency_owner", "agent_name", "agent_phone", "office_phone",
+    "mobile_phone", "agency_address", "agency_registration_number", "platform",
+    "first_seen_at", "last_seen_at", "ai_summary", "ai_strengths", "ai_risks",
+    "ai_investment_points", "ai_location_score", "ai_price_score",
+    "ai_access_score", "ai_investment_score", "ai_scarcity_score", "ai_total_score",
+    "건폐율(%)", "용적률(%)", "전력당 가격(만원/kW)", "메모",
 ]
 
 NUMBER_COLUMNS = [
-    "매매가(만원)", "보증금(만원)", "월세(만원)", "관리비(만원)", "권리금(만원)",
+    "매매가(만원)", "전세금(만원)", "보증금(만원)", "월세(만원)", "관리비(만원)", "권리금(만원)",
     "대지면적(㎡)", "전용면적(㎡)", "공급면적(㎡)", "건축면적(㎡)", "건물면적(㎡)",
     "방 개수", "욕실 수", "층수", "준공연도", "진입도로 폭(m)", "전력량(kW)",
+    "층고(m)", "허용 건폐율(%)", "허용 용적률(%)", "예상 수익률(%)",
+    "ai_location_score", "ai_price_score", "ai_access_score", "ai_investment_score",
+    "ai_scarcity_score", "ai_total_score",
 ]
 
 
@@ -79,9 +97,15 @@ def parse_price(value):
         return 0.0
     total = 0.0
     eok = re.search(r"(\d+(?:\.\d+)?)억", text)
+    cheon = re.search(r"(\d+(?:\.\d+)?)천", text)
+    baek = re.search(r"(\d+(?:\.\d+)?)백", text)
     manwon = re.search(r"(\d+(?:\.\d+)?)만", text)
     if eok:
         total += float(eok.group(1)) * 10000
+    if cheon:
+        total += float(cheon.group(1)) * 1000
+    if baek:
+        total += float(baek.group(1)) * 100
     if manwon:
         total += float(manwon.group(1))
     if total:
@@ -111,22 +135,33 @@ def first_value(objects, keys):
 
 def normalize_property_type(value):
     text = str(value)
-    mapping = {
-        "공장": "공장", "창고": "창고", "토지": "토지", "상가": "상가",
-        "원룸": "원룸", "투룸": "투룸", "쓰리룸": "쓰리룸", "아파트": "아파트",
-        "빌라": "빌라", "오피스텔": "오피스텔", "사무실": "사무실",
-    }
-    for keyword, property_type in mapping.items():
-        if keyword in text:
+    rules = [
+        (["공장"], "공장"),
+        (["창고"], "창고"),
+        (["토지", "대지", "땅"], "토지"),
+        (["상가", "점포"], "상가"),
+        (["원룸"], "원룸"),
+        (["투룸"], "투룸"),
+        (["쓰리룸", "3룸"], "쓰리룸"),
+        (["아파트"], "아파트"),
+        (["빌라", "다세대"], "빌라"),
+        (["오피스텔"], "오피스텔"),
+        (["사무실", "오피스"], "사무실"),
+    ]
+    for keywords, property_type in rules:
+        if any(keyword in text for keyword in keywords):
             return property_type
     return "기타"
 
 
 def normalize_deal_type(value):
     text = str(value)
-    for deal_type in DEAL_TYPES:
-        if deal_type in text:
-            return deal_type
+    if re.search(r"매매|매매가|매도가", text):
+        return "매매"
+    if re.search(r"전세|전세금", text):
+        return "전세"
+    if re.search(r"월세|보증금(?:\s*/\s*월세)?", text):
+        return "월세"
     return "매매"
 
 
@@ -142,6 +177,14 @@ def extract_naver_article_id(url):
     return ""
 
 
+def listing_url_key(url):
+    normalized = str(url).strip().rstrip("/")
+    if not normalized:
+        return ""
+    article_id = extract_naver_article_id(normalized)
+    return f"article:{article_id}" if article_id else normalized.lower()
+
+
 def extract_json_from_html(html):
     objects = []
     scripts = re.findall(r"<script[^>]*>(.*?)</script>", html, flags=re.I | re.S)
@@ -155,10 +198,151 @@ def extract_json_from_html(html):
 
 def parse_area(text, labels):
     for label in labels:
-        match = re.search(rf"{label}\s*[:：]?\s*([\d,.]+)\s*(?:㎡|m²|m2)", text, re.I)
+        match = re.search(
+            rf"{label}\s*[:：]?\s*([\d,.]+)\s*(㎡|m²|m2|평)",
+            text,
+            re.I,
+        )
         if match:
-            return parse_price(match.group(1))
+            area = parse_price(match.group(1))
+            return area * PYEONG if match.group(2) == "평" else area
     return 0.0
+
+
+def extract_named_price(text, labels):
+    label_pattern = "|".join(re.escape(label) for label in labels)
+    match = re.search(
+        rf"(?:{label_pattern})\s*[:：]?\s*"
+        rf"(\d+(?:\.\d+)?\s*억(?:\s*\d+(?:\.\d+)?\s*(?:천|백|만))?"
+        rf"|\d+(?:\.\d+)?\s*(?:천|백|만)?)(?!\s*/)",
+        text,
+    )
+    return parse_price(match.group(1)) if match else 0
+
+
+def make_listing_name(address, property_type, deal_type, source_text=""):
+    named = re.search(
+        r"(?:매물명|제목)\s*[:：]\s*(.{2,80}?)(?=\s+(?:주소|서울특별시|"
+        r"부산광역시|대구광역시|인천광역시|광주광역시|대전광역시|울산광역시|"
+        r"세종특별자치시|경기도|강원특별자치도|충청북도|충청남도|전북특별자치도|"
+        r"전라남도|경상북도|경상남도|제주특별자치도|매매|전세|월세|매매가|"
+        r"전세금|보증금|관리비|면적)|[\n|]|$)",
+        str(source_text),
+    )
+    if named:
+        return named.group(1).strip()
+    parts = [str(address).strip(), property_type, deal_type]
+    return " ".join(part for part in parts if part and part != "기타").strip() or "자동 추출 매물"
+
+
+def extract_labeled_text(text, labels, max_length=100):
+    label_pattern = "|".join(re.escape(label) for label in labels)
+    match = re.search(
+        rf"(?:{label_pattern})\s*[:：]?\s*([^\n|]{{2,{max_length}}}?)"
+        rf"(?=\s+(?:중개사무소명|중개사무소 주소|중개사 담당자|중개사 연락처|상호|"
+        rf"대표자|담당자|연락처|전화|휴대폰|주소|등록번호|매물명|매매|전세|월세|"
+        rf"가격|면적|네이버부동산|직방|다방)|[\n|]|$)",
+        str(text),
+    )
+    return match.group(1).strip() if match else ""
+
+
+def normalize_phone(value):
+    match = re.search(r"(?<!\d)(0\d{1,2}[-\s]?\d{3,4}[-\s]?\d{4})(?!\d)", str(value))
+    return re.sub(r"\s+", "-", match.group(1)) if match else ""
+
+
+def detect_platform(value):
+    text = str(value).lower()
+    if "naver" in text or "네이버부동산" in text:
+        return "네이버부동산"
+    if "zigbang" in text or "직방" in text:
+        return "직방"
+    if "dabang" in text or "다방" in text:
+        return "다방"
+    return ""
+
+
+def extract_agency_info(text, objects=None, source_url=""):
+    objects = objects or []
+    office_phone = normalize_phone(first_value(objects, ["officePhone", "telephone", "officeTel"]))
+    mobile_phone = normalize_phone(first_value(objects, ["mobilePhone", "cellPhone", "mobileTel"]))
+    general_phone = normalize_phone(first_value(objects, ["phone", "agentPhone", "realtorPhone"]))
+    if not office_phone:
+        office_phone = normalize_phone(extract_labeled_text(text, ["사무실 전화번호", "대표전화", "전화"]))
+    if not mobile_phone:
+        mobile_phone = normalize_phone(extract_labeled_text(text, ["휴대폰 번호", "휴대폰", "핸드폰"]))
+    if not general_phone:
+        general_phone = normalize_phone(extract_labeled_text(text, ["중개사 연락처", "담당자 연락처", "연락처"]))
+    return {
+        "agency_name": str(first_value(objects, ["realtorName", "agencyName", "brokerageName"])).strip()
+        or extract_labeled_text(text, ["중개사무소명", "중개사무소", "부동산명", "상호"]),
+        "agency_owner": str(first_value(objects, ["representativeName", "ownerName"])).strip()
+        or extract_labeled_text(text, ["대표자명", "대표자"]),
+        "agent_name": str(first_value(objects, ["agentName", "managerName", "realtorManagerName"])).strip()
+        or extract_labeled_text(text, ["매물 담당자명", "중개사 담당자", "중개사명", "담당자"]),
+        "agent_phone": general_phone,
+        "office_phone": office_phone,
+        "mobile_phone": mobile_phone,
+        "agency_address": str(first_value(objects, ["realtorAddress", "agencyAddress"])).strip()
+        or extract_labeled_text(text, ["중개사무소 주소", "사무실 주소"]),
+        "agency_registration_number": str(
+            first_value(objects, ["registrationNumber", "realtorRegistrationNumber"])
+        ).strip() or extract_labeled_text(text, ["중개사무소 등록번호", "등록번호"]),
+        "platform": detect_platform(f"{source_url} {text}"),
+    }
+
+
+def generate_ai_analysis(row):
+    property_type = str(row.get("매물종류", "기타"))
+    deal_type = str(row.get("거래유형", "매매"))
+    price = row.get("매매가(만원)") or row.get("전세금(만원)") or row.get("보증금(만원)") or 0
+    area_name, area = select_price_area(row)
+    strengths, risks, points = [], [], []
+    if row.get("주차 가능 여부") == "가능":
+        strengths.append("주차 가능")
+    if row.get("엘리베이터") == "있음":
+        strengths.append("엘리베이터 있음")
+    if float(row.get("월세 수익률(%)", 0) or 0) >= 5:
+        strengths.append(f"예상 월세 수익률 {row['월세 수익률(%)']:.2f}%")
+        points.append("현금흐름형 투자 검토 가능")
+    if row.get("도로 접함 여부") == "접함" or float(row.get("진입도로 폭(m)", 0) or 0) > 0:
+        strengths.append("도로 접근 조건 확인됨")
+    if not row.get("주소"):
+        risks.append("정확한 주소 확인 필요")
+    if not area:
+        risks.append("면적 정보 확인 필요")
+    if not price:
+        risks.append("가격 정보 확인 필요")
+    if row.get("공실 여부") == "공실":
+        risks.append("현재 공실 상태 확인 필요")
+    if not points:
+        points.append("현장 확인 후 가격과 입지 경쟁력 비교 필요")
+    strengths = strengths[:5] or ["입력된 정보 기준 추가 장점 확인 필요"]
+    risks = risks[:5] or ["등기·권리관계 및 현장 상태 확인 필요"]
+
+    location = 55 + (10 if row.get("주소") else 0)
+    price_score = 55 + (10 if price and area else 0)
+    access = 50 + (15 if row.get("주차 가능 여부") == "가능" else 0)
+    access += 10 if row.get("도로 접함 여부") == "접함" or float(row.get("진입도로 폭(m)", 0) or 0) > 0 else 0
+    investment = 50 + min(int(float(row.get("월세 수익률(%)", 0) or 0) * 5), 30)
+    scarcity = 55 + (10 if property_type in ["공장", "토지", "상가"] else 0)
+    scores = [min(location, 100), min(price_score, 100), min(access, 100), min(investment, 100), min(scarcity, 100)]
+    summary = (
+        f"■ 핵심 정보\n- 매물종류: {property_type}\n- 거래유형: {deal_type}\n"
+        f"- 가격: {float(price):,.0f}만원\n- 면적: {area_name} {area:.2f}평\n\n"
+        f"■ 장점\n" + "\n".join(f"- {item}" for item in strengths) + "\n\n"
+        f"■ 단점/체크사항\n" + "\n".join(f"- {item}" for item in risks) + "\n\n"
+        f"■ 투자 포인트\n" + "\n".join(f"- {item}" for item in points) + "\n\n"
+        f"■ 한줄평\n- 입력된 정보 기준으로 현장 확인과 가격 비교가 필요한 {property_type} 매물"
+    )
+    return {
+        "ai_summary": summary, "ai_strengths": "\n".join(strengths),
+        "ai_risks": "\n".join(risks), "ai_investment_points": "\n".join(points),
+        "ai_location_score": scores[0], "ai_price_score": scores[1],
+        "ai_access_score": scores[2], "ai_investment_score": scores[3],
+        "ai_scarcity_score": scores[4], "ai_total_score": round(sum(scores) / len(scores)),
+    }
 
 
 def parse_listing_text(text):
@@ -185,54 +369,95 @@ def parse_listing_text(text):
     property_type = normalize_property_type(clean)
     deal_type = normalize_deal_type(clean)
 
-    sale_match = re.search(r"(?:매매가?|매매)\s*[:：]?\s*([0-9,.억만\s]+)", clean)
-    deposit_match = re.search(r"(?:보증금|전세가?|전세)\s*[:：]?\s*([0-9,.억만\s]+)", clean)
-    rent_match = re.search(r"(?:월세)\s*[:：]?\s*([0-9,.억만\s]+)", clean)
-    combined_rent = re.search(r"월세\s*[:：]?\s*([0-9,.억만]+)\s*/\s*([0-9,.억만]+)", clean)
+    sale_price = extract_named_price(clean, ["매매가", "매도가", "매매"])
+    jeonse_price = extract_named_price(clean, ["전세금", "전세가", "전세"])
+    deposit = extract_named_price(clean, ["보증금"])
+    rent = extract_named_price(clean, ["월세"])
+    combined_rent = re.search(
+        r"(?:보증금\s*[:：]?\s*)?([\d,.억천백만\s]+)\s*/\s*"
+        r"(?:월세\s*[:：]?\s*)?([\d,.억천백만\s]+)",
+        clean,
+    )
     floor_match = re.search(r"(?:해당층|층수|현재층)\s*[:：]?\s*(\d+)", clean)
+    if not floor_match:
+        floor_match = re.search(r"(?<!\d)(\d+)\s*층", clean)
     room_match = re.search(r"(?:방\s*(?:개수|수)?|방수)\s*[:：]?\s*(\d+)", clean)
     bath_match = re.search(r"(?:욕실\s*(?:개수|수)?|욕실수)\s*[:：]?\s*(\d+)", clean)
 
-    deposit = parse_price(deposit_match.group(1)) if deposit_match else 0
-    rent = parse_price(rent_match.group(1)) if rent_match else 0
     if combined_rent:
         deposit = parse_price(combined_rent.group(1))
         rent = parse_price(combined_rent.group(2))
 
+    exclusive_area = parse_area(clean, ["전용면적", "전용"])
+    supply_area = parse_area(clean, ["공급면적", "공급"])
+    land_area = parse_area(clean, ["대지면적", "토지면적", "대지"])
+    building_area = parse_area(clean, ["건물면적", "연면적"])
+    if not any([exclusive_area, supply_area, land_area, building_area]):
+        generic_area = re.search(
+            r"(?<![가-힣])면적\s*[:：]?\s*([\d,.]+)\s*(㎡|m²|m2|평)", clean, re.I
+        )
+        if generic_area:
+            exclusive_area = parse_price(generic_area.group(1))
+            if generic_area.group(2) == "평":
+                exclusive_area *= PYEONG
+
     result = {
+        "매물명": make_listing_name(address, property_type, deal_type, text),
         "주소": address,
         "매물종류": property_type,
         "거래유형": deal_type,
-        "매매가(만원)": parse_price(sale_match.group(1)) if sale_match else 0,
+        "매매가(만원)": sale_price,
+        "전세금(만원)": jeonse_price,
         "보증금(만원)": deposit,
         "월세(만원)": rent,
         "관리비(만원)": parse_price(
             re.search(r"관리비\s*[:：]?\s*([0-9,.억만\s]+)", clean).group(1)
         ) if re.search(r"관리비\s*[:：]?\s*([0-9,.억만\s]+)", clean) else 0,
-        "전용면적(㎡)": parse_area(clean, ["전용면적", "전용"]),
-        "공급면적(㎡)": parse_area(clean, ["공급면적", "공급"]),
-        "대지면적(㎡)": parse_area(clean, ["대지면적", "토지면적"]),
-        "건물면적(㎡)": parse_area(clean, ["건물면적", "연면적"]),
+        "전용면적(㎡)": exclusive_area,
+        "공급면적(㎡)": supply_area,
+        "대지면적(㎡)": land_area,
+        "건물면적(㎡)": building_area,
         "층수": int(floor_match.group(1)) if floor_match else 0,
         "방 개수": int(room_match.group(1)) if room_match else 0,
         "욕실 수": int(bath_match.group(1)) if bath_match else 0,
-        "주차 가능 여부": "가능" if re.search(r"주차\s*(?:가능|O|있음)", clean, re.I) else "미확인",
-        "엘리베이터": "있음" if re.search(r"(?:엘리베이터|승강기)\s*(?:있음|O|유)", clean, re.I) else "미확인",
+        "주차 가능 여부": "불가"
+        if re.search(r"주차\s*(?:불가|없음|X)", clean, re.I)
+        else "가능"
+        if re.search(r"주차\s*(?:가능|O|있음)", clean, re.I)
+        else "미확인",
+        "엘리베이터": "없음"
+        if re.search(r"(?:엘리베이터|승강기)\s*(?:없음|X|무)", clean, re.I)
+        else "있음"
+        if re.search(r"(?:엘리베이터|승강기)\s*(?:있음|O|유)", clean, re.I)
+        else "미확인",
     }
+    result.update(extract_agency_info(text))
+    observed_at = datetime.now().isoformat(timespec="seconds")
+    result["first_seen_at"] = observed_at
+    result["last_seen_at"] = observed_at
     meaningful = sum(bool(value) for key, value in result.items() if key not in ["매물종류", "거래유형"])
     return result if meaningful else None
 
 
 def build_listing_result(objects, page_text):
     address = first_value(objects, ["roadAddress", "jibunAddress", "address", "location"])
+    property_text = first_value(
+        objects, ["realEstateTypeName", "articleName", "buildingTypeName"]
+    )
+    deal_type = normalize_deal_type(
+        f"{first_value(objects, ['tradeTypeName', 'tradeType'])} {page_text}"
+    )
+    sale_price = parse_price(first_value(objects, ["dealPrice", "price"]))
+    warrant_price = parse_price(
+        first_value(objects, ["dealOrWarrantPrc", "warrantPrice", "deposit", "depositPrice"])
+    )
     result = {
         "주소": str(address),
-        "매물종류": normalize_property_type(
-            first_value(objects, ["realEstateTypeName", "articleName", "buildingTypeName"])
-        ),
-        "거래유형": normalize_deal_type(first_value(objects, ["tradeTypeName", "tradeType"])),
-        "매매가(만원)": parse_price(first_value(objects, ["dealOrWarrantPrc", "dealPrice", "price"])),
-        "보증금(만원)": parse_price(first_value(objects, ["warrantPrice", "deposit", "depositPrice"])),
+        "매물종류": normalize_property_type(f"{property_text} {page_text}"),
+        "거래유형": deal_type,
+        "매매가(만원)": sale_price or (warrant_price if deal_type == "매매" else 0),
+        "전세금(만원)": warrant_price if deal_type == "전세" else 0,
+        "보증금(만원)": warrant_price if deal_type == "월세" else 0,
         "월세(만원)": parse_price(first_value(objects, ["rentPrc", "rentPrice", "monthlyRent"])),
         "관리비(만원)": parse_price(first_value(objects, ["maintenanceFee", "manageCost"])),
         "전용면적(㎡)": parse_price(first_value(objects, ["area2", "exclusiveArea"])),
@@ -253,6 +478,19 @@ def build_listing_result(objects, page_text):
         address_match = re.search(r"([가-힣]+(?:시|도)\s+[가-힣]+(?:시|군|구)[^|]{0,50})", page_text)
         if address_match:
             result["주소"] = address_match.group(1).strip()
+    text_result = parse_listing_text(page_text)
+    if text_result:
+        for key, value in text_result.items():
+            if result.get(key) in [None, "", 0, 0.0, "기타", "미확인"] and value not in [
+                None, "", 0, 0.0, "기타", "미확인",
+            ]:
+                result[key] = value
+    result["매물명"] = str(
+        first_value(objects, ["articleTitle", "title", "articleName"])
+    ).strip() or make_listing_name(
+        result["주소"], result["매물종류"], result["거래유형"], page_text
+    )
+    result.update(extract_agency_info(page_text, objects))
     meaningful = sum(bool(value) for key, value in result.items() if key not in ["매물종류", "거래유형"])
     return result if meaningful else None
 
@@ -268,35 +506,52 @@ def extract_naver_listing(url):
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 Chrome/124 Safari/537.36"
-        )
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+        ),
+        "Referer": "https://new.land.naver.com/",
+        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8",
     }
 
-    try:
-        response = requests.get(url, headers=headers, timeout=10)
-        logs.append(f"requests 응답: HTTP {response.status_code}, {len(response.text):,}자")
-        response.raise_for_status()
-        html = response.text
-        objects = extract_json_from_html(html)
-        logs.append(f"requests JSON 객체 발견: {len(objects):,}개")
-        page_text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", unescape(html))).strip()
-        result = build_listing_result(objects, page_text)
-        if result:
-            logs.append("requests 단계에서 매물 정보 추출 성공")
-            return result, logs
-        logs.append("requests 단계 실패: 초기 HTML에 상세 매물 정보가 없습니다.")
-    except Exception as error:
-        logs.append(f"requests 단계 실패: {type(error).__name__}: {error}")
+    with requests.Session() as session:
+        session.headers.update(headers)
+        for attempt in range(1, 4):
+            try:
+                logs.append(f"requests 시도 {attempt}/3")
+                response = session.get(url, timeout=30)
+                logs.append(f"requests 응답: HTTP {response.status_code}, {len(response.text):,}자")
+                response.raise_for_status()
+                html = response.text
+                objects = extract_json_from_html(html)
+                logs.append(f"requests JSON 객체 발견: {len(objects):,}개")
+                page_text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", unescape(html))).strip()
+                result = build_listing_result(objects, page_text)
+                if result:
+                    result["platform"] = "네이버부동산"
+                    result["first_seen_at"] = datetime.now().isoformat(timespec="seconds")
+                    result["last_seen_at"] = result["first_seen_at"]
+                    logs.append("requests 단계에서 매물 정보 추출 성공")
+                    return result, logs
+                logs.append("requests 단계 실패: 초기 HTML에 상세 매물 정보가 없습니다.")
+                break
+            except requests.exceptions.ReadTimeout:
+                logs.append(f"requests 시도 {attempt} 실패: 네이버 서버 응답 지연(ReadTimeout)")
+            except Exception as error:
+                logs.append(f"requests 시도 {attempt} 실패: {type(error).__name__}: {error}")
+            if attempt < 3:
+                time.sleep(1)
 
     try:
         request = Request(url, headers=headers)
-        with urlopen(request, timeout=10) as response:
+        with urlopen(request, timeout=30) as response:
             html = response.read().decode("utf-8", errors="ignore")
         logs.append(f"기본 HTTP 응답: {len(html):,}자")
         objects = extract_json_from_html(html)
         page_text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", unescape(html))).strip()
         result = build_listing_result(objects, page_text)
         if result:
+            result["platform"] = "네이버부동산"
+            result["first_seen_at"] = datetime.now().isoformat(timespec="seconds")
+            result["last_seen_at"] = result["first_seen_at"]
             logs.append("기본 HTTP 단계에서 매물 정보 추출 성공")
             return result, logs
         logs.append("기본 HTTP 단계 실패: 동적 렌더링 정보가 필요합니다.")
@@ -339,6 +594,7 @@ def select_price_area(row):
 
 def calculate(row):
     sale_price = row["매매가(만원)"]
+    jeonse_price = row["전세금(만원)"]
     deposit = row["보증금(만원)"]
     monthly_rent = row["월세(만원)"]
     investment = sale_price - deposit
@@ -354,7 +610,10 @@ def calculate(row):
         "월세 수익률(%)": round(monthly_rent * 12 / investment * 100, 2)
         if investment > 0
         else 0,
-        "전세가율(%)": round(deposit / sale_price * 100, 2)
+        "예상 수익률(%)": round(monthly_rent * 12 / investment * 100, 2)
+        if investment > 0
+        else 0,
+        "전세가율(%)": round(jeonse_price / sale_price * 100, 2)
         if row["거래유형"] == "전세" and sale_price > 0
         else 0,
         "매매가 대비 보증금 비율(%)": round(deposit / sale_price * 100, 2)
@@ -382,16 +641,97 @@ def prepare_listings(data):
             data[column] = 0 if column in NUMBER_COLUMNS else ""
     data["매물종류"] = data["매물종류"].replace("", "기타").fillna("기타")
     data["거래유형"] = data["거래유형"].replace("", "매매").fillna("매매")
+    data["매물 상태"] = data["매물 상태"].replace("", "신규").fillna("신규")
+    data.loc[data["naver_url"].astype(str) == "", "naver_url"] = data["네이버부동산 링크"]
+    data.loc[data["naver_article_id"].astype(str) == "", "naver_article_id"] = data["네이버 매물 ID"]
     for column in NUMBER_COLUMNS:
         data[column] = pd.to_numeric(data[column], errors="coerce").fillna(0)
+    old_jeonse = (
+        (data["거래유형"] == "전세")
+        & (data["전세금(만원)"] == 0)
+        & (data["보증금(만원)"] > 0)
+    )
+    data.loc[old_jeonse, "전세금(만원)"] = data.loc[old_jeonse, "보증금(만원)"]
 
     rows = []
     for _, source in data.iterrows():
         row = source.to_dict()
         row["지역"] = get_region(row["주소"])
         row.update(calculate(row))
+        if not row.get("ai_summary"):
+            row.update(generate_ai_analysis(row))
         rows.append(row)
     return pd.DataFrame(rows, columns=COLUMNS) if rows else pd.DataFrame(columns=COLUMNS)
+
+
+def filter_listings(
+    data, keyword="", region_keyword="", property_types=None, regions=None,
+    deal_types=None, managers=None, statuses=None, favorites_only=False,
+    agencies=None, agency_contacts=None,
+    min_price=0, max_price=0, min_rent=0, max_rent=0, sort_order="입력 순",
+):
+    filtered = data.copy()
+    property_types = property_types or []
+    regions = regions or []
+    deal_types = deal_types or []
+    managers = managers or []
+    statuses = statuses or []
+    agencies = agencies or []
+    agency_contacts = agency_contacts or []
+
+    if keyword:
+        search_columns = [
+            "매물명", "주소", "지역", "메모", "옵션", "용도지역", "업종 제한",
+            "유동인구 메모", "개발 가능성 메모", "투자 메모", "담당자", "연락처",
+            "agency_name", "agency_owner", "agent_name", "agent_phone", "office_phone",
+            "mobile_phone", "agency_address", "agency_registration_number", "ai_summary",
+        ]
+        text = filtered[search_columns].fillna("").astype(str).agg(" ".join, axis=1)
+        filtered = filtered[text.str.contains(keyword, case=False, na=False, regex=False)]
+    if region_keyword:
+        region_text = filtered["주소"].fillna("").astype(str) + " " + filtered["지역"].fillna("").astype(str)
+        filtered = filtered[
+            region_text.str.contains(region_keyword, case=False, na=False, regex=False)
+        ]
+    if property_types:
+        filtered = filtered[filtered["매물종류"].isin(property_types)]
+    if regions:
+        filtered = filtered[filtered["지역"].isin(regions)]
+    if deal_types:
+        filtered = filtered[filtered["거래유형"].isin(deal_types)]
+    if managers:
+        filtered = filtered[filtered["담당자"].isin(managers)]
+    if statuses:
+        filtered = filtered[filtered["매물 상태"].isin(statuses)]
+    if favorites_only:
+        filtered = filtered[filtered["즐겨찾기"].astype(str) == "★"]
+    if agencies:
+        filtered = filtered[filtered["agency_name"].isin(agencies)]
+    if agency_contacts:
+        contact_text = (
+            filtered["agent_phone"].fillna("").astype(str) + " "
+            + filtered["office_phone"].fillna("").astype(str) + " "
+            + filtered["mobile_phone"].fillna("").astype(str)
+        )
+        filtered = filtered[contact_text.apply(lambda value: any(item in value for item in agency_contacts))]
+
+    filtered = filtered[filtered["매매가(만원)"] >= min_price]
+    filtered = filtered[filtered["월세(만원)"] >= min_rent]
+    if max_price > 0:
+        filtered = filtered[filtered["매매가(만원)"] <= max_price]
+    if max_rent > 0:
+        filtered = filtered[filtered["월세(만원)"] <= max_rent]
+
+    sort_map = {
+        "수익률 높은 순": ("월세 수익률(%)", False),
+        "평당가 낮은 순": ("평당가(만원)", True),
+        "매매가 낮은 순": ("매매가(만원)", True),
+        "매매가 높은 순": ("매매가(만원)", False),
+    }
+    if sort_order in sort_map:
+        column, ascending = sort_map[sort_order]
+        filtered = filtered.sort_values(column, ascending=ascending)
+    return filtered
 
 
 def load_listings():
@@ -406,6 +746,21 @@ def load_listings():
 
 def save_listings(data):
     data.to_csv(DATA_FILE, index=False, encoding="utf-8-sig")
+
+
+def load_conditions():
+    if not CONDITIONS_FILE.exists():
+        return []
+    try:
+        return json.loads(CONDITIONS_FILE.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return []
+
+
+def save_conditions(conditions):
+    CONDITIONS_FILE.write_text(
+        json.dumps(conditions, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
 
 def get_app_password():
@@ -444,6 +799,7 @@ def show_table(data, key):
             ),
             "평당가(만원)": st.column_config.NumberColumn(format="%,.2f"),
             "월세 수익률(%)": st.column_config.NumberColumn(format="%.2f%%"),
+            "예상 수익률(%)": st.column_config.NumberColumn(format="%.2f%%"),
             "전세가율(%)": st.column_config.NumberColumn(format="%.2f%%"),
             "매매가 대비 보증금 비율(%)": st.column_config.NumberColumn(format="%.2f%%"),
         },
@@ -517,6 +873,65 @@ with st.expander("CSV 불러오기 / 전체 다운로드"):
     all_csv = st.session_state.listings.to_csv(index=False).encode("utf-8-sig")
     st.download_button("전체 CSV 다운로드", all_csv, "부동산_전체매물.csv", "text/csv")
 
+with st.expander("자동수집 관심 조건 관리"):
+    conditions = load_conditions()
+    c1, c2, c3, c4 = st.columns(4)
+    condition_region = c1.text_input("관심 지역", placeholder="예: 청주, 진천, 충북")
+    condition_type = c2.selectbox("관심 매물종류", PROPERTY_TYPES, key="condition_type")
+    condition_deal = c3.selectbox("관심 거래유형", DEAL_TYPES, key="condition_deal")
+    condition_enabled = c4.checkbox("자동수집 ON", value=True)
+    p1, p2, p3 = st.columns([1, 1, 2])
+    condition_min = p1.number_input("최소 가격(만원)", min_value=0.0, step=1000.0)
+    condition_max = p2.number_input("최대 가격(만원)", min_value=0.0, step=1000.0)
+    condition_url = p3.text_input("네이버 관심 검색 URL", placeholder="직접 만든 검색 결과 URL")
+    if st.button("관심 조건 등록"):
+        if not condition_url.strip():
+            st.error("네이버 관심 검색 URL을 입력하세요.")
+        else:
+            conditions.append({
+                "id": datetime.now().strftime("%Y%m%d%H%M%S%f"),
+                "region": condition_region.strip(), "property_type": condition_type,
+                "deal_type": condition_deal, "min_price": condition_min,
+                "max_price": condition_max, "enabled": condition_enabled,
+                "search_url": condition_url.strip(),
+            })
+            save_conditions(conditions)
+            st.success("자동수집 관심 조건을 등록했습니다.")
+            st.rerun()
+    if conditions:
+        st.dataframe(pd.DataFrame(conditions), use_container_width=True, hide_index=True)
+        st.download_button(
+            "관심 조건 JSON 다운로드",
+            json.dumps(conditions, ensure_ascii=False, indent=2).encode("utf-8"),
+            "search_conditions.json",
+            "application/json",
+        )
+        delete_id = st.selectbox(
+            "삭제할 조건", ["선택하지 않음", *[item["id"] for item in conditions]]
+        )
+        if st.button("선택 조건 삭제") and delete_id != "선택하지 않음":
+            save_conditions([item for item in conditions if item["id"] != delete_id])
+            st.rerun()
+    if COLLECT_LOG_FILE.exists():
+        logs = read_csv_file(COLLECT_LOG_FILE)
+        if not logs.empty:
+            st.caption(f"마지막 수집 시간: {logs.iloc[-1].get('수집시간', '')}")
+            st.dataframe(logs.tail(20), use_container_width=True, hide_index=True)
+    auto_rows = st.session_state.listings[
+        st.session_state.listings["auto_collected"].astype(str) == "예"
+    ]
+    if not auto_rows.empty:
+        st.markdown("##### 자동수집된 신규 매물")
+        st.dataframe(
+            auto_rows.drop(columns=["사진 데이터"], errors="ignore").tail(20),
+            use_container_width=True,
+            hide_index=True,
+        )
+    st.caption(
+        "Streamlit Cloud에서 조건을 등록한 경우 다운로드한 search_conditions.json을 "
+        "프로젝트에 넣고 push.bat으로 GitHub에 반영해야 Actions가 사용합니다."
+    )
+
 st.subheader("새 매물 등록")
 url_1, url_2 = st.columns([4, 1])
 with url_1:
@@ -537,6 +952,7 @@ if extract_clicked:
         extracted = None
         extraction_logs = [f"예상하지 못한 실패: {type(error).__name__}: {error}"]
     st.session_state.extraction_logs = extraction_logs
+    st.session_state.naver_extract_url = extraction_url
     if extracted:
         extracted["네이버 매물 ID"] = extract_naver_article_id(extraction_url)
         st.session_state.extracted_listing = extracted
@@ -544,14 +960,19 @@ if extract_clicked:
         st.success("가능한 매물 정보를 자동 입력했습니다. 저장 전에 내용을 확인해주세요.")
     else:
         st.session_state.extracted_listing = {}
-        st.warning("자동 추출 실패, 실패 이유를 확인하고 직접 입력해주세요")
+        if any("ReadTimeout" in log or "응답 지연" in log for log in extraction_logs):
+            st.warning("네이버 서버 응답 지연, 나중에 다시 시도하거나 직접 입력해주세요.")
+        st.warning("자동 추출 실패, URL은 저장하고 직접 입력하거나 매물 설명을 붙여넣어주세요.")
 
 if st.session_state.get("extraction_logs"):
     with st.expander("URL 자동 추출 단계별 로그", expanded=True):
         for log_line in st.session_state.extraction_logs:
             st.write(f"- {log_line}")
 
-with st.expander("URL + 매물 설명 붙여넣기", expanded=False):
+with st.expander(
+    "URL + 매물 설명 붙여넣기",
+    expanded=bool(st.session_state.get("extraction_logs") and not st.session_state.get("extracted_listing")),
+):
     pasted_description = st.text_area(
         "네이버부동산 화면에서 복사한 전체 텍스트",
         placeholder=(
@@ -581,17 +1002,14 @@ if parse_text_clicked:
         st.warning("자동 추출 실패, 붙여넣은 내용을 확인하고 직접 입력해주세요")
 
 auto = st.session_state.get("extracted_listing", {})
-selected_type = st.selectbox(
-    "등록할 매물종류",
-    PROPERTY_TYPES,
-    index=option_index(PROPERTY_TYPES, auto.get("매물종류", "공장")),
-)
+selected_type = normalize_property_type(auto.get("매물종류", ""))
+st.info(f"자동 판단 매물종류: **{selected_type}**")
 
 with st.form("listing_form", clear_on_submit=True):
     common_1, common_2, common_3 = st.columns(3)
     with common_1:
         st.markdown("#### 기본 정보")
-        name = st.text_input("매물명 *")
+        name = st.text_input("매물명 *", value=str(auto.get("매물명", "")))
         deal_type = st.selectbox(
             "거래유형", DEAL_TYPES, index=option_index(DEAL_TYPES, auto.get("거래유형", "매매"))
         )
@@ -602,6 +1020,9 @@ with st.form("listing_form", clear_on_submit=True):
         st.markdown("#### 금액")
         sale_price = st.number_input(
             "매매가(만원)", min_value=0.0, value=float(auto.get("매매가(만원)", 0)), step=1000.0
+        )
+        jeonse_price = st.number_input(
+            "전세금(만원)", min_value=0.0, value=float(auto.get("전세금(만원)", 0)), step=1000.0
         )
         deposit = st.number_input(
             "보증금(만원)", min_value=0.0, value=float(auto.get("보증금(만원)", 0)), step=100.0
@@ -628,71 +1049,131 @@ with st.form("listing_form", clear_on_submit=True):
             "건물면적/연면적(㎡)", min_value=0.0, value=float(auto.get("건물면적(㎡)", 0)), step=1.0
         )
         floor = st.number_input("층수", min_value=0, value=int(auto.get("층수", 0)), step=1)
-        parking_options = ["미확인", "가능", "불가"]
-        elevator_options = ["미확인", "있음", "없음"]
-        parking = st.selectbox(
-            "주차 가능 여부", parking_options,
-            index=option_index(parking_options, auto.get("주차 가능 여부", "미확인")),
-        )
-        elevator = st.selectbox(
-            "엘리베이터", elevator_options,
-            index=option_index(elevator_options, auto.get("엘리베이터", "미확인")),
-        )
 
+    parking = auto.get("주차 가능 여부", "미확인")
+    elevator = auto.get("엘리베이터", "미확인")
     extra = {
-        "방 개수": 0, "욕실 수": 0, "옵션": "", "준공연도": 0, "권리금(만원)": 0,
+        "방 개수": int(auto.get("방 개수", 0)), "욕실 수": int(auto.get("욕실 수", 0)),
+        "옵션": "", "준공연도": 0, "권리금(만원)": 0,
         "업종 제한": "", "유동인구 메모": "", "지목": "", "용도지역": "",
         "도로 접함 여부": "", "개발 가능성 메모": "", "건축면적(㎡)": 0,
         "진입도로 폭(m)": 0, "전력량(kW)": 0, "상수도": "", "하수도": "",
         "호이스트": "", "폐수 가능 여부": "", "공장등록 가능 여부": "",
-        "대형차 진입 가능 여부": "",
+        "대형차 진입 가능 여부": "", "층고(m)": 0, "허용 건폐율(%)": 0,
+        "허용 용적률(%)": 0, "개발행위 가능 여부": "", "농지전용 가능 여부": "",
+        "분할 가능 여부": "", "관리비 포함 항목": "", "즉시 입주 가능 여부": "",
+        "현재 임차인 여부": "",
     }
 
-    st.markdown(f"#### {selected_type} 추가 정보")
+    st.markdown("#### 매물 상세 정보")
+    st.caption(f"{selected_type} 유형에 필요한 상세정보만 표시됩니다.")
     if selected_type in RESIDENTIAL_TYPES:
         c1, c2, c3, c4 = st.columns(4)
         extra["방 개수"] = c1.number_input(
             "방 개수", min_value=0, value=int(auto.get("방 개수", 0)), step=1
         )
-        extra["욕실 수"] = c2.number_input(
-            "욕실 수", min_value=0, value=int(auto.get("욕실 수", 0)), step=1
+        extra["욕실 수"] = c1.number_input(
+            "욕실 개수", min_value=0, value=int(auto.get("욕실 수", 0)), step=1
         )
-        extra["준공연도"] = c3.number_input("준공연도", min_value=0, max_value=2100, step=1)
+        parking_options = ["미확인", "가능", "불가"]
+        parking = c2.selectbox(
+            "주차 가능 여부", parking_options,
+            index=option_index(parking_options, parking),
+        )
+        elevator_options = ["미확인", "있음", "없음"]
+        elevator = c2.selectbox(
+            "엘리베이터", elevator_options,
+            index=option_index(elevator_options, elevator),
+        )
+        extra["관리비 포함 항목"] = c3.text_input("관리비 포함 항목")
+        extra["즉시 입주 가능 여부"] = c3.selectbox(
+            "즉시 입주 가능 여부", ["미확인", "가능", "불가"]
+        )
+        extra["준공연도"] = c4.number_input("준공연도", min_value=0, max_value=2100, step=1)
         extra["옵션"] = c4.text_input("옵션")
-    elif selected_type == "상가":
+    elif selected_type in ["상가", "사무실"]:
         c1, c2, c3 = st.columns(3)
         extra["권리금(만원)"] = c1.number_input("권리금(만원)", min_value=0.0, step=100.0)
-        extra["업종 제한"] = c2.text_input("업종 제한")
+        extra["업종 제한"] = c1.selectbox("업종 제한 여부", ["미확인", "없음", "있음"])
+        parking_options = ["미확인", "가능", "불가"]
+        parking = c2.selectbox(
+            "주차 가능 여부", parking_options,
+            index=option_index(parking_options, parking),
+        )
+        extra["현재 임차인 여부"] = c2.selectbox(
+            "현재 임차인 여부", ["미확인", "있음", "없음"]
+        )
         extra["유동인구 메모"] = c3.text_area("유동인구 메모")
     elif selected_type == "토지":
         c1, c2, c3, c4 = st.columns(4)
         extra["지목"] = c1.text_input("지목")
         extra["용도지역"] = c2.text_input("용도지역")
-        extra["도로 접함 여부"] = c3.selectbox("도로 접함 여부", ["미확인", "접함", "접하지 않음"])
-        extra["개발 가능성 메모"] = c4.text_area("개발 가능성 메모")
+        extra["허용 건폐율(%)"] = c1.number_input("허용 건폐율(%)", min_value=0.0, step=1.0)
+        extra["허용 용적률(%)"] = c2.number_input("허용 용적률(%)", min_value=0.0, step=1.0)
+        extra["개발행위 가능 여부"] = c3.selectbox("개발행위 가능 여부", ["미확인", "가능", "불가"])
+        extra["농지전용 가능 여부"] = c3.selectbox("농지전용 가능 여부", ["미확인", "가능", "불가"])
+        extra["분할 가능 여부"] = c4.selectbox("분할 가능 여부", ["미확인", "가능", "불가"])
+        extra["도로 접함 여부"] = c4.selectbox("도로 접함 여부", ["미확인", "접함", "접하지 않음"])
     elif selected_type in FACTORY_TYPES:
         c1, c2, c3, c4 = st.columns(4)
         extra["용도지역"] = c1.text_input("용도지역")
-        extra["건축면적(㎡)"] = c1.number_input("건축면적(㎡)", min_value=0.0, step=1.0)
         extra["준공연도"] = c1.number_input("준공연도", min_value=0, max_value=2100, step=1)
         extra["진입도로 폭(m)"] = c2.number_input("진입도로 폭(m)", min_value=0.0, step=0.5)
         extra["전력량(kW)"] = c2.number_input("전력량(kW)", min_value=0.0, step=10.0)
+        extra["층고(m)"] = c2.number_input("층고(m)", min_value=0.0, step=0.5)
         extra["상수도"] = c3.selectbox("상수도", ["미확인", "있음", "없음"])
         extra["하수도"] = c3.selectbox("하수도", ["미확인", "있음", "없음"])
         extra["호이스트"] = c3.selectbox("호이스트", ["미확인", "있음", "없음"])
         extra["폐수 가능 여부"] = c4.selectbox("폐수 가능 여부", ["미확인", "가능", "불가"])
         extra["공장등록 가능 여부"] = c4.selectbox("공장등록 가능 여부", ["미확인", "가능", "불가"])
         extra["대형차 진입 가능 여부"] = c4.selectbox("대형차 진입 가능 여부", ["미확인", "가능", "불가"])
-    elif selected_type == "사무실":
-        c1, c2 = st.columns(2)
-        extra["준공연도"] = c1.number_input("준공연도", min_value=0, max_value=2100, step=1)
-        extra["옵션"] = c2.text_input("시설·옵션")
+
+    st.markdown("#### 투자 정보")
+    investment_yield = monthly_rent * 12 / (sale_price - deposit) * 100 if sale_price > deposit else 0
+    i1, i2, i3, i4 = st.columns(4)
+    i1.metric("예상 수익률", f"{investment_yield:.2f}%")
+    vacancy = i1.selectbox("공실 여부", ["미확인", "공실", "임대중"])
+    tenant = i2.selectbox("임차인 여부", ["미확인", "있음", "없음"])
+    contract_end = i2.text_input("계약만료일", placeholder="예: 2027-12-31")
+    investment_memo = i3.text_area("투자 메모")
+    favorite = i4.checkbox("★ 즐겨찾기")
+
+    st.markdown("#### 관리 정보")
+    m1, m2, m3, m4 = st.columns(4)
+    manager = m1.text_input("담당자")
+    contact = m2.text_input("연락처")
+    visit_date = m3.text_input("현장방문일", placeholder="예: 2026-06-10")
+    property_status = m4.selectbox("매물 상태", PROPERTY_STATUSES)
+
+    st.markdown("#### 중개사무소 정보")
+    a1, a2, a3, a4 = st.columns(4)
+    agency_name = a1.text_input("중개사무소명", value=str(auto.get("agency_name", "")))
+    agency_owner = a1.text_input("대표자명", value=str(auto.get("agency_owner", "")))
+    agent_name = a2.text_input("담당자", value=str(auto.get("agent_name", "")))
+    agent_phone = a2.text_input("연락처", value=str(auto.get("agent_phone", "")))
+    office_phone = a2.text_input("사무실 전화번호", value=str(auto.get("office_phone", "")))
+    mobile_phone = a2.text_input("휴대폰 번호", value=str(auto.get("mobile_phone", "")))
+    agency_address = a3.text_input("사무실 주소", value=str(auto.get("agency_address", "")))
+    agency_registration = a3.text_input(
+        "등록번호", value=str(auto.get("agency_registration_number", ""))
+    )
+    platforms = ["", "네이버부동산", "직방", "다방", "기타"]
+    platform = a4.selectbox(
+        "플랫폼", platforms, index=option_index(platforms, auto.get("platform", ""))
+    )
+    first_seen_at = a4.text_input("최초 확인일", value=str(auto.get("first_seen_at", "")))
+    last_seen_at = a4.text_input("마지막 확인일", value=str(auto.get("last_seen_at", "")))
 
     submitted = st.form_submit_button("매물 저장", use_container_width=True)
 
 if submitted:
     if not name.strip():
         st.error("매물명을 입력하세요.")
+    elif listing_url_key(naver_link) and listing_url_key(naver_link) in {
+        listing_url_key(url)
+        for url in st.session_state.listings["네이버부동산 링크"].fillna("")
+    }:
+        st.error("이미 등록된 매물입니다")
     else:
         photo_name, photo_data = encode_photo(photo)
         row = {
@@ -700,15 +1181,32 @@ if submitted:
             "매물종류": selected_type, "거래유형": deal_type,
             "네이버 매물 ID": extract_naver_article_id(naver_link),
             "네이버부동산 링크": naver_link.strip(), "사진 파일명": photo_name,
+            "naver_url": naver_link.strip(), "naver_article_id": extract_naver_article_id(naver_link),
+            "auto_collected": "아니오", "collected_at": "",
+            "source_search_url": "", "extraction_status": "수동 등록", "extraction_error": "",
             "사진 데이터": photo_data, "매매가(만원)": sale_price,
-            "보증금(만원)": deposit, "월세(만원)": monthly_rent,
+            "전세금(만원)": jeonse_price, "보증금(만원)": deposit, "월세(만원)": monthly_rent,
             "관리비(만원)": maintenance_fee, "대지면적(㎡)": land_area,
             "전용면적(㎡)": exclusive_area, "공급면적(㎡)": supply_area,
             "건물면적(㎡)": building_area, "층수": floor,
             "주차 가능 여부": parking, "엘리베이터": elevator, "메모": memo.strip(),
+            "예상 수익률(%)": investment_yield, "공실 여부": vacancy,
+            "임차인 여부": tenant, "계약만료일": contract_end.strip(),
+            "투자 메모": investment_memo.strip(), "담당자": manager.strip(),
+            "연락처": contact.strip(), "현장방문일": visit_date.strip(),
+            "매물 상태": property_status, "즐겨찾기": "★" if favorite else "",
+            "agency_name": agency_name.strip(), "agency_owner": agency_owner.strip(),
+            "agent_name": agent_name.strip(), "agent_phone": agent_phone.strip(),
+            "office_phone": office_phone.strip(), "mobile_phone": mobile_phone.strip(),
+            "agency_address": agency_address.strip(),
+            "agency_registration_number": agency_registration.strip(),
+            "platform": platform,
+            "first_seen_at": first_seen_at.strip() or datetime.now().isoformat(timespec="seconds"),
+            "last_seen_at": last_seen_at.strip() or datetime.now().isoformat(timespec="seconds"),
             **extra,
         }
         row.update(calculate(row))
+        row.update(generate_ai_analysis(row))
         st.session_state.listings = pd.concat(
             [st.session_state.listings, pd.DataFrame([row])], ignore_index=True
         ).reindex(columns=COLUMNS)
@@ -719,11 +1217,12 @@ if submitted:
         st.success("매물을 저장했습니다.")
 
 st.subheader("검색 및 필터")
-f1, f2, f3, f4 = st.columns(4)
+f1, f2, f3, f4, f5, f6 = st.columns(6)
 with f1:
     keyword = st.text_input("키워드 검색", placeholder="매물명, 주소, 메모, 옵션")
     type_filter = st.multiselect("매물종류", PROPERTY_TYPES)
 with f2:
+    region_keyword = st.text_input("지역 검색", placeholder="예: 화성시, 강남구")
     regions = sorted(st.session_state.listings["지역"].dropna().astype(str).unique())
     region_filter = st.multiselect("지역", regions)
     deal_filter = st.multiselect("거래유형", DEAL_TYPES)
@@ -736,37 +1235,72 @@ with f4:
     sort_order = st.selectbox(
         "정렬", ["입력 순", "수익률 높은 순", "평당가 낮은 순", "매매가 낮은 순", "매매가 높은 순"]
     )
+with f5:
+    managers = sorted(
+        value for value in st.session_state.listings["담당자"].dropna().astype(str).unique() if value
+    )
+    manager_filter = st.multiselect("담당자", managers)
+    status_filter = st.multiselect("매물 상태", PROPERTY_STATUSES)
+    favorites_only = st.checkbox("★ 즐겨찾기만 보기")
+with f6:
+    agency_names = sorted(
+        value for value in st.session_state.listings["agency_name"].dropna().astype(str).unique() if value
+    )
+    agency_filter = st.multiselect("중개사무소", agency_names)
+    agency_contacts = sorted({
+        value
+        for column in ["agent_phone", "office_phone", "mobile_phone"]
+        for value in st.session_state.listings[column].dropna().astype(str).unique()
+        if value
+    })
+    agency_contact_filter = st.multiselect("중개사 연락처", agency_contacts)
 
-filtered = st.session_state.listings.copy()
-if keyword:
-    search_columns = [
-        "매물명", "주소", "지역", "메모", "옵션", "용도지역", "업종 제한",
-        "유동인구 메모", "개발 가능성 메모",
-    ]
-    text = filtered[search_columns].fillna("").astype(str).agg(" ".join, axis=1)
-    filtered = filtered[text.str.contains(keyword, case=False, na=False)]
-if type_filter:
-    filtered = filtered[filtered["매물종류"].isin(type_filter)]
-if region_filter:
-    filtered = filtered[filtered["지역"].isin(region_filter)]
-if deal_filter:
-    filtered = filtered[filtered["거래유형"].isin(deal_filter)]
-filtered = filtered[filtered["매매가(만원)"] >= min_price]
-filtered = filtered[filtered["월세(만원)"] >= min_rent]
-if max_price > 0:
-    filtered = filtered[filtered["매매가(만원)"] <= max_price]
-if max_rent > 0:
-    filtered = filtered[filtered["월세(만원)"] <= max_rent]
+filtered = filter_listings(
+    st.session_state.listings,
+    keyword=keyword,
+    region_keyword=region_keyword,
+    property_types=type_filter,
+    regions=region_filter,
+    deal_types=deal_filter,
+    managers=manager_filter,
+    statuses=status_filter,
+    favorites_only=favorites_only,
+    agencies=agency_filter,
+    agency_contacts=agency_contact_filter,
+    min_price=min_price,
+    max_price=max_price,
+    min_rent=min_rent,
+    max_rent=max_rent,
+    sort_order=sort_order,
+)
 
-sort_map = {
-    "수익률 높은 순": ("월세 수익률(%)", False),
-    "평당가 낮은 순": ("평당가(만원)", True),
-    "매매가 낮은 순": ("매매가(만원)", True),
-    "매매가 높은 순": ("매매가(만원)", False),
-}
-if sort_order in sort_map:
-    column, ascending = sort_map[sort_order]
-    filtered = filtered.sort_values(column, ascending=ascending)
+with st.expander("중개사무소별 매물 보기", expanded=False):
+    agency_rows = filtered[filtered["agency_name"].fillna("").astype(str) != ""]
+    if agency_rows.empty:
+        st.info("저장된 중개사무소 정보가 없습니다.")
+    else:
+        agency_counts = (
+            agency_rows.groupby(["agency_name", "office_phone", "mobile_phone"], dropna=False)
+            .size().reset_index(name="매물 개수").sort_values("매물 개수", ascending=False)
+        )
+        st.dataframe(agency_counts, use_container_width=True, hide_index=True)
+
+        compare = agency_rows.copy()
+        compare["비교 키"] = (
+            compare["주소"].fillna("").astype(str) + "|"
+            + compare["매매가(만원)"].fillna(0).astype(str) + "|"
+            + compare["전용면적(㎡)"].fillna(0).astype(str)
+        )
+        duplicate_keys = compare.groupby("비교 키")["agency_name"].nunique()
+        duplicates = compare[compare["비교 키"].isin(duplicate_keys[duplicate_keys > 1].index)]
+        st.markdown("##### 여러 중개사무소에 등록된 동일 조건 매물")
+        if duplicates.empty:
+            st.caption("비교 가능한 중복 매물이 없습니다.")
+        else:
+            st.dataframe(
+                duplicates[["매물명", "주소", "매매가(만원)", "전용면적(㎡)", "agency_name", "agent_phone"]],
+                use_container_width=True, hide_index=True,
+            )
 
 tabs = st.tabs(["전체", *PROPERTY_TYPES])
 with tabs[0]:
@@ -774,6 +1308,25 @@ with tabs[0]:
 for index, property_type in enumerate(PROPERTY_TYPES, start=1):
     with tabs[index]:
         show_table(filtered[filtered["매물종류"] == property_type], property_type)
+
+with st.expander("AI 매물 요약 및 점수", expanded=False):
+    if filtered.empty:
+        st.info("표시할 매물이 없습니다.")
+    else:
+        summary_options = {
+            f"{index + 1}. {row['매물명']}": row
+            for index, (_, row) in enumerate(filtered.iterrows())
+        }
+        summary_choice = st.selectbox("요약을 볼 매물", list(summary_options), key="ai_summary_choice")
+        summary_row = summary_options[summary_choice]
+        s1, s2, s3, s4, s5, s6 = st.columns(6)
+        s1.metric("입지", f"{summary_row['ai_location_score']:.0f}")
+        s2.metric("가격 경쟁력", f"{summary_row['ai_price_score']:.0f}")
+        s3.metric("접근성", f"{summary_row['ai_access_score']:.0f}")
+        s4.metric("투자성", f"{summary_row['ai_investment_score']:.0f}")
+        s5.metric("희소성", f"{summary_row['ai_scarcity_score']:.0f}")
+        s6.metric("총점", f"{summary_row['ai_total_score']:.0f}점")
+        st.text(summary_row["ai_summary"])
 
 st.info(
     "Streamlit Community Cloud 내부 CSV는 영구 저장이 보장되지 않습니다. "
