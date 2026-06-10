@@ -1218,6 +1218,9 @@ with st.expander("CSV 불러오기 / 전체 다운로드"):
 with st.expander("자동수집 관심 조건 관리"):
     st.info(
         "GitHub Actions는 네이버 요청 제한이 발생할 수 있어 로컬 PC 자동수집을 권장합니다.\n\n"
+        "네이버 API 방식이 제한될 경우 브라우저 수집 방식으로 실행됩니다.\n\n"
+        "최초 1회 Playwright 설치가 필요합니다.\n\n"
+        "브라우저 창이 열리면 수집이 끝날 때까지 닫지 마세요.\n\n"
         "`setup_local_scheduler.bat`을 실행하면 3시간마다 자동수집됩니다.\n\n"
         "PC가 꺼져 있으면 자동수집은 실행되지 않습니다."
     )

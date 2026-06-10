@@ -7,7 +7,7 @@ $git = "C:\Program Files\Git\cmd\git.exe"
 $remoteUrl = "https://github.com/Sugoil/factory-manager"
 
 if (-not (Test-Path $git)) {
-    throw "Git을 찾을 수 없습니다: $git"
+    throw "Git was not found: $git"
 }
 
 Set-Location $PSScriptRoot
@@ -28,7 +28,7 @@ $remoteMain = & $git rev-parse --verify origin/main 2>$null
 $localHead = & $git rev-parse --verify HEAD 2>$null
 
 if ($remoteMain -and -not $localHead) {
-    # 원격 이력을 기준으로 시작하되 현재 작업 파일은 그대로 유지합니다.
+    # Start from remote history while preserving current working files.
     & $git reset --mixed origin/main
 } elseif ($remoteMain -and $localHead) {
     & $git pull --rebase --autostash origin main
@@ -42,8 +42,8 @@ $changes = & $git status --porcelain
 if ($changes) {
     & $git commit -m $Message
 } else {
-    Write-Host "커밋할 변경사항이 없습니다."
+    Write-Host "No changes to commit."
 }
 
 & $git push -u origin main
-Write-Host "GitHub 반영 완료: $remoteUrl"
+Write-Host "GitHub update completed: $remoteUrl"

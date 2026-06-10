@@ -8,7 +8,7 @@ import time
 from datetime import datetime, timezone
 from html import unescape
 from pathlib import Path
-from urllib.parse import quote_plus, urlencode
+from urllib.parse import urlencode
 
 import requests
 
@@ -76,6 +76,24 @@ PROPERTY_TYPE_CODES = {
     "공장": "GJCG", "창고": "GJCG", "토지": "TJ", "기타": "GM",
 }
 DEAL_TYPE_CODES = {"전체": "A1:B1:B2", "매매": "A1", "전세": "B1", "월세": "B2"}
+REGION_MAP_CENTERS = {
+    "충북 전체": (36.8000, 127.7000, 9),
+    "청주시 전체": (36.6424, 127.4890, 12),
+    "청주시 상당구": (36.6359, 127.4914, 13),
+    "청주시 서원구": (36.6370, 127.4749, 13),
+    "청주시 흥덕구": (36.6420, 127.4290, 13),
+    "청주시 청원구": (36.7120, 127.4860, 13),
+    "충주시": (36.9910, 127.9259, 12),
+    "제천시": (37.1326, 128.1910, 12),
+    "보은군": (36.4895, 127.7295, 12),
+    "옥천군": (36.3064, 127.5713, 12),
+    "영동군": (36.1750, 127.7765, 12),
+    "증평군": (36.7854, 127.5815, 13),
+    "진천군": (36.8554, 127.4356, 12),
+    "괴산군": (36.8153, 127.7867, 12),
+    "음성군": (36.9403, 127.6905, 12),
+    "단양군": (36.9845, 128.3656, 12),
+}
 
 
 def now():
@@ -142,11 +160,42 @@ def normalize_condition(condition):
 
 
 def build_search_url(condition):
-    keywords = []
-    keywords.extend(condition["regions"])
-    keywords.extend([] if "전체" in condition["property_types"] else condition["property_types"])
-    keywords.extend([] if "전체" in condition["deal_types"] else condition["deal_types"])
-    return f"https://new.land.naver.com/search?keyword={quote_plus(' '.join(keywords))}"
+    """Build a browser-renderable Naver Real Estate map URL.
+
+    Naver does not expose ``/search?keyword=...`` as a valid listing page and
+    redirects that legacy URL to ``/404``. Use one of the actual map routes.
+    """
+    regions = condition.get("regions") or ["충북 전체"]
+    property_types = condition.get("property_types") or ["전체"]
+    deal_types = condition.get("deal_types") or ["전체"]
+    first_region = regions[0]
+    latitude, longitude, zoom = REGION_MAP_CENTERS.get(
+        first_region, REGION_MAP_CENTERS["충북 전체"]
+    )
+
+    selected_types = set(property_types)
+    if selected_types and selected_types <= {"아파트"}:
+        route = "complexes"
+    elif selected_types and selected_types <= {"빌라", "원룸", "투룸", "쓰리룸"}:
+        route = "houses"
+    else:
+        route = "offices"
+
+    type_codes = ":".join(dict.fromkeys(
+        code for item in property_types
+        for code in PROPERTY_TYPE_CODES.get(item, "GM").split(":")
+    ))
+    deal_codes = ":".join(dict.fromkeys(
+        code for item in deal_types
+        for code in DEAL_TYPE_CODES.get(item, "A1:B1:B2").split(":")
+    ))
+    params = {
+        "ms": f"{latitude},{longitude},{zoom}",
+        "a": type_codes,
+        "b": deal_codes,
+        "e": "RETAIL",
+    }
+    return f"https://new.land.naver.com/{route}?{urlencode(params, safe=':,')}"
 
 
 def build_naver_api_urls(condition):

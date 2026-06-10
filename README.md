@@ -172,9 +172,22 @@ HTTP 429가 발생하면 즉시 추가 요청을 중단하고 다음 실행까�
 
 내 PC에서 즉시 실행하려면 `local_collect.bat`을 더블클릭하세요.
 
+최초 1회 Playwright를 설치해야 합니다.
+
+```powershell
+cd "C:\Users\skte3\Documents\부동산"
+python -m pip install -r requirements.txt
+python -m playwright install chromium
+```
+
+로컬 수집은 전용 Chrome 창을 실제로 열어 네이버부동산 검색 결과 화면에 표시된
+매물 링크와 카드 내용을 최대 3개만 읽습니다. 브라우저 창이 열리면 수집이 끝날 때까지
+닫지 마세요. CAPTCHA 또는 요청 제한 화면이 표시되면 추가 동작 없이 즉시 종료합니다.
+
 3시간마다 자동 실행하려면 `setup_local_scheduler.bat`을 실행하세요.
 등록되는 Windows 작업 이름은 `FactoryManagerAutoCollect`입니다.
 등록에 실패하면 파일을 마우스 오른쪽 버튼으로 클릭하고 관리자 권한으로 실행하세요.
 
-PC가 꺼져 있으면 예약 자동수집은 실행되지 않습니다.
+작업은 사용자가 Windows에 로그인한 상태에서 실행됩니다. PC가 꺼져 있거나 로그아웃된
+상태에서는 브라우저 자동수집이 실행되지 않습니다.
 로컬 실행도 GitHub Actions와 동일한 낮은 요청량 제한과 로그 저장 방식을 사용합니다.
