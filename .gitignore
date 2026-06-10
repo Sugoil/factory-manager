@@ -4,3 +4,4 @@ __pycache__/
 logs/*.log
 !logs/.gitkeep
 .playwright-profile/
+playwright_profile/

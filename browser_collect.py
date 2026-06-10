@@ -2,6 +2,7 @@
 
 import csv
 import json
+import os
 import random
 import re
 import sys
@@ -14,7 +15,6 @@ from auto_collect import (
     LOG_FILE,
     MAX_NEW,
     article_id,
-    build_search_url,
     normalize_condition,
     normalize_deal,
     normalize_type,
@@ -31,12 +31,22 @@ from db_store import (
 
 
 ROOT = Path(__file__).parent
-PROFILE_DIR = ROOT / ".playwright-profile"
+PROFILE_DIR = ROOT / "playwright_profile"
 BLOCKED_TEXTS = [
     "captcha", "자동입력 방지", "비정상적인 접근", "요청이 너무 많",
     "too many requests", "접근이 제한", "서비스 이용이 제한",
 ]
-NAVER_HOME_URL = "https://new.land.naver.com/"
+NAVER_MAIN_URL = "https://www.naver.com/"
+AUTOMATION_BLOCKED_MESSAGE = (
+    "네이버부동산이 자동 브라우저 접근을 제한하고 있습니다. "
+    "수동 URL 저장 또는 텍스트 붙여넣기 방식을 사용해주세요."
+)
+
+
+class CollectionStepError(RuntimeError):
+    def __init__(self, step, message):
+        super().__init__(message)
+        self.step = step
 
 
 def log(condition, status, message="", url=""):
@@ -73,9 +83,119 @@ def read_conditions():
     return selected, normalized
 
 
-def browser_search_url(condition):
-    """Always enter through Naver Land home and use its visible search UI."""
-    return build_search_url(condition)
+def launch_browser_context(playwright, condition):
+    PROFILE_DIR.mkdir(parents=True, exist_ok=True)
+    options = {
+        "user_data_dir": str(PROFILE_DIR),
+        "headless": False,
+        "viewport": {"width": 1440, "height": 1000},
+        "ignore_default_args": ["--no-sandbox"],
+    }
+    last_error = None
+    for channel in ["chrome", "msedge", None]:
+        channel_name = channel or "chromium"
+        try:
+            channel_options = dict(options)
+            if channel:
+                channel_options["channel"] = channel
+            context = playwright.chromium.launch_persistent_context(**channel_options)
+            log(condition, "Browser channel", channel_name)
+            return context
+        except Exception as error:
+            last_error = error
+            log(
+                condition,
+                "Browser channel failed",
+                f"{channel_name}: {type(error).__name__}: {error}",
+            )
+    raise last_error
+
+
+def page_is_blocked(page):
+    try:
+        text = page.locator("body").inner_text(timeout=5000).lower()
+    except Exception:
+        text = ""
+    return any(item.lower() in text for item in BLOCKED_TEXTS)
+
+
+def failure_log(condition, step, page, message):
+    current_url = page.url if page else ""
+    detail = f"Failed step: {step} | Current URL: {current_url} | {message}"
+    log(condition, "Collection failed", detail, current_url)
+
+
+def enter_naver_real_estate(context, page, condition):
+    step = "Step 1: Open Naver"
+    log(condition, step, NAVER_MAIN_URL, NAVER_MAIN_URL)
+    page.goto(NAVER_MAIN_URL, wait_until="domcontentloaded", timeout=60000)
+    page.wait_for_timeout(5000)
+    if page_is_blocked(page):
+        raise CollectionStepError(step, "CAPTCHA 또는 요청 제한 화면 감지")
+
+    step = "Step 2: Search Naver Real Estate"
+    log(condition, step, "네이버 부동산", page.url)
+    search_input = page.locator("input#query, input[name='query']").first
+    search_input.wait_for(state="visible", timeout=15000)
+    search_input.fill("네이버 부동산")
+    search_input.press("Enter")
+    page.wait_for_timeout(6000)
+    if page_is_blocked(page):
+        raise CollectionStepError(step, "CAPTCHA 또는 요청 제한 화면 감지")
+
+    step = "Step 3: Click Real Estate Link"
+    log(condition, step, "네이버 부동산 또는 N pay 부동산 링크 탐색", page.url)
+    link_selectors = [
+        "a[href*='land.naver.com']:has-text('N pay 부동산')",
+        "a[href*='land.naver.com']:has-text('Npay 부동산')",
+        "a[href*='land.naver.com']:has-text('네이버 부동산')",
+        "a:has-text('N pay 부동산')",
+        "a:has-text('Npay 부동산')",
+        "a:has-text('네이버 부동산')",
+        "a[href*='new.land.naver.com']",
+        "a[href*='land.naver.com']",
+    ]
+    link = None
+    for selector in link_selectors:
+        candidates = page.locator(selector)
+        for index in range(min(candidates.count(), 10)):
+            candidate = candidates.nth(index)
+            try:
+                if candidate.is_visible():
+                    link = candidate
+                    break
+            except Exception:
+                continue
+        if link is not None:
+            break
+    if link is None:
+        raise CollectionStepError(step, "네이버 검색 결과에서 부동산 링크를 찾지 못했습니다.")
+
+    pages_before = len(context.pages)
+    link.click()
+    page.wait_for_timeout(8000)
+    target_page = context.pages[-1] if len(context.pages) > pages_before else page
+    target_page.wait_for_load_state("domcontentloaded", timeout=60000)
+    target_page.wait_for_timeout(5000)
+    step = "Step 4: Current URL"
+    log(condition, step, target_page.url, target_page.url)
+    print(f"{step}: {target_page.url}")
+    if "/404" in target_page.url or page_is_blocked(target_page):
+        raise CollectionStepError(step, AUTOMATION_BLOCKED_MESSAGE)
+    return target_page
+
+
+def finish_browser(context):
+    if os.environ.get("KEEP_BROWSER_OPEN") == "1":
+        print("Browser inspection mode: close the browser window or press Enter to finish.")
+        try:
+            input()
+        except (EOFError, KeyboardInterrupt):
+            pass
+    try:
+        context.close()
+    except Exception:
+        pass
 
 
 def region_search_text(condition):
@@ -256,9 +376,10 @@ def collect_visible_cards(page):
           })
           .map(element => {
             const articleNo = element.dataset?.articleNo || '';
-            const url = element.href || (articleNo ? `https://new.land.naver.com/articles/${articleNo}` : '');
             const card = element.closest('li') || element.closest('article') ||
                          element.closest('[class*="item"]') || element.parentElement;
+            const link = element.href ? element : card?.querySelector("a[href*='/articles/'], a[href*='articleNo=']");
+            const url = link?.href || (articleNo ? `https://new.land.naver.com/articles/${articleNo}` : '');
             return {url, text: (card?.innerText || element.innerText || '').trim()};
           })
         """
@@ -301,83 +422,35 @@ def main():
 
     condition = conditions[0]
     condition["last_collected_at"] = now()
-    entry_url = browser_search_url(condition)
     log(condition, "처리한 조건", json.dumps(condition, ensure_ascii=False, default=str))
-    original_condition = json.dumps(condition, ensure_ascii=False, default=str)
-    log(condition, "Browser entry URL", entry_url, entry_url)
     time.sleep(random.uniform(10, 30))
 
     new_count = 0
     duplicate_count = 0
+    context = None
+    page = None
+    current_step = "Browser launch"
     try:
         with sync_playwright() as playwright:
-            try:
-                context = playwright.chromium.launch_persistent_context(
-                    str(PROFILE_DIR), channel="chrome", headless=False,
-                    viewport={"width": 1440, "height": 1000},
-                )
-            except Exception:
-                context = playwright.chromium.launch_persistent_context(
-                    str(PROFILE_DIR), headless=False,
-                    viewport={"width": 1440, "height": 1000},
-                )
+            context = launch_browser_context(playwright, condition)
             page = context.pages[0] if context.pages else context.new_page()
-            browser_goto_url = NAVER_HOME_URL
-            print(f"Browser goto URL: {browser_goto_url}")
-            log(condition, "Browser goto URL", browser_goto_url, browser_goto_url)
-            navigation_response = page.goto(
-                browser_goto_url, wait_until="domcontentloaded", timeout=60000
-            )
-            page.wait_for_timeout(10000)
-            current_url = page.url
-            print(f"Current URL after load: {current_url}")
-            log(condition, "Current URL after load", current_url, current_url)
-            response_status = navigation_response.status if navigation_response else 0
-            if "/404" in current_url or response_status == 404:
-                print(f"Original condition: {original_condition}")
-                print(f"Browser goto URL: {browser_goto_url}")
-                print(f"Current URL: {current_url}")
-                print("404 detected")
-                log(
-                    condition,
-                    "404 detected",
-                    (
-                        f"Original condition: {original_condition} | "
-                        f"Browser goto URL: {browser_goto_url} | "
-                        f"Current URL: {current_url} | "
-                        f"Status Code: {response_status}"
-                    ),
-                    current_url,
-                )
-                context.close()
-                return 0
-
+            current_step = "Step 1-4: Enter Naver Real Estate"
+            page = enter_naver_real_estate(context, page, condition)
+            current_step = "Step 5: Search Region"
+            log(condition, current_step, region_search_text(condition), page.url)
             search_query, search_result_url = perform_region_search(
                 page, condition, PlaywrightTimeoutError
             )
             condition["search_url"] = search_result_url
             print(f"Search query: {search_query}")
             print(f"Search result URL: {search_result_url}")
-            log(condition, "Search query", search_query)
-            log(condition, "Search result URL", search_result_url, search_result_url)
+            log(condition, "Step 5: Search Region", search_result_url, search_result_url)
             if "/404" in search_result_url:
-                log(
-                    condition,
-                    "404 detected after search",
-                    (
-                        f"Original condition: {original_condition} | "
-                        f"Browser goto URL: {browser_goto_url} | "
-                        f"Current URL: {search_result_url}"
-                    ),
-                    search_result_url,
-                )
-                context.close()
-                return 0
+                raise RuntimeError(AUTOMATION_BLOCKED_MESSAGE)
             visible_text = page.locator("body").inner_text(timeout=10000)
             if any(item.lower() in visible_text.lower() for item in BLOCKED_TEXTS):
-                log(condition, "브라우저 수집 중단", "CAPTCHA 또는 요청 제한 화면 감지", page.url)
-                context.close()
-                return 0
+                raise RuntimeError("CAPTCHA 또는 요청 제한 화면 감지")
+            current_step = "Step 6: Listing Count"
             try:
                 page.locator(
                     "a[href*='/articles/'], a[href*='articleNo='], [data-article-no], "
@@ -386,9 +459,7 @@ def main():
                     state="visible", timeout=30000
                 )
             except PlaywrightTimeoutError:
-                log(condition, "브라우저 수집 실패", "화면에서 매물 카드를 찾지 못했습니다.", page.url)
-                context.close()
-                return 0
+                raise RuntimeError("화면에서 매물 카드를 찾지 못했습니다.")
             cards = collect_visible_cards(page)
             first_title, first_price = first_card_summary(cards)
             if first_title:
@@ -401,19 +472,30 @@ def main():
                 aid = article_id(card.get("url", ""))
                 if aid:
                     unique[aid] = card
-            log(condition, "화면 매물 개수", str(len(unique)), page.url)
+            print(f"Step 6: Listing Count: {len(unique)}")
+            log(condition, "Step 6: Listing Count", str(len(unique)), page.url)
+            current_step = "Step 7: Saved Count"
             for card in list(unique.values())[:MAX_NEW]:
                 row = card_to_row(card, condition)
                 if insert_listing(row):
                     new_count += 1
                 else:
                     duplicate_count += 1
-            context.close()
+            print(f"Step 7: Saved Count: {new_count}")
+            log(condition, "Step 7: Saved Count", str(new_count), page.url)
+            finish_browser(context)
+            context = None
     except Exception as error:
+        if isinstance(error, CollectionStepError):
+            current_step = error.step
         message = f"{type(error).__name__}: {error}"
         if "Executable doesn't exist" in str(error):
             message += " | 최초 1회 실행: python -m playwright install chromium"
-        log(condition, "브라우저 수집 실패", message, entry_url)
+        failure_log(condition, current_step, page, message)
+        if AUTOMATION_BLOCKED_MESSAGE in message:
+            log(condition, "브라우저 자동화 수집 불가", AUTOMATION_BLOCKED_MESSAGE, page.url if page else "")
+        if context is not None:
+            finish_browser(context)
         return 1
     finally:
         condition["new_listing_count"] = new_count

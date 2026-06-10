@@ -4,6 +4,14 @@ cd /d "%~dp0"
 
 set "SCHEDULED_MODE=0"
 if /I "%~1"=="--scheduled" set "SCHEDULED_MODE=1"
+if "%SCHEDULED_MODE%"=="0" (
+  set "KEEP_BROWSER_OPEN=1"
+  echo [INFO] Browser inspection mode is enabled.
+  echo [INFO] The browser stays open until you close it or press Enter.
+) else (
+  set "KEEP_BROWSER_OPEN=0"
+  echo [INFO] Scheduled collection mode is enabled.
+)
 
 where python >nul 2>nul
 if not errorlevel 1 (
