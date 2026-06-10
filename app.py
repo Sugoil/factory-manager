@@ -773,8 +773,8 @@ def get_app_password():
 def show_login():
     st.title("전체 부동산 매물 관리")
     with st.form("login_form"):
-        password = st.text_input("비밀번호", type="password")
-        submitted = st.form_submit_button("로그인", use_container_width=True)
+        password = st.text_input("비밀번호", type="password", key="login_password")
+        submitted = st.form_submit_button("로그인", use_container_width=True, key="login_submit")
     if submitted:
         app_password = get_app_password()
         if not app_password:
@@ -843,7 +843,7 @@ if not st.session_state.get("authenticated", False):
 with st.sidebar:
     st.success("로그인됨")
     st.caption("Cloud에서는 사용 후 CSV를 다운로드해 백업하세요.")
-    if st.button("로그아웃", use_container_width=True):
+    if st.button("로그아웃", use_container_width=True, key="logout_button"):
         st.session_state.authenticated = False
         st.rerun()
 
@@ -863,7 +863,7 @@ m4.metric("등록 지역", f"{data['지역'].nunique() if total else 0:,}곳")
 
 with st.expander("CSV 불러오기 / 전체 다운로드"):
     uploaded_csv = st.file_uploader("매물 CSV 불러오기", type="csv", key="csv_upload")
-    if uploaded_csv is not None and st.button("CSV 적용"):
+    if uploaded_csv is not None and st.button("CSV 적용", key="csv_apply"):
         try:
             st.session_state.listings = prepare_listings(read_csv_file(uploaded_csv))
             save_listings(st.session_state.listings)
@@ -871,20 +871,20 @@ with st.expander("CSV 불러오기 / 전체 다운로드"):
         except Exception as error:
             st.error(f"CSV를 불러오지 못했습니다: {error}")
     all_csv = st.session_state.listings.to_csv(index=False).encode("utf-8-sig")
-    st.download_button("전체 CSV 다운로드", all_csv, "부동산_전체매물.csv", "text/csv")
+    st.download_button("전체 CSV 다운로드", all_csv, "부동산_전체매물.csv", "text/csv", key="csv_download_all")
 
 with st.expander("자동수집 관심 조건 관리"):
     conditions = load_conditions()
     c1, c2, c3, c4 = st.columns(4)
-    condition_region = c1.text_input("관심 지역", placeholder="예: 청주, 진천, 충북")
+    condition_region = c1.text_input("관심 지역", placeholder="예: 청주, 진천, 충북", key="condition_region")
     condition_type = c2.selectbox("관심 매물종류", PROPERTY_TYPES, key="condition_type")
     condition_deal = c3.selectbox("관심 거래유형", DEAL_TYPES, key="condition_deal")
-    condition_enabled = c4.checkbox("자동수집 ON", value=True)
+    condition_enabled = c4.checkbox("자동수집 ON", value=True, key="condition_enabled")
     p1, p2, p3 = st.columns([1, 1, 2])
-    condition_min = p1.number_input("최소 가격(만원)", min_value=0.0, step=1000.0)
-    condition_max = p2.number_input("최대 가격(만원)", min_value=0.0, step=1000.0)
-    condition_url = p3.text_input("네이버 관심 검색 URL", placeholder="직접 만든 검색 결과 URL")
-    if st.button("관심 조건 등록"):
+    condition_min = p1.number_input("최소 가격(만원)", min_value=0.0, step=1000.0, key="condition_min")
+    condition_max = p2.number_input("최대 가격(만원)", min_value=0.0, step=1000.0, key="condition_max")
+    condition_url = p3.text_input("네이버 관심 검색 URL", placeholder="직접 만든 검색 결과 URL", key="condition_url")
+    if st.button("관심 조건 등록", key="condition_add"):
         if not condition_url.strip():
             st.error("네이버 관심 검색 URL을 입력하세요.")
         else:
@@ -905,11 +905,12 @@ with st.expander("자동수집 관심 조건 관리"):
             json.dumps(conditions, ensure_ascii=False, indent=2).encode("utf-8"),
             "search_conditions.json",
             "application/json",
+            key="condition_download_json",
         )
         delete_id = st.selectbox(
-            "삭제할 조건", ["선택하지 않음", *[item["id"] for item in conditions]]
+            "삭제할 조건", ["선택하지 않음", *[item["id"] for item in conditions]], key="condition_delete_id"
         )
-        if st.button("선택 조건 삭제") and delete_id != "선택하지 않음":
+        if st.button("선택 조건 삭제", key="condition_delete") and delete_id != "선택하지 않음":
             save_conditions([item for item in conditions if item["id"] != delete_id])
             st.rerun()
     if COLLECT_LOG_FILE.exists():
@@ -939,11 +940,12 @@ with url_1:
         "네이버부동산 매물 URL",
         value=st.session_state.get("naver_extract_url", ""),
         placeholder="https://new.land.naver.com/...",
+        key="naver_extraction_url",
     )
 with url_2:
     st.write("")
     st.write("")
-    extract_clicked = st.button("URL 자동 추출", use_container_width=True)
+    extract_clicked = st.button("URL 자동 추출", use_container_width=True, key="naver_extract_button")
 
 if extract_clicked:
     try:
@@ -980,8 +982,9 @@ with st.expander(
             "건물면적 300㎡ 층수 2층"
         ),
         height=180,
+        key="pasted_listing_description",
     )
-    parse_text_clicked = st.button("붙여넣은 설명 자동 추출", use_container_width=True)
+    parse_text_clicked = st.button("붙여넣은 설명 자동 추출", use_container_width=True, key="parse_pasted_text")
 
 if parse_text_clicked:
     parsed_text = parse_listing_text(pasted_description)
@@ -1009,46 +1012,56 @@ with st.form("listing_form", clear_on_submit=True):
     common_1, common_2, common_3 = st.columns(3)
     with common_1:
         st.markdown("#### 기본 정보")
-        name = st.text_input("매물명 *", value=str(auto.get("매물명", "")))
+        name = st.text_input("매물명 *", value=str(auto.get("매물명", "")), key="listing_name")
         deal_type = st.selectbox(
-            "거래유형", DEAL_TYPES, index=option_index(DEAL_TYPES, auto.get("거래유형", "매매"))
+            "거래유형", DEAL_TYPES, index=option_index(DEAL_TYPES, auto.get("거래유형", "매매")),
+            key="listing_deal_type",
         )
-        address = st.text_input("주소", value=str(auto.get("주소", "")))
-        naver_link = st.text_input("네이버부동산 링크", value=extraction_url)
-        memo = st.text_area("메모", height=100)
+        address = st.text_input("주소", value=str(auto.get("주소", "")), key="listing_address")
+        naver_link = st.text_input("네이버부동산 링크", value=extraction_url, key="listing_naver_link")
+        memo = st.text_area("메모", height=100, key="listing_memo")
     with common_2:
         st.markdown("#### 금액")
         sale_price = st.number_input(
-            "매매가(만원)", min_value=0.0, value=float(auto.get("매매가(만원)", 0)), step=1000.0
+            "매매가(만원)", min_value=0.0, value=float(auto.get("매매가(만원)", 0)), step=1000.0,
+            key="listing_sale_price",
         )
         jeonse_price = st.number_input(
-            "전세금(만원)", min_value=0.0, value=float(auto.get("전세금(만원)", 0)), step=1000.0
+            "전세금(만원)", min_value=0.0, value=float(auto.get("전세금(만원)", 0)), step=1000.0,
+            key="listing_jeonse_price",
         )
         deposit = st.number_input(
-            "보증금(만원)", min_value=0.0, value=float(auto.get("보증금(만원)", 0)), step=100.0
+            "보증금(만원)", min_value=0.0, value=float(auto.get("보증금(만원)", 0)), step=100.0,
+            key="listing_deposit",
         )
         monthly_rent = st.number_input(
-            "월세(만원)", min_value=0.0, value=float(auto.get("월세(만원)", 0)), step=10.0
+            "월세(만원)", min_value=0.0, value=float(auto.get("월세(만원)", 0)), step=10.0,
+            key="listing_monthly_rent",
         )
         maintenance_fee = st.number_input(
-            "관리비(만원)", min_value=0.0, value=float(auto.get("관리비(만원)", 0)), step=1.0
+            "관리비(만원)", min_value=0.0, value=float(auto.get("관리비(만원)", 0)), step=1.0,
+            key="listing_maintenance_fee",
         )
-        photo = st.file_uploader("매물 사진", type=["jpg", "jpeg", "png", "webp"])
+        photo = st.file_uploader("매물 사진", type=["jpg", "jpeg", "png", "webp"], key="listing_photo")
     with common_3:
         st.markdown("#### 면적·공통 시설")
         land_area = st.number_input(
-            "대지면적(㎡)", min_value=0.0, value=float(auto.get("대지면적(㎡)", 0)), step=1.0
+            "대지면적(㎡)", min_value=0.0, value=float(auto.get("대지면적(㎡)", 0)), step=1.0,
+            key="listing_land_area",
         )
         exclusive_area = st.number_input(
-            "전용면적(㎡)", min_value=0.0, value=float(auto.get("전용면적(㎡)", 0)), step=1.0
+            "전용면적(㎡)", min_value=0.0, value=float(auto.get("전용면적(㎡)", 0)), step=1.0,
+            key="listing_exclusive_area",
         )
         supply_area = st.number_input(
-            "공급면적(㎡)", min_value=0.0, value=float(auto.get("공급면적(㎡)", 0)), step=1.0
+            "공급면적(㎡)", min_value=0.0, value=float(auto.get("공급면적(㎡)", 0)), step=1.0,
+            key="listing_supply_area",
         )
         building_area = st.number_input(
-            "건물면적/연면적(㎡)", min_value=0.0, value=float(auto.get("건물면적(㎡)", 0)), step=1.0
+            "건물면적/연면적(㎡)", min_value=0.0, value=float(auto.get("건물면적(㎡)", 0)), step=1.0,
+            key="listing_building_area",
         )
-        floor = st.number_input("층수", min_value=0, value=int(auto.get("층수", 0)), step=1)
+        floor = st.number_input("층수", min_value=0, value=int(auto.get("층수", 0)), step=1, key="listing_floor")
 
     parking = auto.get("주차 가능 여부", "미확인")
     elevator = auto.get("엘리베이터", "미확인")
@@ -1070,101 +1083,104 @@ with st.form("listing_form", clear_on_submit=True):
     if selected_type in RESIDENTIAL_TYPES:
         c1, c2, c3, c4 = st.columns(4)
         extra["방 개수"] = c1.number_input(
-            "방 개수", min_value=0, value=int(auto.get("방 개수", 0)), step=1
+            "방 개수", min_value=0, value=int(auto.get("방 개수", 0)), step=1, key="detail_room_count"
         )
         extra["욕실 수"] = c1.number_input(
-            "욕실 개수", min_value=0, value=int(auto.get("욕실 수", 0)), step=1
+            "욕실 개수", min_value=0, value=int(auto.get("욕실 수", 0)), step=1, key="detail_bathroom_count"
         )
         parking_options = ["미확인", "가능", "불가"]
         parking = c2.selectbox(
             "주차 가능 여부", parking_options,
             index=option_index(parking_options, parking),
+            key="detail_residential_parking",
         )
         elevator_options = ["미확인", "있음", "없음"]
         elevator = c2.selectbox(
             "엘리베이터", elevator_options,
             index=option_index(elevator_options, elevator),
+            key="detail_residential_elevator",
         )
-        extra["관리비 포함 항목"] = c3.text_input("관리비 포함 항목")
+        extra["관리비 포함 항목"] = c3.text_input("관리비 포함 항목", key="detail_maintenance_items")
         extra["즉시 입주 가능 여부"] = c3.selectbox(
-            "즉시 입주 가능 여부", ["미확인", "가능", "불가"]
+            "즉시 입주 가능 여부", ["미확인", "가능", "불가"], key="detail_immediate_move_in"
         )
-        extra["준공연도"] = c4.number_input("준공연도", min_value=0, max_value=2100, step=1)
-        extra["옵션"] = c4.text_input("옵션")
+        extra["준공연도"] = c4.number_input("준공연도", min_value=0, max_value=2100, step=1, key="detail_residential_year")
+        extra["옵션"] = c4.text_input("옵션", key="detail_residential_options")
     elif selected_type in ["상가", "사무실"]:
         c1, c2, c3 = st.columns(3)
-        extra["권리금(만원)"] = c1.number_input("권리금(만원)", min_value=0.0, step=100.0)
-        extra["업종 제한"] = c1.selectbox("업종 제한 여부", ["미확인", "없음", "있음"])
+        extra["권리금(만원)"] = c1.number_input("권리금(만원)", min_value=0.0, step=100.0, key="detail_commercial_premium")
+        extra["업종 제한"] = c1.selectbox("업종 제한 여부", ["미확인", "없음", "있음"], key="detail_business_restriction")
         parking_options = ["미확인", "가능", "불가"]
         parking = c2.selectbox(
             "주차 가능 여부", parking_options,
             index=option_index(parking_options, parking),
+            key="detail_commercial_parking",
         )
         extra["현재 임차인 여부"] = c2.selectbox(
-            "현재 임차인 여부", ["미확인", "있음", "없음"]
+            "현재 임차인 여부", ["미확인", "있음", "없음"], key="detail_current_tenant"
         )
-        extra["유동인구 메모"] = c3.text_area("유동인구 메모")
+        extra["유동인구 메모"] = c3.text_area("유동인구 메모", key="detail_foot_traffic")
     elif selected_type == "토지":
         c1, c2, c3, c4 = st.columns(4)
-        extra["지목"] = c1.text_input("지목")
-        extra["용도지역"] = c2.text_input("용도지역")
-        extra["허용 건폐율(%)"] = c1.number_input("허용 건폐율(%)", min_value=0.0, step=1.0)
-        extra["허용 용적률(%)"] = c2.number_input("허용 용적률(%)", min_value=0.0, step=1.0)
-        extra["개발행위 가능 여부"] = c3.selectbox("개발행위 가능 여부", ["미확인", "가능", "불가"])
-        extra["농지전용 가능 여부"] = c3.selectbox("농지전용 가능 여부", ["미확인", "가능", "불가"])
-        extra["분할 가능 여부"] = c4.selectbox("분할 가능 여부", ["미확인", "가능", "불가"])
-        extra["도로 접함 여부"] = c4.selectbox("도로 접함 여부", ["미확인", "접함", "접하지 않음"])
+        extra["지목"] = c1.text_input("지목", key="detail_land_category")
+        extra["용도지역"] = c2.text_input("용도지역", key="detail_land_zone")
+        extra["허용 건폐율(%)"] = c1.number_input("허용 건폐율(%)", min_value=0.0, step=1.0, key="detail_land_bcr")
+        extra["허용 용적률(%)"] = c2.number_input("허용 용적률(%)", min_value=0.0, step=1.0, key="detail_land_far")
+        extra["개발행위 가능 여부"] = c3.selectbox("개발행위 가능 여부", ["미확인", "가능", "불가"], key="detail_development")
+        extra["농지전용 가능 여부"] = c3.selectbox("농지전용 가능 여부", ["미확인", "가능", "불가"], key="detail_farmland_conversion")
+        extra["분할 가능 여부"] = c4.selectbox("분할 가능 여부", ["미확인", "가능", "불가"], key="detail_subdivision")
+        extra["도로 접함 여부"] = c4.selectbox("도로 접함 여부", ["미확인", "접함", "접하지 않음"], key="detail_road_contact")
     elif selected_type in FACTORY_TYPES:
         c1, c2, c3, c4 = st.columns(4)
-        extra["용도지역"] = c1.text_input("용도지역")
-        extra["준공연도"] = c1.number_input("준공연도", min_value=0, max_value=2100, step=1)
-        extra["진입도로 폭(m)"] = c2.number_input("진입도로 폭(m)", min_value=0.0, step=0.5)
-        extra["전력량(kW)"] = c2.number_input("전력량(kW)", min_value=0.0, step=10.0)
-        extra["층고(m)"] = c2.number_input("층고(m)", min_value=0.0, step=0.5)
-        extra["상수도"] = c3.selectbox("상수도", ["미확인", "있음", "없음"])
-        extra["하수도"] = c3.selectbox("하수도", ["미확인", "있음", "없음"])
-        extra["호이스트"] = c3.selectbox("호이스트", ["미확인", "있음", "없음"])
-        extra["폐수 가능 여부"] = c4.selectbox("폐수 가능 여부", ["미확인", "가능", "불가"])
-        extra["공장등록 가능 여부"] = c4.selectbox("공장등록 가능 여부", ["미확인", "가능", "불가"])
-        extra["대형차 진입 가능 여부"] = c4.selectbox("대형차 진입 가능 여부", ["미확인", "가능", "불가"])
+        extra["용도지역"] = c1.text_input("용도지역", key="detail_factory_zone")
+        extra["준공연도"] = c1.number_input("준공연도", min_value=0, max_value=2100, step=1, key="detail_factory_year")
+        extra["진입도로 폭(m)"] = c2.number_input("진입도로 폭(m)", min_value=0.0, step=0.5, key="detail_factory_road_width")
+        extra["전력량(kW)"] = c2.number_input("전력량(kW)", min_value=0.0, step=10.0, key="detail_factory_power")
+        extra["층고(m)"] = c2.number_input("층고(m)", min_value=0.0, step=0.5, key="detail_factory_ceiling")
+        extra["상수도"] = c3.selectbox("상수도", ["미확인", "있음", "없음"], key="detail_factory_water")
+        extra["하수도"] = c3.selectbox("하수도", ["미확인", "있음", "없음"], key="detail_factory_sewer")
+        extra["호이스트"] = c3.selectbox("호이스트", ["미확인", "있음", "없음"], key="detail_factory_hoist")
+        extra["폐수 가능 여부"] = c4.selectbox("폐수 가능 여부", ["미확인", "가능", "불가"], key="detail_factory_wastewater")
+        extra["공장등록 가능 여부"] = c4.selectbox("공장등록 가능 여부", ["미확인", "가능", "불가"], key="detail_factory_registration")
+        extra["대형차 진입 가능 여부"] = c4.selectbox("대형차 진입 가능 여부", ["미확인", "가능", "불가"], key="detail_factory_truck")
 
     st.markdown("#### 투자 정보")
     investment_yield = monthly_rent * 12 / (sale_price - deposit) * 100 if sale_price > deposit else 0
     i1, i2, i3, i4 = st.columns(4)
     i1.metric("예상 수익률", f"{investment_yield:.2f}%")
-    vacancy = i1.selectbox("공실 여부", ["미확인", "공실", "임대중"])
-    tenant = i2.selectbox("임차인 여부", ["미확인", "있음", "없음"])
-    contract_end = i2.text_input("계약만료일", placeholder="예: 2027-12-31")
-    investment_memo = i3.text_area("투자 메모")
-    favorite = i4.checkbox("★ 즐겨찾기")
+    vacancy = i1.selectbox("공실 여부", ["미확인", "공실", "임대중"], key="investment_vacancy")
+    tenant = i2.selectbox("임차인 여부", ["미확인", "있음", "없음"], key="investment_tenant")
+    contract_end = i2.text_input("계약만료일", placeholder="예: 2027-12-31", key="investment_contract_end")
+    investment_memo = i3.text_area("투자 메모", key="investment_memo")
+    favorite = i4.checkbox("★ 즐겨찾기", key="listing_favorite")
 
     st.markdown("#### 관리 정보")
     m1, m2, m3, m4 = st.columns(4)
-    manager = m1.text_input("담당자")
-    contact = m2.text_input("연락처")
-    visit_date = m3.text_input("현장방문일", placeholder="예: 2026-06-10")
-    property_status = m4.selectbox("매물 상태", PROPERTY_STATUSES)
+    manager = m1.text_input("담당자", key="manager_name")
+    contact = m2.text_input("연락처", key="manager_contact")
+    visit_date = m3.text_input("현장방문일", placeholder="예: 2026-06-10", key="management_visit_date")
+    property_status = m4.selectbox("매물 상태", PROPERTY_STATUSES, key="management_property_status")
 
     st.markdown("#### 중개사무소 정보")
     a1, a2, a3, a4 = st.columns(4)
-    agency_name = a1.text_input("중개사무소명", value=str(auto.get("agency_name", "")))
-    agency_owner = a1.text_input("대표자명", value=str(auto.get("agency_owner", "")))
-    agent_name = a2.text_input("담당자", value=str(auto.get("agent_name", "")))
-    agent_phone = a2.text_input("연락처", value=str(auto.get("agent_phone", "")))
-    office_phone = a2.text_input("사무실 전화번호", value=str(auto.get("office_phone", "")))
-    mobile_phone = a2.text_input("휴대폰 번호", value=str(auto.get("mobile_phone", "")))
-    agency_address = a3.text_input("사무실 주소", value=str(auto.get("agency_address", "")))
+    agency_name = a1.text_input("중개사무소명", value=str(auto.get("agency_name", "")), key="agency_name_detail")
+    agency_owner = a1.text_input("대표자명", value=str(auto.get("agency_owner", "")), key="agency_owner_detail")
+    agent_name = a2.text_input("담당자", value=str(auto.get("agent_name", "")), key="agent_name_detail")
+    agent_phone = a2.text_input("연락처", value=str(auto.get("agent_phone", "")), key="agent_phone_detail")
+    office_phone = a2.text_input("사무실 전화번호", value=str(auto.get("office_phone", "")), key="office_phone_detail")
+    mobile_phone = a2.text_input("휴대폰 번호", value=str(auto.get("mobile_phone", "")), key="mobile_phone_detail")
+    agency_address = a3.text_input("사무실 주소", value=str(auto.get("agency_address", "")), key="agency_address_detail")
     agency_registration = a3.text_input(
-        "등록번호", value=str(auto.get("agency_registration_number", ""))
+        "등록번호", value=str(auto.get("agency_registration_number", "")), key="agency_registration_detail"
     )
     platforms = ["", "네이버부동산", "직방", "다방", "기타"]
     platform = a4.selectbox(
-        "플랫폼", platforms, index=option_index(platforms, auto.get("platform", ""))
+        "플랫폼", platforms, index=option_index(platforms, auto.get("platform", "")), key="agency_platform_detail"
     )
-    first_seen_at = a4.text_input("최초 확인일", value=str(auto.get("first_seen_at", "")))
-    last_seen_at = a4.text_input("마지막 확인일", value=str(auto.get("last_seen_at", "")))
+    first_seen_at = a4.text_input("최초 확인일", value=str(auto.get("first_seen_at", "")), key="agency_first_seen_detail")
+    last_seen_at = a4.text_input("마지막 확인일", value=str(auto.get("last_seen_at", "")), key="agency_last_seen_detail")
 
-    submitted = st.form_submit_button("매물 저장", use_container_width=True)
+    submitted = st.form_submit_button("매물 저장", use_container_width=True, key="listing_submit")
 
 if submitted:
     if not name.strip():
@@ -1219,41 +1235,42 @@ if submitted:
 st.subheader("검색 및 필터")
 f1, f2, f3, f4, f5, f6 = st.columns(6)
 with f1:
-    keyword = st.text_input("키워드 검색", placeholder="매물명, 주소, 메모, 옵션")
-    type_filter = st.multiselect("매물종류", PROPERTY_TYPES)
+    keyword = st.text_input("키워드 검색", placeholder="매물명, 주소, 메모, 옵션", key="filter_keyword")
+    type_filter = st.multiselect("매물종류", PROPERTY_TYPES, key="filter_property_type")
 with f2:
-    region_keyword = st.text_input("지역 검색", placeholder="예: 화성시, 강남구")
+    region_keyword = st.text_input("지역 검색", placeholder="예: 화성시, 강남구", key="filter_region_keyword")
     regions = sorted(st.session_state.listings["지역"].dropna().astype(str).unique())
-    region_filter = st.multiselect("지역", regions)
-    deal_filter = st.multiselect("거래유형", DEAL_TYPES)
+    region_filter = st.multiselect("지역", regions, key="filter_region")
+    deal_filter = st.multiselect("거래유형", DEAL_TYPES, key="filter_deal_type")
 with f3:
-    min_price = st.number_input("최소 매매가(만원)", min_value=0.0, step=1000.0)
-    max_price = st.number_input("최대 매매가(만원, 0=제한없음)", min_value=0.0, step=1000.0)
+    min_price = st.number_input("최소 매매가(만원)", min_value=0.0, step=1000.0, key="filter_min_price")
+    max_price = st.number_input("최대 매매가(만원, 0=제한없음)", min_value=0.0, step=1000.0, key="filter_max_price")
 with f4:
-    min_rent = st.number_input("최소 월세(만원)", min_value=0.0, step=10.0)
-    max_rent = st.number_input("최대 월세(만원, 0=제한없음)", min_value=0.0, step=10.0)
+    min_rent = st.number_input("최소 월세(만원)", min_value=0.0, step=10.0, key="filter_min_rent")
+    max_rent = st.number_input("최대 월세(만원, 0=제한없음)", min_value=0.0, step=10.0, key="filter_max_rent")
     sort_order = st.selectbox(
-        "정렬", ["입력 순", "수익률 높은 순", "평당가 낮은 순", "매매가 낮은 순", "매매가 높은 순"]
+        "정렬", ["입력 순", "수익률 높은 순", "평당가 낮은 순", "매매가 낮은 순", "매매가 높은 순"],
+        key="filter_sort_order",
     )
 with f5:
     managers = sorted(
         value for value in st.session_state.listings["담당자"].dropna().astype(str).unique() if value
     )
-    manager_filter = st.multiselect("담당자", managers)
-    status_filter = st.multiselect("매물 상태", PROPERTY_STATUSES)
-    favorites_only = st.checkbox("★ 즐겨찾기만 보기")
+    manager_filter = st.multiselect("담당자", managers, key="filter_manager")
+    status_filter = st.multiselect("매물 상태", PROPERTY_STATUSES, key="filter_status")
+    favorites_only = st.checkbox("★ 즐겨찾기만 보기", key="filter_favorites")
 with f6:
     agency_names = sorted(
         value for value in st.session_state.listings["agency_name"].dropna().astype(str).unique() if value
     )
-    agency_filter = st.multiselect("중개사무소", agency_names)
+    agency_filter = st.multiselect("중개사무소", agency_names, key="filter_agency")
     agency_contacts = sorted({
         value
         for column in ["agent_phone", "office_phone", "mobile_phone"]
         for value in st.session_state.listings[column].dropna().astype(str).unique()
         if value
     })
-    agency_contact_filter = st.multiselect("중개사 연락처", agency_contacts)
+    agency_contact_filter = st.multiselect("중개사 연락처", agency_contacts, key="filter_agency_contact")
 
 filtered = filter_listings(
     st.session_state.listings,
