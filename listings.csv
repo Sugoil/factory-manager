@@ -1,7 +1,7 @@
 ﻿매물명,주소,지역,매물종류,거래유형,전용면적(㎡),네이버부동산 링크,네이버 매물 ID,naver_url,naver_article_id,provider_agency_name,agency_name,is_verified_listing,verified_date,platform,auto_collected,collected_at,first_seen_at,last_seen_at,source_search_url,collection_condition,extraction_status,extraction_error,매물 상태,매매가(만원),전세금(만원),보증금(만원),월세(만원),공급면적(㎡),공급면적(평),supply_area_m2,supply_area_pyeong,전용면적(평),exclusive_area_m2,exclusive_area_pyeong,대지면적(㎡),대지면적(평),land_area_m2,land_area_pyeong,건물면적(㎡),건물면적(평),building_area_m2,building_area_pyeong,raw_card_text,parsed_deal_type,parsed_price_text,parsed_deposit,parsed_monthly_rent,parsed_sale_price,parsed_jeonse_price,area_m2,area_pyeong,city,district,neighborhood,full_address,current_price,is_new,price_change_status,price_change_text,latitude,longitude,관리비(만원),방 개수,욕실 수,previous_price,price_changed_at,price_change_amount
-복대동 일반원룸,,복대동,원룸,월세,0.0,https://fin.land.naver.com/articles/2629250965,2629250965,https://fin.land.naver.com/articles/2629250965,2629250965,,,,,네이버부동산,예,2026-06-11T11:22:12+09:00,2026-06-11T01:18:13+09:00,2026-06-11T11:22:12+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,100.0,25.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"복대동 일반원룸
+복대동 일반원룸,,복대동,원룸,월세,0.0,https://fin.land.naver.com/articles/2629250965,2629250965,https://fin.land.naver.com/articles/2629250965,2629250965,,,,,네이버부동산,예,2026-06-11T11:32:12+09:00,2026-06-11T01:18:13+09:00,2026-06-11T11:32:12+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,100.0,25.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"복대동 일반원룸
 월세 100/25",월세,100/25,100.0,25.0,0.0,0.0,0.0,0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,25.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
-가경동 일반원룸,,가경동,원룸,월세,0.0,https://fin.land.naver.com/articles/2626976360,2626976360,https://fin.land.naver.com/articles/2626976360,2626976360,,,,,네이버부동산,예,2026-06-11T11:22:12+09:00,2026-06-11T01:18:13+09:00,2026-06-11T11:22:12+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,60.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"가경동 일반원룸
+가경동 일반원룸,,가경동,원룸,월세,0.0,https://fin.land.naver.com/articles/2626976360,2626976360,https://fin.land.naver.com/articles/2626976360,2626976360,,,,,네이버부동산,예,2026-06-11T11:32:12+09:00,2026-06-11T01:18:13+09:00,2026-06-11T11:32:12+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,60.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"가경동 일반원룸
 월세 1,000/60",월세,"1,000/60",1000.0,60.0,0.0,0.0,0.0,0,청주시,흥덕구,가경동,청주시 흥덕구 가경동,60.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
 덕성 A동,,청주시,아파트,월세,35.0,https://fin.land.naver.com/articles/2629822690,2629822690,https://fin.land.naver.com/articles/2629822690,2629822690,,,확인매물,2026.06.02,네이버부동산,예,2026-06-11T01:18:13+09:00,2026-06-11T01:18:13+09:00,2026-06-11T01:18:13+09:00,https://fin.land.naver.com/map?center=3zAP8A-2A94Fi&zoom=14.16209775358375&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,40.0,0.0,0.0,0.0,0.0,10.59,35.0,10.59,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,청주시,,,청주시,40.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
 삼일(3034) 106동,충청북도 청주시 흥덕구 복대동 3034,복대동,아파트,매매,84.9,https://fin.land.naver.com/articles/2630239027,2630239027,https://fin.land.naver.com/articles/2630239027,2630239027,04 거명공인중개사사무소 한경부동산,04 거명공인중개사사무소 한경부동산,확인매물,2026.06.04,네이버부동산,예,2026-06-11T01:38:39+09:00,2026-06-11T01:38:39+09:00,2026-06-11T02:10:09+09:00,https://fin.land.naver.com/map?center=3zAP8A-2A94Fi&zoom=14.16209775358375&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",상세 링크 재확인 보정,,신규,22000.0,0.0,0.0,0.0,108.03,32.68,108.03,32.68,25.68,84.9,25.68,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,매매,"2억 2,000",0,0,22000,0,84.9,25.68,청주시,흥덕구,복대동,충청북도 청주시 흥덕구 복대동 3034,22000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
@@ -613,3 +613,259 @@ sk하이닉스근접소형사무실 흥덕보건소앞 냉난방시설,싱크대
 좋은터공인중개사사무소
 매경부동산
 매물 보러가기",매매,18억,0.0,0.0,180000.0,0.0,745.0,225.36,청주시,흥덕구,복대동,청주시 흥덕구 복대동,180000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+금호어울림1단지 103동,,청주시,아파트,매매,0.0,https://fin.land.naver.com/articles/2631398854,2631398854,https://fin.land.naver.com/articles/2631398854,2631398854,,,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:12+09:00,2026-06-11T11:32:12+09:00,2026-06-11T11:32:12+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,58000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"이미지
+6
+개
+금호어울림1단지 103동
+매매 5억 8,000
+아파트164A㎡ (전용131A)5/20층남동향
+집주인확인매물 2026.06.10
+중개사 4곳에서 등록했어요
+매물목록 펼치기",매매,"5억 8,000",0.0,0.0,58000.0,0.0,0.0,0,청주시,,,청주시,58000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+대농지구롯데캐슬시티 1동,,청주시,오피스텔,전세,0.0,https://fin.land.naver.com/articles/2631334291,2631334291,https://fin.land.naver.com/articles/2631334291,2631334291,10 지웰사랑공인중개사합동사무소 매경부동산,10 지웰사랑공인중개사합동사무소 매경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:13+09:00,2026-06-11T11:32:13+09:00,2026-06-11T11:32:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,11000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+대농지구롯데캐슬시티 1동
+전세 1억 1,000
+오피스텔60A㎡ (전용28A)14/15층북향
+
+""
+귀한 오피스텔전세, 9월22일입주가능, 풀옵션 깨끗한 오피스텔
+""
+
+집주인확인매물 2026.06.10
+지웰사랑공인중개사합동사무소
+매경부동산
+매물 보러가기",전세,"1억 1,000",0.0,0.0,0.0,11000.0,0.0,0,청주시,,,청주시,11000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+금호어울림1단지 101동,,청주시,아파트,매매,0.0,https://fin.land.naver.com/articles/2631400529,2631400529,https://fin.land.naver.com/articles/2631400529,2631400529,,,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:13+09:00,2026-06-11T11:32:13+09:00,2026-06-11T11:32:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,58000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"이미지
+4
+개
+금호어울림1단지 101동
+매매 5억 8,000
+아파트164B㎡ (전용131B)5/20층남동향
+집주인확인매물 2026.06.10
+중개사 4곳에서 등록했어요
+매물목록 펼치기",매매,"5억 8,000",0.0,0.0,58000.0,0.0,0.0,0,청주시,,,청주시,58000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+두진하트리움 105동,,청주시,아파트,매매,81.0,https://fin.land.naver.com/articles/2631321784,2631321784,https://fin.land.naver.com/articles/2631321784,2631321784,10 영조공인중개사합동사무소 한경부동산,10 영조공인중개사합동사무소 한경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:13+09:00,2026-06-11T11:32:13+09:00,2026-06-11T11:32:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,17000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,24.5,81.0,24.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+두진하트리움 105동
+매매 1억 7,000
+아파트81㎡ (전용59)1/15층남향
+집주인확인매물 2026.06.10
+영조공인중개사합동사무소
+한경부동산
+매물 보러가기",매매,"1억 7,000",0.0,0.0,17000.0,0.0,81.0,24.5,청주시,,,청주시,17000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+더샵청주센트럴 109동,,청주시,아파트,매매,101.0,https://fin.land.naver.com/articles/2631243881,2631243881,https://fin.land.naver.com/articles/2631243881,2631243881,,,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:13+09:00,2026-06-11T11:32:13+09:00,2026-06-11T11:32:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,51000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,30.55,101.0,30.55,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"이미지
+6
+개
+더샵청주센트럴 109동
+매매 5억 1,000
+아파트101㎡ (전용74)16/24층남서향
+집주인확인매물 2026.06.10
+중개사 4곳에서 등록했어요
+매물목록 펼치기",매매,"5억 1,000",0.0,0.0,51000.0,0.0,101.0,30.55,청주시,,,청주시,51000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+재원 1동,,청주시,아파트,매매,77.0,https://fin.land.naver.com/articles/2631340326,2631340326,https://fin.land.naver.com/articles/2631340326,2631340326,10 시원합동공인중개사사무소 부동산,10 시원합동공인중개사사무소 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:14+09:00,2026-06-11T11:32:14+09:00,2026-06-11T11:32:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,10000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,23.29,77.0,23.29,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+6
+개
+재원 1동
+매매 1억
+아파트77㎡ (전용59)6/6층남향
+
+""
+올리모델링 깨끗하고 깔끔한 집
+""
+
+집주인확인매물 2026.06.10
+시원합동공인중개사사무소
+부동산써브
+매물 보러가기",매매,1억,0.0,0.0,10000.0,0.0,77.0,23.29,청주시,,,청주시,10000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+더샵청주센트럴 105동,,청주시,아파트,매매,0.0,https://fin.land.naver.com/articles/2631269575,2631269575,https://fin.land.naver.com/articles/2631269575,2631269575,10 복대자이공인중개사사무소 부동산,10 복대자이공인중개사사무소 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:14+09:00,2026-06-11T11:32:14+09:00,2026-06-11T11:32:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,57500.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+더샵청주센트럴 105동
+매매 5억 7,500
+아파트111A㎡ (전용84A)21/25층남서향
+
+""
+에어컨풀, 주방,욕실 스타일업, 조명,환기,더샵북카페이용편리, 입주협의
+""
+
+집주인확인매물 2026.06.10
+복대자이공인중개사사무소
+부동산포스
+매물 보러가기",매매,"5억 7,500",0.0,0.0,57500.0,0.0,0.0,0,청주시,,,청주시,57500.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,20.0,https://fin.land.naver.com/articles/2631365884,2631365884,https://fin.land.naver.com/articles/2631365884,2631365884,10 청주SK뷰자이월드공인중개사사무소 부동산,10 청주SK뷰자이월드공인중개사사무소 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:14+09:00,2026-06-11T11:32:14+09:00,2026-06-11T11:32:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,33.0,0.0,0.0,0.0,0.0,6.05,20.0,6.05,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+5
+개
+복대동 일반원룸
+월세 300/33
+원룸관리비 10만원전용20㎡
+
+""
+초가성비 깔끔 분리형원룸,풀옵션,즉시입주가능합니다
+""
+
+집주인확인매물 2026.06.10
+청주SK뷰자이월드공인중개사사무소
+부동산포스
+매물 보러가기",월세,300/33,300.0,33.0,0.0,0.0,20.0,6.05,청주시,흥덕구,복대동,청주시 흥덕구 복대동,33.0,신규,변동 없음,변동 없음,0.0,0.0,10.0,,,0,0,0
+복대동 주건축물제1동,,복대동,원룸,월세,49.0,https://fin.land.naver.com/articles/2631359848,2631359848,https://fin.land.naver.com/articles/2631359848,2631359848,10 집현전합동공인중개사사무소 매경부동산,10 집현전합동공인중개사사무소 매경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:15+09:00,2026-06-11T11:32:15+09:00,2026-06-11T11:32:15+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,60.0,49.0,14.82,49.0,14.82,14.82,49.0,14.82,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+5
+개
+복대동 주건축물제1동
+월세 500/60
+원룸관리비 10만원공급49㎡ (전용46)
+
+""
+솔밭초중옆, 하이닉스 백화점 씨티몰 인근, 즉시입주
+""
+
+집주인확인매물 2026.06.10
+집현전합동공인중개사사무소
+매경부동산
+매물 보러가기",월세,500/60,500.0,60.0,0.0,0.0,49.0,14.82,청주시,흥덕구,복대동,청주시 흥덕구 복대동,60.0,신규,변동 없음,변동 없음,0.0,0.0,10.0,,,0,0,0
+형석(992) 1동,,청주시,아파트,전세,99.0,https://fin.land.naver.com/articles/2631215238/out-link-bridge?cpId=asil,2631215238,https://fin.land.naver.com/articles/2631215238/out-link-bridge?cpId=asil,2631215238,,,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:15+09:00,2026-06-11T11:32:15+09:00,2026-06-11T11:32:15+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,12000.0,0.0,0.0,0.0,0.0,0.0,0.0,29.95,99.0,29.95,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"이미지
+19
+개
+형석(992) 1동
+전세 1억 2,000
+아파트99㎡ (전용84)4/5층남향
+집주인확인매물 2026.06.10
+중개사 3곳에서 등록했어요
+매물목록 펼치기",전세,"1억 2,000",0.0,0.0,0.0,12000.0,99.0,29.95,청주시,,,청주시,12000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+복대동 빌라,,복대동,빌라,매매,58.55,https://fin.land.naver.com/articles/2631348844,2631348844,https://fin.land.naver.com/articles/2631348844,2631348844,10 시원합동공인중개사사무소 부동산,10 시원합동공인중개사사무소 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:15+09:00,2026-06-11T11:32:15+09:00,2026-06-11T11:32:15+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,6000.0,0.0,0.0,0.0,58.55,17.71,58.55,17.71,17.71,58.55,17.71,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 빌라
+매매 6,000
+빌라/연립1990.03(37년차)공급58.55㎡ (전용49.67)3/3층
+
+""
+복대사거리 산업단지 육거리 인근 빌라 매매 입주협의
+""
+
+집주인확인매물 2026.06.10
+시원합동공인중개사사무소
+부동산써브
+매물 보러가기",매매,"6,000",0.0,0.0,6000.0,0.0,58.55,17.71,청주시,흥덕구,복대동,청주시 흥덕구 복대동,6000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+복대동 다가구,,복대동,토지,매매,346.1,https://fin.land.naver.com/articles/2631335497,2631335497,https://fin.land.naver.com/articles/2631335497,2631335497,10 대학공인중개사합동사무소 매경부동산,10 대학공인중개사합동사무소 매경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,148000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,104.7,346.1,104.7,346.1,104.7,346.1,104.7,0.0,0.0,0.0,0.0,"관심매물
+이미지
+20
+개
+복대동 다가구
+매매 14억 8,000
+단독/다가구2012.02(15년차)대지346.1㎡ (연면적633.24)4/-층
+
+""
+올리모델링,수익률좋은 다가구,하이닉스 청주공단 임대수요 풍부함,세전10
+""
+
+집주인확인매물 2026.06.10
+대학공인중개사합동사무소
+매경부동산
+매물 보러가기",매매,"14억 8,000",0.0,0.0,148000.0,0.0,346.1,104.7,청주시,흥덕구,복대동,청주시 흥덕구 복대동,148000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+복대동 1동,,복대동,토지,매매,228.8,https://fin.land.naver.com/articles/2631295739,2631295739,https://fin.land.naver.com/articles/2631295739,2631295739,10 해들일번지공인중개사사무소,10 해들일번지공인중개사사무소,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,65000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,69.21,228.8,69.21,228.8,69.21,228.8,69.21,0.0,0.0,0.0,0.0,"관심매물
+복대동 1동
+매매 6억 5,000
+단독/다가구2001.07(25년차)대지228.8㎡ (연면적494.65)4/-층
+
+""
+연 수익률이 8 중반인 다가구, 도서관과, 초 중학교가 인접
+""
+
+집주인확인매물 2026.06.10
+해들일번지공인중개사사무소
+알터
+매물 보러가기",매매,"6억 5,000",0.0,0.0,65000.0,0.0,228.8,69.21,청주시,흥덕구,복대동,청주시 흥덕구 복대동,65000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+복대동 단지내상가,,복대동,상가,월세,46.54,https://fin.land.naver.com/articles/2631399194,2631399194,https://fin.land.naver.com/articles/2631399194,2631399194,10 금호어울림공인중개사사무소 매경부동산,10 금호어울림공인중개사사무소 매경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,90.0,0.0,0.0,0.0,0.0,14.08,46.54,14.08,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 단지내상가
+월세 1,000/90
+상가점포2009.04(18년차)계약46.54㎡ (전용33.47)1/2층
+
+""
+1,234세대 아파트단지 상가 ,세탁소,교습소 추천
+""
+
+소유자확인매물 2026.06.10
+금호어울림공인중개사사무소
+매경부동산
+매물 보러가기",월세,"1,000/90",1000.0,90.0,0.0,0.0,46.54,14.08,청주시,흥덕구,복대동,청주시 흥덕구 복대동,90.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+복대동 단독,,복대동,기타,월세,29.9,https://fin.land.naver.com/articles/2631379576/out-link-bridge?cpId=toad,2631379576,https://fin.land.naver.com/articles/2631379576/out-link-bridge?cpId=toad,2631379576,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,45.0,0.0,0.0,0.0,0.0,9.04,29.9,9.04,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+12
+개
+복대동 단독
+월세 1,000/45변동
+하락내역 보기
+단독/다가구2023.02(4년차)전용29.9㎡4/4층
+
+""
+채광 굿, 수납 굿, 건조기 있는 신축 반투베이
+""
+
+확인매물 2026.06.10
+차오름부동산공인중개사사무소
+피터팬의 좋은방구하기
+Npay 부동산에서 보기
+매물 보러가기",월세,"1,000/45",1000.0,45.0,0.0,0.0,29.9,9.04,청주시,흥덕구,복대동,청주시 흥덕구 복대동,45.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+더샵청주센트럴 102동,,청주시,아파트,매매,0.0,https://fin.land.naver.com/articles/2631308535,2631308535,https://fin.land.naver.com/articles/2631308535,2631308535,,,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,56000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"이미지
+3
+개
+더샵청주센트럴 102동
+매매 5억 6,000
+아파트111A㎡ (전용84A)저/25층남동향
+집주인확인매물 2026.06.10
+중개사 2곳에서 등록했어요
+매물목록 펼치기",매매,"5억 6,000",0.0,0.0,56000.0,0.0,0.0,0,청주시,,,청주시,56000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+신영지웰시티1차(주상복합) 108동,,청주시,아파트,전세,162.0,https://fin.land.naver.com/articles/2631409537,2631409537,https://fin.land.naver.com/articles/2631409537,2631409537,10 지웰선우공인중개사사무소 매경부동산,10 지웰선우공인중개사사무소 매경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,85000.0,0.0,0.0,0.0,0.0,0.0,0.0,49.01,162.0,49.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+신영지웰시티1차(주상복합) 108동
+전세 8억 5,000
+아파트162㎡ (전용124)고/45층북동향
+
+""
+로얄동 로얄층 시티몰 인접 접근성 편리한동
+""
+
+집주인확인매물 2026.06.10
+지웰선우공인중개사사무소
+매경부동산
+매물 보러가기",전세,"8억 5,000",0.0,0.0,0.0,85000.0,162.0,49.01,청주시,,,청주시,85000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+복대동 단독,,복대동,기타,전세,29.75,https://fin.land.naver.com/articles/2631207974/out-link-bridge?cpId=toad,2631207974,https://fin.land.naver.com/articles/2631207974/out-link-bridge?cpId=toad,2631207974,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,9000.0,0.0,0.0,29.75,9.0,29.75,9.0,9.0,29.75,9.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+10
+개
+복대동 단독
+전세 9,000
+단독/다가구2023.02(4년차)공급29.75㎡ (전용26.44)2/4층
+
+""
+복대동 신축 풀옵션 반투베이 귀한 전세
+""
+
+확인매물 2026.06.10
+차오름부동산공인중개사사무소
+피터팬의 좋은방구하기
+Npay 부동산에서 보기
+매물 보러가기",전세,"9,000",0.0,0.0,0.0,9000.0,29.75,9.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,9000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+두산위브지웰시티2차(주상복합) 207동,,청주시,아파트,매매,0.0,https://fin.land.naver.com/articles/2631415717,2631415717,https://fin.land.naver.com/articles/2631415717,2631415717,10 지웰왕대박공인중개사사무소 매경부동산,10 지웰왕대박공인중개사사무소 매경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,96000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+두산위브지웰시티2차(주상복합) 207동
+매매 9억 6,000
+아파트113A㎡ (전용80A)저/45층남서향
+
+""
+로얄동 최신 인테리어 풀 1년됨
+""
+
+집주인확인매물 2026.06.10
+지웰왕대박공인중개사사무소
+매경부동산
+매물 보러가기",매매,"9억 6,000",0.0,0.0,96000.0,0.0,0.0,0,청주시,,,청주시,96000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
+신영지웰시티1차(주상복합) 103동,,청주시,아파트,매매,162.0,https://fin.land.naver.com/articles/2631395237,2631395237,https://fin.land.naver.com/articles/2631395237,2631395237,10 서울시티합동공인중개사사무소 매경부동산,10 서울시티합동공인중개사사무소 매경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,135000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,49.01,162.0,49.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+신영지웰시티1차(주상복합) 103동
+매매 13억 5,000
+아파트162㎡ (전용124)고/42층서향
+
+""
+고층 전망최상 주인거주로 관리잘된 집 입주협의
+""
+
+집주인확인매물 2026.06.10
+서울시티합동공인중개사사무소
+매경부동산
+매물 보러가기",매매,"13억 5,000",0.0,0.0,135000.0,0.0,162.0,49.01,청주시,,,청주시,135000.0,신규,변동 없음,변동 없음,0.0,0.0,,,,0,0,0
