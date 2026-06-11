@@ -1795,3 +1795,641 @@ Npay 부동산에서 보기
 2026-06-11T11:12:14+09:00,20260610094838704354,Save limit skipped,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,12
 2026-06-11T11:12:14+09:00,20260610094838704354,Saved count,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,20
 2026-06-11T11:12:14+09:00,20260610094838704354,중복 제외 개수,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,6
+2026-06-11T11:21:54+09:00,20260610094838704354,Collection time,,2026-06-11T11:21:54+09:00
+2026-06-11T11:21:54+09:00,20260610094838704354,Removed existing UI items,,0
+2026-06-11T11:21:54+09:00,20260610094838704354,CDP connected,http://localhost:9222,http://localhost:9222
+2026-06-11T11:21:54+09:00,20260610094838704354,Detected tabs,,"[""https://www.naver.com/"", ""https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA""]"
+2026-06-11T11:21:54+09:00,20260610094838704354,Selected tab,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA
+2026-06-11T11:22:11+09:00,20260610094838704354,Scroll rounds completed,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,10
+2026-06-11T11:22:11+09:00,20260610094838704354,Loaded listings,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,122
+2026-06-11T11:22:11+09:00,20260610094838704354,Candidate listings,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,32
+2026-06-11T11:22:11+09:00,20260610094838704354,Unique listings,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,32
+2026-06-11T11:22:11+09:00,20260610094838704354,Candidate cards found,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,122
+2026-06-11T11:22:11+09:00,20260610094838704354,UI items skipped,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,44
+2026-06-11T11:22:11+09:00,20260610094838704354,Excluded UI items,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,44
+2026-06-11T11:22:12+09:00,20260610094838704354,Listing cards found,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,32
+2026-06-11T11:22:12+09:00,20260610094838704354,First listing title,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,복대동 일반원룸
+2026-06-11T11:22:12+09:00,20260610094838704354,First listing price,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,월세 100/25
+2026-06-11T11:22:12+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2629250965,"복대동 일반원룸
+월세 100/25"
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2629250965,월세
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2629250965,100/25
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2629250965,100.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2629250965,25.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2629250965,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2629250965,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2629250965,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2629250965,0
+2026-06-11T11:22:12+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2629250965,청주시 흥덕구 복대동
+2026-06-11T11:22:12+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2629250965,2026-06-11T01:18:13+09:00
+2026-06-11T11:22:12+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2629250965,신규
+2026-06-11T11:22:12+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2629250965,
+2026-06-11T11:22:12+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2629250965,25.0
+2026-06-11T11:22:12+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2629250965,
+2026-06-11T11:22:12+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2629250965,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2629250965,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2626976360,"가경동 일반원룸
+월세 1,000/60"
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2626976360,월세
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2626976360,"1,000/60"
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2626976360,1000.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2626976360,60.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2626976360,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2626976360,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2626976360,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2626976360,0
+2026-06-11T11:22:12+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2626976360,청주시 흥덕구 가경동
+2026-06-11T11:22:12+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2626976360,2026-06-11T01:18:13+09:00
+2026-06-11T11:22:12+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2626976360,신규
+2026-06-11T11:22:12+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2626976360,
+2026-06-11T11:22:12+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2626976360,60.0
+2026-06-11T11:22:12+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2626976360,
+2026-06-11T11:22:12+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2626976360,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2626976360,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631472170,"관심매물
+복대동 상가주택
+매매 4억 1,000
+상가주택1992.07(34년차)대지199.2㎡ (연면적316.34)3/B1층
+
+""
+입주협의 복대동삼일아파트 인근 상가주택 매매
+""
+
+확인매물 2026.06.11
+보배공인중개사사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631472170,매매
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631472170,"4억 1,000"
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631472170,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631472170,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631472170,41000.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631472170,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631472170,199.2
+2026-06-11T11:22:12+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631472170,60.26
+2026-06-11T11:22:12+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631472170,청주시 흥덕구 복대동
+2026-06-11T11:22:12+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631472170,2026-06-11T11:22:12+09:00
+2026-06-11T11:22:12+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631472170,신규
+2026-06-11T11:22:12+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631472170,
+2026-06-11T11:22:12+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631472170,41000.0
+2026-06-11T11:22:12+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631472170,
+2026-06-11T11:22:12+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631472170,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631472170,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631436184,"관심매물
+복대동 다가구
+매매 10억
+단독/다가구2017.06(9년차)대지234.7㎡ (연면적324.7)3/-층
+
+""
+17년식 수익형원룸건물 상태최상
+""
+
+확인매물 2026.06.11
+e복덕방공인중개사사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631436184,매매
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631436184,10억
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631436184,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631436184,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631436184,100000.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631436184,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631436184,234.7
+2026-06-11T11:22:12+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631436184,71.0
+2026-06-11T11:22:12+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631436184,청주시 흥덕구 복대동
+2026-06-11T11:22:12+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631436184,2026-06-11T11:22:12+09:00
+2026-06-11T11:22:12+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631436184,신규
+2026-06-11T11:22:12+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631436184,
+2026-06-11T11:22:12+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631436184,100000.0
+2026-06-11T11:22:12+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631436184,
+2026-06-11T11:22:12+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631436184,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631436184,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631484858,"관심매물
+복대동 대형사무실
+월세 500/200
+사무실2005.07(21년차)계약132㎡ (전용130)1/10층
+
+""
+위치 좋은 코너 1층 상가
+""
+
+확인매물 2026.06.11
+두진하트공인중개사사무소
+알터
+매물 보러가기"
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631484858,월세
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631484858,500/200
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631484858,500.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631484858,200.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631484858,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631484858,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631484858,132.0
+2026-06-11T11:22:12+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631484858,39.93
+2026-06-11T11:22:12+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631484858,청주시 흥덕구 복대동
+2026-06-11T11:22:12+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631484858,2026-06-11T11:22:12+09:00
+2026-06-11T11:22:12+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631484858,신규
+2026-06-11T11:22:12+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631484858,
+2026-06-11T11:22:12+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631484858,200.0
+2026-06-11T11:22:12+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631484858,
+2026-06-11T11:22:12+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631484858,0.0
+2026-06-11T11:22:12+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631484858,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631490917,"관심매물
+이미지
+20
+개
+복대동 상가주택
+매매 15억
+상가주택2022.12(4년차)대지224.7㎡ (연면적456.59)4/-층
+
+""
+투자추천 신축 코너 상가주택 1층 미용실 입점완료 청주공단인근
+""
+
+확인매물 2026.06.11
+복터공인중개사사무소
+부동산뱅크
+매물 보러가기"
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631490917,매매
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631490917,15억
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631490917,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631490917,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631490917,150000.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631490917,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631490917,224.7
+2026-06-11T11:22:13+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631490917,67.97
+2026-06-11T11:22:13+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631490917,청주시 흥덕구 복대동
+2026-06-11T11:22:13+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631490917,2026-06-11T11:22:13+09:00
+2026-06-11T11:22:13+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631490917,신규
+2026-06-11T11:22:13+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631490917,
+2026-06-11T11:22:13+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631490917,150000.0
+2026-06-11T11:22:13+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631490917,
+2026-06-11T11:22:13+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631490917,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631490917,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631449825,"관심매물
+복대동 일반상가
+월세 500/70
+상가점포2004.04(23년차)계약120.02㎡ (전용120.02)2/4층
+
+""
+현재공실 인테리어기간협의 초등학교앞 주차공간있음 학원및교습소 추천
+""
+
+확인매물 2026.06.11
+건우다솔공인중개사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631449825,월세
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631449825,500/70
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631449825,500.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631449825,70.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631449825,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631449825,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631449825,120.02
+2026-06-11T11:22:13+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631449825,36.31
+2026-06-11T11:22:13+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631449825,청주시 흥덕구 복대동
+2026-06-11T11:22:13+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631449825,2026-06-11T11:22:13+09:00
+2026-06-11T11:22:13+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631449825,신규
+2026-06-11T11:22:13+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631449825,
+2026-06-11T11:22:13+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631449825,70.0
+2026-06-11T11:22:13+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631449825,
+2026-06-11T11:22:13+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631449825,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631449825,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631476459,"관심매물
+복대동 다가구
+매매 6억 7,000
+단독/다가구2015.01(12년차)대지194.2㎡ (연면적311.86)3/-층
+
+""
+원룸20개 가득 차 있는 다중주택 충북대 바로 옆 공실걱정없음
+""
+
+확인매물 2026.06.11
+복터공인중개사사무소
+부동산뱅크
+매물 보러가기"
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631476459,매매
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631476459,"6억 7,000"
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631476459,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631476459,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631476459,67000.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631476459,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631476459,194.2
+2026-06-11T11:22:13+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631476459,58.75
+2026-06-11T11:22:13+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631476459,청주시 흥덕구 복대동
+2026-06-11T11:22:13+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631476459,2026-06-11T11:22:13+09:00
+2026-06-11T11:22:13+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631476459,신규
+2026-06-11T11:22:13+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631476459,
+2026-06-11T11:22:13+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631476459,67000.0
+2026-06-11T11:22:13+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631476459,
+2026-06-11T11:22:13+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631476459,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631476459,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631435107,"복대동 다가구
+매매 11억 5,000
+단독/다가구2011.12(15년차)대지325.7㎡ (연면적559.92)4/-층
+확인매물 2026.06.11
+중개사 2곳에서 등록했어요
+매물목록 펼치기"
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631435107,매매
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631435107,"11억 5,000"
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631435107,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631435107,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631435107,115000.0
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631435107,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631435107,325.7
+2026-06-11T11:22:13+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631435107,98.52
+2026-06-11T11:22:13+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631435107,청주시 흥덕구 복대동
+2026-06-11T11:22:13+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631435107,2026-06-11T11:22:13+09:00
+2026-06-11T11:22:13+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631435107,신규
+2026-06-11T11:22:13+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631435107,
+2026-06-11T11:22:13+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631435107,115000.0
+2026-06-11T11:22:13+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631435107,
+2026-06-11T11:22:13+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631435107,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631435107,0.0
+2026-06-11T11:22:13+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631450139,"관심매물
+복대동 일반상가
+월세 1,000/70
+상가점포2001.05(26년차)계약161.02㎡ (전용138.84)3/4층
+
+""
+무권리 원상복구완 3층4층상가 전부공실 업종제한없음
+""
+
+확인매물 2026.06.11
+건우다솔공인중개사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631450139,월세
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631450139,"1,000/70"
+2026-06-11T11:22:13+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631450139,1000.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631450139,70.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631450139,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631450139,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631450139,161.02
+2026-06-11T11:22:14+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631450139,48.71
+2026-06-11T11:22:14+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631450139,청주시 흥덕구 복대동
+2026-06-11T11:22:14+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631450139,2026-06-11T11:22:13+09:00
+2026-06-11T11:22:14+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631450139,신규
+2026-06-11T11:22:14+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631450139,
+2026-06-11T11:22:14+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631450139,70.0
+2026-06-11T11:22:14+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631450139,
+2026-06-11T11:22:14+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631450139,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631450139,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631435273,"관심매물
+복대동 상가주택
+매매 11억 5,000
+상가주택2016.10(10년차)대지330㎡ (연면적604.9)4/-층
+
+""
+승강기있는 준신축급 상가주택 매매
+""
+
+확인매물 2026.06.11
+e복덕방공인중개사사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631435273,매매
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631435273,"11억 5,000"
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631435273,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631435273,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631435273,115000.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631435273,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631435273,330.0
+2026-06-11T11:22:14+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631435273,99.83
+2026-06-11T11:22:14+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631435273,청주시 흥덕구 복대동
+2026-06-11T11:22:14+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631435273,2026-06-11T11:22:14+09:00
+2026-06-11T11:22:14+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631435273,신규
+2026-06-11T11:22:14+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631435273,
+2026-06-11T11:22:14+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631435273,115000.0
+2026-06-11T11:22:14+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631435273,
+2026-06-11T11:22:14+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631435273,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631435273,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631449389,"관심매물
+복대동 일반상가
+월세 2,000/100
+상가점포2002.04(25년차)계약133.35㎡ (전용130)2/4층
+
+""
+빈공실 업종제한없음 미용실 공부방 병의원 한의원 교습소 사무실 추천
+""
+
+확인매물 2026.06.11
+건우다솔공인중개사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631449389,월세
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631449389,"2,000/100"
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631449389,2000.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631449389,100.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631449389,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631449389,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631449389,133.35
+2026-06-11T11:22:14+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631449389,40.34
+2026-06-11T11:22:14+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631449389,청주시 흥덕구 복대동
+2026-06-11T11:22:14+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631449389,2026-06-11T11:22:14+09:00
+2026-06-11T11:22:14+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631449389,신규
+2026-06-11T11:22:14+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631449389,
+2026-06-11T11:22:14+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631449389,100.0
+2026-06-11T11:22:14+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631449389,
+2026-06-11T11:22:14+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631449389,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631449389,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631420655,"관심매물
+현대2차 205동
+월세 1,000/88
+아파트77A㎡ (전용59A)6/15층남향
+
+""
+리모델링 이후 첫입주,샷시제외,즉시도 가능
+""
+
+확인매물 2026.06.11
+파랑새공인중개사
+부동산뱅크
+매물 보러가기"
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631420655,월세
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631420655,"1,000/88"
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631420655,1000.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631420655,88.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631420655,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631420655,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631420655,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631420655,0
+2026-06-11T11:22:14+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631420655,청주시
+2026-06-11T11:22:14+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631420655,2026-06-11T11:22:14+09:00
+2026-06-11T11:22:14+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631420655,신규
+2026-06-11T11:22:14+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631420655,
+2026-06-11T11:22:14+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631420655,88.0
+2026-06-11T11:22:14+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631420655,
+2026-06-11T11:22:14+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631420655,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631420655,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631487646,"관심매물
+복대동 다가구
+월세 200/35
+단독/다가구2001.06(25년차)전용26.44㎡2/3층
+
+""
+복대동올리모델링 풀옵션원룸 6월말입주
+""
+
+확인매물 2026.06.11
+건우다솔공인중개사사무소
+이실장플러스
+매물 보러가기"
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631487646,월세
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631487646,200/35
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631487646,200.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631487646,35.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631487646,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631487646,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631487646,26.44
+2026-06-11T11:22:14+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631487646,8.0
+2026-06-11T11:22:14+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631487646,청주시 흥덕구 복대동
+2026-06-11T11:22:14+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631487646,2026-06-11T11:22:14+09:00
+2026-06-11T11:22:14+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631487646,신규
+2026-06-11T11:22:14+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631487646,
+2026-06-11T11:22:14+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631487646,35.0
+2026-06-11T11:22:14+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631487646,
+2026-06-11T11:22:14+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631487646,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631487646,0.0
+2026-06-11T11:22:14+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631460923,"관심매물
+복대동 일반상가
+월세 500/50
+상가점포1990.07(36년차)계약40㎡ (전용40)5/5층
+
+""
+sk하이닉스근접소형사무실 흥덕보건소앞 냉난방시설,싱크대,엘베있음
+""
+
+확인매물 2026.06.11
+하트리움공인중개사사무소
+알터
+매물 보러가기"
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631460923,월세
+2026-06-11T11:22:14+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631460923,500/50
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631460923,500.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631460923,50.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631460923,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631460923,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631460923,40.0
+2026-06-11T11:22:15+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631460923,12.1
+2026-06-11T11:22:15+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631460923,청주시 흥덕구 복대동
+2026-06-11T11:22:15+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631460923,2026-06-11T11:22:14+09:00
+2026-06-11T11:22:15+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631460923,신규
+2026-06-11T11:22:15+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631460923,
+2026-06-11T11:22:15+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631460923,50.0
+2026-06-11T11:22:15+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631460923,
+2026-06-11T11:22:15+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631460923,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631460923,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631474629,"관심매물
+이미지
+15
+개
+복대동 다가구
+매매 24억 5,000
+단독/다가구2025.02(2년차)대지295.1㎡ (연면적658.31)5/-층
+
+""
+2025년 복대동 신축다가구 수익률11퍼센트 임대입지 최상지
+""
+
+확인매물 2026.06.11
+복터공인중개사사무소
+부동산뱅크
+매물 보러가기"
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631474629,매매
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631474629,"24억 5,000"
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631474629,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631474629,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631474629,245000.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631474629,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631474629,295.1
+2026-06-11T11:22:15+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631474629,89.27
+2026-06-11T11:22:15+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631474629,청주시 흥덕구 복대동
+2026-06-11T11:22:15+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631474629,2026-06-11T11:22:15+09:00
+2026-06-11T11:22:15+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631474629,신규
+2026-06-11T11:22:15+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631474629,
+2026-06-11T11:22:15+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631474629,245000.0
+2026-06-11T11:22:15+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631474629,
+2026-06-11T11:22:15+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631474629,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631474629,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631448606,"관심매물
+복대동 일반상가
+월세 5,000/140
+상가점포2003.01(24년차)계약193.71㎡ (전용174.87)3/6층
+
+""
+엘베유권리금없음 기본인테리어완 천장에어컨 현재 공실 조건맞춰드립니다.
+""
+
+확인매물 2026.06.11
+건우다솔공인중개사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631448606,월세
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631448606,"5,000/140"
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631448606,5000.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631448606,140.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631448606,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631448606,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631448606,193.71
+2026-06-11T11:22:15+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631448606,58.6
+2026-06-11T11:22:15+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631448606,청주시 흥덕구 복대동
+2026-06-11T11:22:15+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631448606,2026-06-11T11:22:15+09:00
+2026-06-11T11:22:15+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631448606,신규
+2026-06-11T11:22:15+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631448606,
+2026-06-11T11:22:15+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631448606,140.0
+2026-06-11T11:22:15+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631448606,
+2026-06-11T11:22:15+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631448606,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631448606,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631444607,"관심매물
+복대동 일반상가
+월세 1,000/100
+상가점포1990.04(37년차)계약60.48㎡ (전용60.48)1/2층
+
+""
+사진o 가경복대시장내 투룸 방 딸린 1층 상가 임대 즉시입주가능
+""
+
+확인매물 2026.06.11
+지구부동산공인중개사사무소
+부동산뱅크
+매물 보러가기"
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631444607,월세
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631444607,"1,000/100"
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631444607,1000.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631444607,100.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631444607,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631444607,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631444607,60.48
+2026-06-11T11:22:15+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631444607,18.3
+2026-06-11T11:22:15+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631444607,청주시 흥덕구 복대동
+2026-06-11T11:22:15+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631444607,2026-06-11T11:22:15+09:00
+2026-06-11T11:22:15+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631444607,신규
+2026-06-11T11:22:15+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631444607,
+2026-06-11T11:22:15+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631444607,100.0
+2026-06-11T11:22:15+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631444607,
+2026-06-11T11:22:15+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631444607,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631444607,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631500971,"관심매물
+지이 1동
+월세 500/60
+오피스텔45C㎡ (전용28C)고/12층북향
+
+""
+빠른입주가능, 풀옵션, 부가세 별도, 주소전입 불가
+""
+
+확인매물 2026.06.11
+지웰시티뷰공인중개사사무소
+부동산뱅크
+매물 보러가기"
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631500971,월세
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631500971,500/60
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631500971,500.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631500971,60.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631500971,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631500971,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631500971,0.0
+2026-06-11T11:22:15+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631500971,0
+2026-06-11T11:22:15+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631500971,청주시
+2026-06-11T11:22:15+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631500971,2026-06-11T11:22:15+09:00
+2026-06-11T11:22:15+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631500971,신규
+2026-06-11T11:22:15+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631500971,
+2026-06-11T11:22:15+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631500971,60.0
+2026-06-11T11:22:15+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631500971,
+2026-06-11T11:22:15+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631500971,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631500971,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631467827,"관심매물
+복대동 중소형사무실
+월세 1,000/100
+사무실2015.08(11년차)계약158.48㎡ (전용158.48)3/5층
+
+""
+입주협의 승강기있는 깔끔한 사무실건물 복대사거리 인근 위치
+""
+
+확인매물 2026.06.11
+보배공인중개사사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631467827,월세
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631467827,"1,000/100"
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631467827,1000.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631467827,100.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631467827,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631467827,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631467827,158.48
+2026-06-11T11:22:16+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631467827,47.94
+2026-06-11T11:22:16+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631467827,청주시 흥덕구 복대동
+2026-06-11T11:22:16+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631467827,2026-06-11T11:22:16+09:00
+2026-06-11T11:22:16+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631467827,신규
+2026-06-11T11:22:16+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631467827,
+2026-06-11T11:22:16+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631467827,100.0
+2026-06-11T11:22:16+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631467827,
+2026-06-11T11:22:16+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631467827,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631467827,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631475034,"관심매물
+복대동 일반상가
+월세 200/30
+상가점포1979.05(48년차)계약29㎡ (전용29)1/2층
+
+""
+서원초 인근 개인 사무실, 창고 임대
+""
+
+확인매물 2026.06.11
+보배공인중개사사무소
+부동산써브
+매물 보러가기"
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631475034,월세
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631475034,200/30
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631475034,200.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631475034,30.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631475034,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631475034,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631475034,29.0
+2026-06-11T11:22:16+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631475034,8.77
+2026-06-11T11:22:16+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631475034,청주시 흥덕구 복대동
+2026-06-11T11:22:16+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631475034,2026-06-11T11:22:16+09:00
+2026-06-11T11:22:16+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631475034,신규
+2026-06-11T11:22:16+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631475034,
+2026-06-11T11:22:16+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631475034,30.0
+2026-06-11T11:22:16+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631475034,
+2026-06-11T11:22:16+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631475034,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631475034,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631468858,"관심매물
+복대동 대
+매매 18억
+토지대지745㎡근생, 다가구, 빌라제2종일반주거지역
+
+""
+공단오거리 대규모 아파트 입주 및 신축현장 중심
+""
+
+확인매물 2026.06.11
+좋은터공인중개사사무소
+매경부동산
+매물 보러가기"
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631468858,매매
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631468858,18억
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631468858,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631468858,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631468858,180000.0
+2026-06-11T11:22:16+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631468858,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631468858,745.0
+2026-06-11T11:22:16+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631468858,225.36
+2026-06-11T11:22:16+09:00,20260610094838704354,full_address,https://fin.land.naver.com/articles/2631468858,청주시 흥덕구 복대동
+2026-06-11T11:22:16+09:00,20260610094838704354,first_seen_at,https://fin.land.naver.com/articles/2631468858,2026-06-11T11:22:16+09:00
+2026-06-11T11:22:16+09:00,20260610094838704354,is_new,https://fin.land.naver.com/articles/2631468858,신규
+2026-06-11T11:22:16+09:00,20260610094838704354,previous_price,https://fin.land.naver.com/articles/2631468858,
+2026-06-11T11:22:16+09:00,20260610094838704354,current_price,https://fin.land.naver.com/articles/2631468858,180000.0
+2026-06-11T11:22:16+09:00,20260610094838704354,price_changed_at,https://fin.land.naver.com/articles/2631468858,
+2026-06-11T11:22:16+09:00,20260610094838704354,latitude,https://fin.land.naver.com/articles/2631468858,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,longitude,https://fin.land.naver.com/articles/2631468858,0.0
+2026-06-11T11:22:16+09:00,20260610094838704354,Actual listings saved,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,20
+2026-06-11T11:22:16+09:00,20260610094838704354,Saved listings,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,20
+2026-06-11T11:22:16+09:00,20260610094838704354,New listings saved,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,20
+2026-06-11T11:22:16+09:00,20260610094838704354,Duplicate skipped,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,2
+2026-06-11T11:22:16+09:00,20260610094838704354,Price changes detected,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,0
+2026-06-11T11:22:16+09:00,20260610094838704354,Save limit skipped,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,10
+2026-06-11T11:22:16+09:00,20260610094838704354,Saved count,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,20
+2026-06-11T11:22:16+09:00,20260610094838704354,중복 제외 개수,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,2
