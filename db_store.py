@@ -6,6 +6,8 @@ from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
 
+from listing_normalizer import normalize_listing
+from region_classifier import enrich_listing_region
 
 DB_FILE = Path(__file__).with_name("listings.db")
 
@@ -99,6 +101,7 @@ def listing_price(row):
 
 def upsert_collected_listing(row, db_file=DB_FILE):
     """Insert a listing or update its price when the same ID/URL already exists."""
+    row = normalize_listing(enrich_listing_region(row))
     init_db(db_file)
     article_id, url, duplicate_key = listing_identity(row)
     with connect(db_file) as db:
@@ -127,6 +130,8 @@ def upsert_collected_listing(row, db_file=DB_FILE):
                 matched_by = "duplicate_key"
 
         if existing is None:
+            row["current_price"] = listing_price(row)
+            row = normalize_listing(row)
             payload = json.dumps(row, ensure_ascii=False, default=str)
             db.execute(
                 """
@@ -152,7 +157,8 @@ def upsert_collected_listing(row, db_file=DB_FILE):
         updated["first_seen_at"] = old_row.get("first_seen_at") or row.get("first_seen_at", "")
         updated["last_seen_at"] = row.get("last_seen_at") or datetime.now().isoformat(timespec="seconds")
         status = "duplicate"
-        if previous_price != current_price and previous_price > 0 and current_price > 0:
+        same_deal_type = old_row.get("거래유형") == row.get("거래유형")
+        if same_deal_type and previous_price != current_price and previous_price > 0 and current_price > 0:
             changed_at = datetime.now().astimezone().isoformat(timespec="seconds")
             updated.update(
                 {
@@ -175,6 +181,10 @@ def upsert_collected_listing(row, db_file=DB_FILE):
                 ),
             )
             status = "price_changed"
+        elif not same_deal_type:
+            for key in ("previous_price", "current_price", "price_changed_at", "price_change_amount"):
+                updated.pop(key, None)
+        updated = normalize_listing(updated)
         db.execute(
             """
             UPDATE listings
@@ -207,6 +217,7 @@ def load_price_history(limit=100, db_file=DB_FILE):
 
 def insert_listing(row, db_file=DB_FILE):
     init_db(db_file)
+    row = normalize_listing(enrich_listing_region(row))
     article_id, url, duplicate_key = listing_identity(row)
     payload = json.dumps(row, ensure_ascii=False, default=str)
     try:

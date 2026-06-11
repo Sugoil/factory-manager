@@ -15,6 +15,9 @@ NEIGHBORHOOD_TO_DISTRICT = {
     "사창동": "서원구", "사직동": "서원구", "남이면": "서원구",
 }
 NEIGHBORHOODS = tuple(NEIGHBORHOOD_TO_DISTRICT)
+PROVINCE_PATTERN = r"(?:충청북도|충북)?"
+DISTRICT_PATTERN = rf"(?:{'|'.join(map(re.escape, DISTRICTS))})"
+NEIGHBORHOOD_PATTERN = rf"(?:{'|'.join(map(re.escape, NEIGHBORHOODS))})"
 
 
 def classify_cheongju_region(*values, default_city=True):
@@ -28,15 +31,41 @@ def classify_cheongju_region(*values, default_city=True):
     return {"city": city, "district": district, "neighborhood": neighborhood}
 
 
+def extract_full_address(*values):
+    """Extract a Cheongju address, including a lot or road number when available."""
+    text = " ".join(str(value or "") for value in values)
+    text = re.sub(r"\s+", " ", text).strip()
+    patterns = (
+        rf"{PROVINCE_PATTERN}\s*청주시\s+{DISTRICT_PATTERN}\s+{NEIGHBORHOOD_PATTERN}"
+        rf"(?:\s+(?:산\s*)?\d+(?:-\d+)?)?",
+        rf"청주시\s+{DISTRICT_PATTERN}\s+{NEIGHBORHOOD_PATTERN}",
+    )
+    for pattern in patterns:
+        match = re.search(pattern, text)
+        if match:
+            return re.sub(r"\s+", " ", match.group(0)).strip()
+    return ""
+
+
+def build_region_address(city="", district="", neighborhood=""):
+    return " ".join(value for value in (city, district, neighborhood) if str(value).strip())
+
+
 def enrich_listing_region(row):
     item = dict(row)
-    region = classify_cheongju_region(
+    source_values = (
+        item.get("full_address", ""),
         item.get("주소", ""),
-        item.get("매물명", ""),
         item.get("raw_card_text", ""),
+        item.get("매물명", ""),
         item.get("source_search_url", ""),
         item.get("지역", ""),
     )
+    region = classify_cheongju_region(
+        *source_values,
+    )
     item.update(region)
     item["지역"] = region["neighborhood"] or region["district"] or region["city"] or item.get("지역", "")
+    full_address = extract_full_address(*source_values)
+    item["full_address"] = full_address or build_region_address(**region)
     return item

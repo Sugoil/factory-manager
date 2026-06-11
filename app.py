@@ -13,6 +13,7 @@ import pandas as pd
 import requests
 import streamlit as st
 
+from listing_normalizer import normalize_listing
 from region_classifier import enrich_listing_region
 from db_store import (
     DB_FILE,
@@ -53,7 +54,7 @@ INVALID_UI_LISTING_TERMS = [
 ]
 
 COLUMNS = [
-    "매물명", "주소", "지역", "city", "district", "neighborhood",
+    "매물명", "주소", "full_address", "지역", "city", "district", "neighborhood",
     "매물종류", "거래유형", "네이버 매물 ID", "네이버부동산 링크",
     "사진 파일명", "사진 데이터", "매매가(만원)", "전세금(만원)", "보증금(만원)", "월세(만원)",
     "관리비(만원)", "권리금(만원)", "대지면적(㎡)", "전용면적(㎡)", "공급면적(㎡)",
@@ -77,7 +78,9 @@ COLUMNS = [
     "ai_investment_points", "ai_location_score", "ai_price_score",
     "ai_access_score", "ai_investment_score", "ai_scarcity_score", "ai_total_score",
     "건폐율(%)", "용적률(%)", "전력당 가격(만원/kW)", "메모",
-    "previous_price", "current_price", "price_changed_at", "price_change_amount", "신규 표시",
+    "previous_price", "current_price", "price_changed_at", "price_change_amount",
+    "price_change_status", "price_change_text", "is_new", "신규 표시",
+    "latitude", "longitude", "총층수", "방향", "사용승인일", "주차대수",
     "supply_area_m2", "supply_area_pyeong", "exclusive_area_m2", "exclusive_area_pyeong",
     "land_area_m2", "land_area_pyeong", "building_area_m2", "building_area_pyeong",
     "raw_card_text", "parsed_deal_type", "parsed_price_text", "parsed_deposit",
@@ -91,7 +94,8 @@ NUMBER_COLUMNS = [
     "층고(m)", "허용 건폐율(%)", "허용 용적률(%)", "예상 수익률(%)",
     "ai_location_score", "ai_price_score", "ai_access_score", "ai_investment_score",
     "ai_scarcity_score", "ai_total_score",
-    "previous_price", "current_price", "price_change_amount",
+    "previous_price", "current_price", "price_change_amount", "latitude", "longitude",
+    "총층수", "주차대수",
     "supply_area_m2", "supply_area_pyeong", "exclusive_area_m2", "exclusive_area_pyeong",
     "land_area_m2", "land_area_pyeong", "building_area_m2", "building_area_pyeong",
     "parsed_deposit", "parsed_monthly_rent", "parsed_sale_price", "parsed_jeonse_price",
@@ -855,15 +859,9 @@ def prepare_listings(data):
     rows = []
     for _, source in data.iterrows():
         row = source.to_dict()
-        row = enrich_listing_region(row)
+        row = normalize_listing(enrich_listing_region(row))
         row.update(calculate(row))
-        collected_at = pd.to_datetime(row.get("collected_at", ""), errors="coerce", utc=True)
-        row["신규 표시"] = (
-            "신규"
-            if pd.notna(collected_at)
-            and collected_at >= pd.Timestamp.now(tz="UTC") - pd.Timedelta(hours=24)
-            else ""
-        )
+        row["신규 표시"] = "[신규]" if row.get("is_new") == "신규" else ""
         if not row.get("ai_summary"):
             row.update(generate_ai_analysis(row))
         rows.append(row)
@@ -876,7 +874,7 @@ def filter_listings(
     deal_types=None, managers=None, statuses=None, favorites_only=False,
     agencies=None, agency_contacts=None,
     min_price=0, max_price=0, min_rent=0, max_rent=0,
-    new_only=False, price_changed_only=False, sort_order="입력 순",
+    new_only=False, price_changed_only=False, price_change_directions=None, sort_order="입력 순",
 ):
     filtered = data.copy()
     property_types = property_types or []
@@ -889,10 +887,11 @@ def filter_listings(
     statuses = statuses or []
     agencies = agencies or []
     agency_contacts = agency_contacts or []
+    price_change_directions = price_change_directions or []
 
     if keyword:
         search_columns = [
-            "매물명", "주소", "지역", "city", "district", "neighborhood",
+            "매물명", "주소", "full_address", "지역", "city", "district", "neighborhood",
             "메모", "옵션", "용도지역", "업종 제한",
             "유동인구 메모", "개발 가능성 메모", "투자 메모", "담당자", "연락처",
             "agency_name", "agency_owner", "agent_name", "agent_phone", "office_phone",
@@ -901,7 +900,11 @@ def filter_listings(
         text = filtered[search_columns].fillna("").astype(str).agg(" ".join, axis=1)
         filtered = filtered[text.str.contains(keyword, case=False, na=False, regex=False)]
     if region_keyword:
-        region_text = filtered["주소"].fillna("").astype(str) + " " + filtered["지역"].fillna("").astype(str)
+        region_text = (
+            filtered["주소"].fillna("").astype(str)
+            + " " + filtered["full_address"].fillna("").astype(str)
+            + " " + filtered["지역"].fillna("").astype(str)
+        )
         filtered = filtered[
             region_text.str.contains(region_keyword, case=False, na=False, regex=False)
         ]
@@ -933,9 +936,11 @@ def filter_listings(
         )
         filtered = filtered[contact_text.apply(lambda value: any(item in value for item in agency_contacts))]
     if new_only:
-        filtered = filtered[filtered["신규 표시"] == "신규"]
+        filtered = filtered[filtered["is_new"] == "신규"]
     if price_changed_only:
         filtered = filtered[filtered["price_changed_at"].fillna("").astype(str) != ""]
+    if price_change_directions:
+        filtered = filtered[filtered["price_change_status"].isin(price_change_directions)]
 
     filtered = filtered[filtered["매매가(만원)"] >= min_price]
     filtered = filtered[filtered["월세(만원)"] >= min_rent]
@@ -1271,6 +1276,13 @@ def show_table(data, key):
             "city": st.column_config.TextColumn("시"),
             "district": st.column_config.TextColumn("구"),
             "neighborhood": st.column_config.TextColumn("동/읍/면"),
+            "full_address": st.column_config.TextColumn("주소"),
+            "주소": st.column_config.TextColumn("원본 주소"),
+            "is_new": st.column_config.TextColumn("신규"),
+            "price_change_status": st.column_config.TextColumn("가격 변동"),
+            "price_change_text": st.column_config.TextColumn("변동 내용"),
+            "latitude": st.column_config.NumberColumn("위도", format="%.6f"),
+            "longitude": st.column_config.NumberColumn("경도", format="%.6f"),
         },
     )
     csv_data = data.to_csv(index=False).encode("utf-8-sig")
@@ -1337,7 +1349,7 @@ if (
 
 data = st.session_state.listings
 total = len(data)
-collected_times = pd.to_datetime(data["collected_at"], errors="coerce", utc=True)
+collected_times = pd.to_datetime(data["first_seen_at"], errors="coerce", utc=True)
 today_start = pd.Timestamp.now(tz="UTC").normalize()
 today_new_mask = collected_times >= today_start
 recent_24h_mask = collected_times >= pd.Timestamp.now(tz="UTC") - pd.Timedelta(hours=24)
@@ -1355,7 +1367,7 @@ m4.metric(
 )
 
 recent_columns = [
-    "신규 표시", "매물명", "지역", "매물종류", "거래유형",
+    "신규 표시", "매물명", "full_address", "지역", "매물종류", "거래유형",
     "매매가(만원)", "보증금(만원)", "월세(만원)", "collected_at", "네이버부동산 링크",
 ]
 recent_listings = data.loc[recent_24h_mask].copy()
@@ -1407,7 +1419,8 @@ with st.expander("가격 변동 매물", expanded=False):
             price_changed_rows[
                 [
                     "매물명", "지역", "매물종류", "previous_price", "current_price",
-                    "price_change_amount", "price_changed_at", "네이버부동산 링크",
+                    "price_change_status", "price_change_text", "price_change_amount",
+                    "price_changed_at", "네이버부동산 링크",
                 ]
             ].sort_values("price_changed_at", ascending=False),
             use_container_width=True,
@@ -1973,6 +1986,12 @@ if submitted:
         st.success("매물을 저장했습니다.")
 
 st.subheader("검색 및 필터")
+top_property_type = st.radio(
+    "빠른 매물종류 선택",
+    ["전체", "공장", "창고", "토지", "상가", "원룸", "투룸", "쓰리룸", "아파트", "오피스텔"],
+    horizontal=True,
+    key="top_property_type_filter",
+)
 f1, f2, f3, f4, f5, f6 = st.columns(6)
 with f1:
     keyword = st.text_input("키워드 검색", placeholder="매물명, 주소, 메모, 옵션", key="filter_keyword")
@@ -2023,6 +2042,12 @@ with f6:
     agency_contact_filter = st.multiselect("중개사 연락처", agency_contacts, key="filter_agency_contact")
     new_only = st.checkbox("신규 매물만 보기", key="filter_new_only")
     price_changed_only = st.checkbox("가격 변동 매물만 보기", key="filter_price_changed_only")
+    price_change_directions = st.multiselect(
+        "가격 변동 방향", ["가격 상승", "가격 하락"], key="filter_price_change_direction"
+    )
+
+if top_property_type != "전체":
+    type_filter = [top_property_type]
 
 filtered = filter_listings(
     st.session_state.listings,
@@ -2045,6 +2070,7 @@ filtered = filter_listings(
     max_rent=max_rent,
     new_only=new_only,
     price_changed_only=price_changed_only,
+    price_change_directions=price_change_directions,
     sort_order=sort_order,
 )
 
@@ -2082,6 +2108,40 @@ with tabs[0]:
 for index, property_type in enumerate(PROPERTY_TYPES, start=1):
     with tabs[index]:
         show_table(filtered[filtered["매물종류"] == property_type], property_type)
+
+with st.expander("매물 상세보기", expanded=False):
+    if filtered.empty:
+        st.info("표시할 매물이 없습니다.")
+    else:
+        detail_options = {
+            f"{index + 1}. {row['매물명']}": row
+            for index, (_, row) in enumerate(filtered.iterrows())
+        }
+        detail_choice = st.selectbox("상세 매물 선택", list(detail_options), key="listing_detail_choice")
+        detail_row = detail_options[detail_choice]
+        badge = "[신규] " if detail_row.get("is_new") == "신규" else ""
+        st.markdown(f"#### {badge}{detail_row['매물명']}")
+        st.write(f"주소: {detail_row.get('full_address', '')}")
+        st.write(
+            f"거래: {detail_row.get('거래유형', '')} / "
+            f"가격 변동: {detail_row.get('price_change_text', '변동 없음')}"
+        )
+        area_columns = st.columns(4)
+        for column, area_name in zip(area_columns, ["전용면적", "공급면적", "대지면적", "건물면적"]):
+            column.metric(
+                area_name,
+                f"{float(detail_row.get(f'{area_name}(㎡)', 0) or 0):,.2f}㎡ "
+                f"({float(detail_row.get(f'{area_name}(평)', 0) or 0):,.2f}평)",
+            )
+        detail_fields = [
+            "층수", "총층수", "방향", "사용승인일", "주차대수", "관리비(만원)",
+            "방 개수", "욕실 수", "latitude", "longitude",
+        ]
+        st.dataframe(
+            pd.DataFrame([{"항목": field, "값": detail_row.get(field, "")} for field in detail_fields]),
+            use_container_width=True,
+            hide_index=True,
+        )
 
 with st.expander("AI 매물 요약 및 점수", expanded=False):
     if filtered.empty:

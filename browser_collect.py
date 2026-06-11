@@ -9,9 +9,15 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from collection_settings import MAX_SAVE_PER_RUN
-from region_classifier import classify_cheongju_region, enrich_listing_region
+from listing_normalizer import (
+    normalize_listing,
+    parse_deal_and_price as shared_parse_deal_and_price,
+    parse_price as shared_parse_price,
+)
+from region_classifier import classify_cheongju_region, enrich_listing_region, extract_full_address
 from db_store import (
     add_log,
+    listing_price,
     load_conditions,
     load_listings,
     replace_listings,
@@ -25,7 +31,9 @@ LISTINGS_FILE = ROOT / "listings.csv"
 LOG_FILE = ROOT / "collect_logs.csv"
 MAX_NEW = MAX_SAVE_PER_RUN
 REQUIRED_EXPORT_COLUMNS = [
-    "city", "district", "neighborhood",
+    "full_address", "city", "district", "neighborhood",
+    "first_seen_at", "is_new", "previous_price", "current_price", "price_changed_at",
+    "price_change_amount", "price_change_status", "price_change_text", "latitude", "longitude",
     "대지면적(㎡)", "대지면적(평)", "전용면적(㎡)", "전용면적(평)",
     "공급면적(㎡)", "공급면적(평)", "건물면적(㎡)", "건물면적(평)",
     "supply_area_m2", "supply_area_pyeong", "exclusive_area_m2", "exclusive_area_pyeong",
@@ -111,59 +119,11 @@ def parse_number(value):
 
 
 def parse_price(value):
-    text = re.sub(r"\s+", "", str(value)).replace(",", "")
-    total = 0.0
-    for pattern, multiplier in ((r"([\d.]+)억", 10000), (r"([\d.]+)천", 1000)):
-        match = re.search(pattern, text)
-        if match:
-            total += float(match.group(1)) * multiplier
-    if total:
-        tail = re.search(r"(?:억|천)([\d.]+)(?:만)?", text)
-        return total + (float(tail.group(1)) if tail else 0)
-    return parse_number(text)
+    return shared_parse_price(value)
 
 
 def parse_deal_and_price(card_text):
-    """Parse the price line first so floor/area slash values cannot become monthly rent."""
-    lines = [
-        re.sub(r"\s+", " ", line).strip()
-        for line in str(card_text).splitlines()
-        if re.sub(r"\s+", " ", line).strip()
-    ]
-    price_line = next(
-        (
-            line for line in lines
-            if re.match(r"^(?:매매|전세)\s+[\d,.]", line)
-            or re.match(r"^월세\s+[\d,.억천만]+\s*/\s*[\d,.억천만]+", line)
-        ),
-        "",
-    )
-    if not price_line:
-        price_line = next(
-            (line for line in lines if re.search(r"\b(매매|전세|월세)\b", line)),
-            "",
-        )
-    deal_match = re.search(r"\b(매매|전세|월세)\b", price_line)
-    deal_type = deal_match.group(1) if deal_match else "기타"
-    price_text = price_line[deal_match.end():].strip(" :：") if deal_match else ""
-    result = {
-        "거래유형": deal_type,
-        "parsed_price_text": price_text,
-        "매매가(만원)": 0,
-        "전세금(만원)": 0,
-        "보증금(만원)": 0,
-        "월세(만원)": 0,
-    }
-    if deal_type == "월세":
-        slash = re.search(r"([\d,.억천만]+)\s*/\s*([\d,.억천만]+)", price_text)
-        if slash:
-            result["보증금(만원)"] = parse_price(slash.group(1))
-            result["월세(만원)"] = parse_price(slash.group(2))
-    elif deal_type == "매매":
-        result["매매가(만원)"] = parse_price(price_text)
-    elif deal_type == "전세":
-        result["전세금(만원)"] = parse_price(price_text)
-    return result
+    return shared_parse_deal_and_price(card_text)
 
 
 def parse_area_fields(card_text):
@@ -404,7 +364,7 @@ def card_to_row(card, page_url, condition):
         "area_pyeong": area_fields["exclusive_area_pyeong"],
     }
     row.update({key: parsed_price[key] for key in ("매매가(만원)", "전세금(만원)", "보증금(만원)", "월세(만원)")})
-    row = enrich_listing_region(row)
+    row = normalize_listing(enrich_listing_region(row))
     detected_region = classify_cheongju_region(raw_text, card.get("text", ""), region)
     row.update(detected_region)
     row["지역"] = (
@@ -413,6 +373,10 @@ def card_to_row(card, page_url, condition):
         or detected_region["city"]
         or row["지역"]
     )
+    detailed_address = extract_full_address(raw_text)
+    if detailed_address:
+        row["full_address"] = detailed_address
+        row["주소"] = detailed_address
     return row
 
 
@@ -428,6 +392,14 @@ def log_parsed_listing(row, condition):
         ("parsed_jeonse_price", "parsed_jeonse_price"),
         ("area_m2", "area_m2"),
         ("area_pyeong", "area_pyeong"),
+        ("full_address", "full_address"),
+        ("first_seen_at", "first_seen_at"),
+        ("is_new", "is_new"),
+        ("previous_price", "previous_price"),
+        ("current_price", "current_price"),
+        ("price_changed_at", "price_changed_at"),
+        ("latitude", "latitude"),
+        ("longitude", "longitude"),
     ):
         message = str(row.get(key, ""))
         write_log(status, message[:2000], url, condition)
@@ -496,6 +468,16 @@ def cleanup_invalid_ui_listings():
 
 def save_candidate_cards(cards, page_url, condition, max_new=MAX_NEW):
     existing_rows = load_listings()
+    existing_by_id = {
+        str(row.get("naver_article_id") or row.get("네이버 매물 ID", "")).strip(): row
+        for row in existing_rows
+        if str(row.get("naver_article_id") or row.get("네이버 매물 ID", "")).strip()
+    }
+    existing_by_url = {
+        str(row.get("naver_url") or row.get("네이버부동산 링크", "")).strip(): row
+        for row in existing_rows
+        if str(row.get("naver_url") or row.get("네이버부동산 링크", "")).strip()
+    }
     known_ids = {
         str(row.get("naver_article_id") or row.get("네이버 매물 ID", "")).strip()
         for row in existing_rows
@@ -519,8 +501,18 @@ def save_candidate_cards(cards, page_url, condition, max_new=MAX_NEW):
             limit_skipped_count += 1
             continue
         row = card_to_row(card, page_url, condition)
-        log_parsed_listing(row, condition)
+        previous_row = existing_by_id.get(aid) or existing_by_url.get(url)
+        row["current_price"] = listing_price(row)
+        if previous_row:
+            row["first_seen_at"] = previous_row.get("first_seen_at") or row["first_seen_at"]
+            previous_price = listing_price(previous_row)
+            if previous_price != row["current_price"]:
+                row["previous_price"] = previous_price
+                row["price_change_amount"] = row["current_price"] - previous_price
+                row["price_changed_at"] = now()
+        row = normalize_listing(row)
         status = upsert_collected_listing(row)
+        log_parsed_listing(row, condition)
         if status == "new":
             new_count += 1
             known_ids.add(aid)
