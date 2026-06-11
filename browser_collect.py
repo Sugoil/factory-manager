@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from collection_settings import MAX_SAVE_PER_RUN
+from collection_settings import AUTO_SCROLL_COUNT, MAX_COLLECT_PER_RUN, MAX_SAVE_PER_RUN
 from listing_normalizer import (
     normalize_listing,
     parse_deal_and_price as shared_parse_deal_and_price,
@@ -30,6 +30,8 @@ CDP_URL = "http://localhost:9222"
 LISTINGS_FILE = ROOT / "listings.csv"
 LOG_FILE = ROOT / "collect_logs.csv"
 MAX_NEW = MAX_SAVE_PER_RUN
+SCROLL_COUNT = AUTO_SCROLL_COUNT
+MAX_COLLECT = MAX_COLLECT_PER_RUN
 REQUIRED_EXPORT_COLUMNS = [
     "full_address", "city", "district", "neighborhood",
     "first_seen_at", "is_new", "previous_price", "current_price", "price_changed_at",
@@ -273,6 +275,81 @@ def collect_visible_cards(page):
           })
         """
     )
+
+
+def scroll_listing_area(page):
+    """Scroll the most likely listing panel, falling back to the page."""
+    return page.evaluate(
+        """
+        () => {
+          const all = Array.from(document.querySelectorAll('*'));
+          const candidates = all.filter(element => {
+            const style = getComputedStyle(element);
+            const scrollable = /(auto|scroll)/.test(style.overflowY) &&
+              element.scrollHeight > element.clientHeight + 40;
+            if (!scrollable) return false;
+            const text = (element.innerText || '').slice(0, 5000);
+            return /(매매|전세|월세)/.test(text);
+          }).sort((a, b) => {
+            const aScore = a.clientHeight * a.clientWidth;
+            const bScore = b.clientHeight * b.clientWidth;
+            return bScore - aScore;
+          });
+          const target = candidates[0];
+          if (target) {
+            const before = target.scrollTop;
+            target.scrollBy({top: Math.max(target.clientHeight * 0.85, 500), behavior: 'auto'});
+            return {
+              target: target.tagName + '.' + String(target.className || '').replace(/\\s+/g, '.'),
+              before,
+              after: target.scrollTop,
+              end: target.scrollTop + target.clientHeight >= target.scrollHeight - 10
+            };
+          }
+          const before = window.scrollY;
+          window.scrollBy({top: Math.max(window.innerHeight * 0.85, 500), behavior: 'auto'});
+          return {
+            target: 'window',
+            before,
+            after: window.scrollY,
+            end: window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10
+          };
+        }
+        """
+    )
+
+
+def collect_cards_with_auto_scroll(page, scroll_count=SCROLL_COUNT, max_collect=MAX_COLLECT):
+    """Accumulate visible cards while gradually scrolling the listing panel."""
+    loaded_cards = []
+    unique = {}
+    unchanged_rounds = 0
+    previous_unique_count = 0
+
+    for step in range(scroll_count + 1):
+        visible_cards = collect_visible_cards(page)
+        loaded_cards.extend(visible_cards)
+        for card in unique_cards(visible_cards):
+            url = str(card.get("url", "")).strip()
+            aid = str(card.get("articleNo", "")).strip() or article_id(url)
+            key = aid or url
+            if key and key not in unique:
+                unique[key] = card
+                if len(unique) >= max_collect:
+                    return loaded_cards, list(unique.values())[:max_collect]
+
+        if step >= scroll_count:
+            break
+        unchanged_rounds = unchanged_rounds + 1 if len(unique) == previous_unique_count else 0
+        previous_unique_count = len(unique)
+        scroll_result = scroll_listing_area(page) or {}
+        page.wait_for_timeout(1200)
+        if scroll_result.get("end") and unchanged_rounds >= 1:
+            break
+        if scroll_result.get("before") == scroll_result.get("after") and unchanged_rounds >= 2:
+            break
+
+    return loaded_cards, list(unique.values())[:max_collect]
 
 
 def parsed_price_has_value(parsed):
@@ -601,11 +678,12 @@ def main():
             page.wait_for_timeout(1500)
             if page_is_blocked(page):
                 raise RuntimeError("CAPTCHA 또는 접근 제한 화면이 감지되었습니다.")
-            candidate_cards = collect_visible_cards(page)
-            cards = unique_cards(candidate_cards)
+            loaded_cards, cards = collect_cards_with_auto_scroll(page)
             cards = verify_uncertain_cards(page.context, cards, condition)
-            excluded_count = len(candidate_cards) - len(cards)
-            write_log("Candidate cards found", str(len(candidate_cards)), page.url, condition)
+            excluded_count = len(loaded_cards) - len(cards)
+            write_log("Loaded listings", str(len(loaded_cards)), page.url, condition)
+            write_log("Unique listings", str(len(cards)), page.url, condition)
+            write_log("Candidate cards found", str(len(loaded_cards)), page.url, condition)
             write_log("Excluded UI items", str(excluded_count), page.url, condition)
             write_log("Listing cards found", str(len(cards)), page.url, condition)
             write_log("Candidate listings", str(len(cards)), page.url, condition)
@@ -617,6 +695,7 @@ def main():
             )
             export_csv()
             write_log("Actual listings saved", str(new_count), page.url, condition)
+            write_log("Saved listings", str(new_count), page.url, condition)
             write_log("New listings saved", str(new_count), page.url, condition)
             write_log("Duplicate skipped", str(duplicate_count), page.url, condition)
             write_log("Price changes detected", str(price_changed_count), page.url, condition)
