@@ -535,3 +535,121 @@
 2026-06-11T10:21:57+09:00,20260610094838704354,Save limit skipped,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,0
 2026-06-11T10:21:57+09:00,20260610094838704354,Saved count,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,4
 2026-06-11T10:21:57+09:00,20260610094838704354,중복 제외 개수,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,2
+2026-06-11T10:31:54+09:00,20260610094838704354,Collection time,,2026-06-11T10:31:54+09:00
+2026-06-11T10:31:54+09:00,20260610094838704354,Removed existing UI items,,0
+2026-06-11T10:31:54+09:00,20260610094838704354,CDP connected,http://localhost:9222,http://localhost:9222
+2026-06-11T10:31:54+09:00,20260610094838704354,Detected tabs,,"[""https://www.naver.com/"", ""https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA""]"
+2026-06-11T10:31:54+09:00,20260610094838704354,Selected tab,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA
+2026-06-11T10:31:56+09:00,20260610094838704354,Candidate cards found,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,11
+2026-06-11T10:31:56+09:00,20260610094838704354,Excluded UI items,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,5
+2026-06-11T10:31:56+09:00,20260610094838704354,Listing cards found,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,6
+2026-06-11T10:31:56+09:00,20260610094838704354,Candidate listings,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,6
+2026-06-11T10:31:56+09:00,20260610094838704354,First listing title,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,복대동 일반원룸
+2026-06-11T10:31:56+09:00,20260610094838704354,First listing price,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,월세 100/25
+2026-06-11T10:31:56+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2629250965,"복대동 일반원룸
+월세 100/25"
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2629250965,월세
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2629250965,100/25
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2629250965,100.0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2629250965,25.0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2629250965,0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2629250965,0
+2026-06-11T10:31:56+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2629250965,0.0
+2026-06-11T10:31:56+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2629250965,0
+2026-06-11T10:31:56+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2626976360,"가경동 일반원룸
+월세 1,000/60"
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2626976360,월세
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2626976360,"1,000/60"
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2626976360,1000.0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2626976360,60.0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2626976360,0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2626976360,0
+2026-06-11T10:31:56+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2626976360,0.0
+2026-06-11T10:31:56+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2626976360,0
+2026-06-11T10:31:56+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631165505,"관심매물
+신영지웰홈스 106동
+매매 4억 4,000
+아파트110B㎡ (전용84B)2/15층남향
+
+""
+실입주 정원뷰 주인거주로 관리잘 되어 있고 집상태 최상 B타입
+""
+
+집주인확인매물 2026.06.09
+지웰정다운공인중개사사무소
+매경부동산
+매물 보러가기"
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631165505,매매
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631165505,"4억 4,000"
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631165505,0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631165505,0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631165505,44000.0
+2026-06-11T10:31:56+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631165505,0
+2026-06-11T10:31:56+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631165505,0.0
+2026-06-11T10:31:56+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631165505,0
+2026-06-11T10:31:56+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631107979,"관심매물
+영조아름다운나날1차 110동
+매매 2억 2,000
+아파트76A㎡ (전용59A)12/15층남향
+
+""
+리모델링된 고층매물,즉시입주가능
+""
+
+집주인확인매물 2026.06.09
+서청주자이공인중개사사무소
+매경부동산
+매물 보러가기"
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631107979,매매
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631107979,"2억 2,000"
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631107979,0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631107979,0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631107979,22000.0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631107979,0
+2026-06-11T10:31:57+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631107979,0.0
+2026-06-11T10:31:57+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631107979,0
+2026-06-11T10:31:57+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631025730,"관심매물
+복대대원 108동
+매매 1억 7,200
+아파트76B㎡ (전용59B)10/14층남향
+
+""
+로얄동 로얄층 뻥뷰 안방붙박이장 즉시입주
+""
+
+집주인확인매물 2026.06.09
+사계절공인중개사사무소
+매경부동산
+매물 보러가기"
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631025730,매매
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631025730,"1억 7,200"
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631025730,0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631025730,0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631025730,17200.0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631025730,0
+2026-06-11T10:31:57+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631025730,0.0
+2026-06-11T10:31:57+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631025730,0
+2026-06-11T10:31:57+09:00,20260610094838704354,raw_card_text,https://fin.land.naver.com/articles/2631194893,"이미지
+3
+개
+금호어울림2단지 211동
+매매 4억
+아파트113㎡ (전용84)2/17층남향
+집주인확인매물 2026.06.09
+중개사 6곳에서 등록했어요
+매물목록 펼치기"
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_deal_type,https://fin.land.naver.com/articles/2631194893,매매
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_price_text,https://fin.land.naver.com/articles/2631194893,4억
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_deposit,https://fin.land.naver.com/articles/2631194893,0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_monthly_rent,https://fin.land.naver.com/articles/2631194893,0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_sale_price,https://fin.land.naver.com/articles/2631194893,40000.0
+2026-06-11T10:31:57+09:00,20260610094838704354,parsed_jeonse_price,https://fin.land.naver.com/articles/2631194893,0
+2026-06-11T10:31:57+09:00,20260610094838704354,area_m2,https://fin.land.naver.com/articles/2631194893,113.0
+2026-06-11T10:31:57+09:00,20260610094838704354,area_pyeong,https://fin.land.naver.com/articles/2631194893,34.18
+2026-06-11T10:31:57+09:00,20260610094838704354,Actual listings saved,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,0
+2026-06-11T10:31:57+09:00,20260610094838704354,New listings saved,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,0
+2026-06-11T10:31:57+09:00,20260610094838704354,Duplicate skipped,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,6
+2026-06-11T10:31:57+09:00,20260610094838704354,Price changes detected,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,0
+2026-06-11T10:31:57+09:00,20260610094838704354,Save limit skipped,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,0
+2026-06-11T10:31:57+09:00,20260610094838704354,Saved count,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,0
+2026-06-11T10:31:57+09:00,20260610094838704354,중복 제외 개수,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,6
