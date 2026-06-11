@@ -1,10 +1,10 @@
 ﻿매물명,주소,지역,매물종류,거래유형,전용면적(㎡),네이버부동산 링크,네이버 매물 ID,naver_url,naver_article_id,provider_agency_name,agency_name,is_verified_listing,verified_date,platform,auto_collected,collected_at,first_seen_at,last_seen_at,source_search_url,collection_condition,extraction_status,extraction_error,매물 상태,매매가(만원),전세금(만원),보증금(만원),월세(만원),공급면적(㎡),공급면적(평),supply_area_m2,supply_area_pyeong,전용면적(평),exclusive_area_m2,exclusive_area_pyeong,대지면적(㎡),대지면적(평),land_area_m2,land_area_pyeong,건물면적(㎡),건물면적(평),building_area_m2,building_area_pyeong,raw_card_text,parsed_deal_type,parsed_price_text,parsed_deposit,parsed_monthly_rent,parsed_sale_price,parsed_jeonse_price,area_m2,area_pyeong,city,district,neighborhood,full_address,current_price,is_new,price_change_status,price_change_text,latitude,longitude,collect_mode,관리비(만원),방 개수,욕실 수,previous_price,price_changed_at,price_change_amount
-복대동 일반원룸,,복대동,원룸,월세,0.0,https://fin.land.naver.com/articles/2629250965,2629250965,https://fin.land.naver.com/articles/2629250965,2629250965,,,,,네이버부동산,예,2026-06-11T12:33:07+09:00,2026-06-11T01:18:13+09:00,2026-06-11T12:33:07+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,100.0,25.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"복대동 일반원룸
-월세 100/25",월세,100/25,100.0,25.0,0.0,0.0,0.0,0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,25.0,신규,변동 없음,변동 없음,0.0,0.0,full_scan,,,,0,0,0
-가경동 일반원룸,,가경동,원룸,월세,0.0,https://fin.land.naver.com/articles/2626976360,2626976360,https://fin.land.naver.com/articles/2626976360,2626976360,,,,,네이버부동산,예,2026-06-11T12:33:06+09:00,2026-06-11T01:18:13+09:00,2026-06-11T12:33:06+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,60.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"가경동 일반원룸
-월세 1,000/60",월세,"1,000/60",1000.0,60.0,0.0,0.0,0.0,0,청주시,흥덕구,가경동,청주시 흥덕구 가경동,60.0,신규,변동 없음,변동 없음,0.0,0.0,full_scan,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,0.0,https://fin.land.naver.com/articles/2629250965,2629250965,https://fin.land.naver.com/articles/2629250965,2629250965,,,,,네이버부동산,예,2026-06-11T12:44:04+09:00,2026-06-11T01:18:13+09:00,2026-06-11T12:44:04+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,100.0,25.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"복대동 일반원룸
+월세 100/25",월세,100/25,100.0,25.0,0.0,0.0,0.0,0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,25.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+가경동 일반원룸,,가경동,원룸,월세,0.0,https://fin.land.naver.com/articles/2626976360,2626976360,https://fin.land.naver.com/articles/2626976360,2626976360,,,,,네이버부동산,예,2026-06-11T12:44:04+09:00,2026-06-11T01:18:13+09:00,2026-06-11T12:44:04+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,60.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"가경동 일반원룸
+월세 1,000/60",월세,"1,000/60",1000.0,60.0,0.0,0.0,0.0,0,청주시,흥덕구,가경동,청주시 흥덕구 가경동,60.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
 덕성 A동,,청주시,아파트,월세,35.0,https://fin.land.naver.com/articles/2629822690,2629822690,https://fin.land.naver.com/articles/2629822690,2629822690,,,확인매물,2026.06.02,네이버부동산,예,2026-06-11T01:18:13+09:00,2026-06-11T01:18:13+09:00,2026-06-11T01:18:13+09:00,https://fin.land.naver.com/map?center=3zAP8A-2A94Fi&zoom=14.16209775358375&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,40.0,0.0,0.0,0.0,0.0,10.59,35.0,10.59,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,청주시,,,청주시,40.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-동경,,복대동,원룸,월세,0.0,https://fin.land.naver.com/articles/2630239027,2630239027,https://fin.land.naver.com/articles/2630239027,2630239027,,,,,네이버부동산,예,2026-06-11T12:33:06+09:00,2026-06-11T01:38:39+09:00,2026-06-11T12:33:06+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,40.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"최근조회
+동경,,복대동,원룸,월세,0.0,https://fin.land.naver.com/articles/2630239027,2630239027,https://fin.land.naver.com/articles/2630239027,2630239027,,,,,네이버부동산,예,2026-06-11T12:44:04+09:00,2026-06-11T01:38:39+09:00,2026-06-11T12:44:04+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,40.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"최근조회
 동경
 삼일(3034) 106동
 매매 2억 2,000
@@ -14,8 +14,8 @@
 월세 1,000/60
 복대동 일반원룸
 월세 100/25
-덕수궁롯데캐슬(주상복합)",월세,300/40,300.0,40.0,0.0,0.0,0.0,0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,40.0,신규,변동 없음,변동 없음,0.0,0.0,full_scan,,,,0,0,0
-복대동 일반원룸,,복대동,원룸,월세,29.7,https://fin.land.naver.com/articles/2630146577,2630146577,https://fin.land.naver.com/articles/2630146577,2630146577,04 더샵스마트 공인중개사사무소 부동산,04 더샵스마트 공인중개사사무소 부동산,확인매물,2026.06.04,네이버부동산,예,2026-06-11T08:01:30+09:00,2026-06-11T02:01:27+09:00,2026-06-11T08:01:30+09:00,https://fin.land.naver.com/map?center=3zAP8A-2A94Fi&zoom=14.16209775358375&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,35.0,0.0,0.0,0.0,0.0,8.98,29.7,8.98,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+덕수궁롯데캐슬(주상복합)",월세,300/40,300.0,40.0,0.0,0.0,0.0,0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,40.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,29.7,https://fin.land.naver.com/articles/2630146577,2630146577,https://fin.land.naver.com/articles/2630146577,2630146577,04 더샵스마트 공인중개사사무소 부동산,04 더샵스마트 공인중개사사무소 부동산,확인매물,2026.06.04,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T02:01:27+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,35.0,0.0,0.0,0.0,0.0,8.98,29.7,8.98,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 이미지
 11
 개
@@ -30,9 +30,19 @@
 집주인확인매물 2026.06.04
 더샵스마트 공인중개사사무소
 부동산뱅크
-매물 보러가기",월세,500/35,500.0,35.0,0.0,0.0,29.7,8.98,청주시,흥덕구,복대동,청주시 흥덕구 복대동,35.0,신규,변동 없음,변동 없음,0.0,0.0,0,10.0,,,0,0,0
+매물 보러가기",월세,500/35,500.0,35.0,0.0,0.0,29.7,8.98,청주시,흥덕구,복대동,청주시 흥덕구 복대동,35.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,10.0,,,0,0,0
 금호어울림2단지 202동,,청주시,아파트,월세,154.0,https://fin.land.naver.com/articles/2630410278,2630410278,https://fin.land.naver.com/articles/2630410278,2630410278,,,확인매물,2026.06.05,네이버부동산,예,2026-06-11T02:01:27+09:00,2026-06-11T02:01:27+09:00,2026-06-11T02:01:27+09:00,https://fin.land.naver.com/map?center=3zAP8A-2A94Fi&zoom=14.16209775358375&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1.0,19.0,0.0,0.0,0.0,0.0,46.59,154.0,46.59,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,청주시,,,청주시,19.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 다가구,,복대동,기타,월세,41.23,https://fin.land.naver.com/articles/2630282493,2630282493,https://fin.land.naver.com/articles/2630282493,2630282493,05 명당공인중개사사무소 부동산,05 명당공인중개사사무소 부동산,확인매물,2026.06.05,네이버부동산,예,2026-06-11T02:01:27+09:00,2026-06-11T02:01:27+09:00,2026-06-11T02:01:27+09:00,https://fin.land.naver.com/map?center=3zAP8A-2A94Fi&zoom=14.16209775358375&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,60.0,0.0,0.0,0.0,0.0,12.47,41.23,12.47,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,청주시,흥덕구,복대동,청주시 흥덕구 복대동,60.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
+복대동 다가구,,복대동,기타,월세,41.23,https://fin.land.naver.com/articles/2630282493,2630282493,https://fin.land.naver.com/articles/2630282493,2630282493,05 명당공인중개사사무소 부동산,05 명당공인중개사사무소 부동산,확인매물,2026.06.05,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T02:01:27+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,60.0,0.0,0.0,0.0,0.0,12.47,41.23,12.47,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+13
+개
+복대동 다가구
+월세 500/60
+단독/다가구2019.02(8년차)전용41.23㎡3/4층
+집주인확인매물 2026.06.05
+명당공인중개사사무소
+부동산포스
+매물 보러가기",월세,500/60,500.0,60.0,0.0,0.0,41.23,12.47,청주시,흥덕구,복대동,청주시 흥덕구 복대동,60.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
 현대2차 207동,,청주시,아파트,매매,0.0,https://fin.land.naver.com/articles/2630027494,2630027494,https://fin.land.naver.com/articles/2630027494,2630027494,,,확인매물,2026.06.04,네이버부동산,예,2026-06-11T08:01:28+09:00,2026-06-11T05:01:24+09:00,2026-06-11T08:01:28+09:00,https://fin.land.naver.com/map?center=3zAP8A-2A94Fi&zoom=14.16209775358375&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,24000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"이미지
 5
 개
@@ -274,7 +284,7 @@
 행복을만드는공인중개사사무소
 부동산써브
 매물 보러가기",매매,"1억 8,000",0.0,0.0,18000.0,0.0,105.0,31.76,청주시,,,청주시,18000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,3.0,2.0,0,0,0
-복대동 단지내상가,,복대동,상가,매매,80.0,https://fin.land.naver.com/articles/2631416524,2631416524,https://fin.land.naver.com/articles/2631416524,2631416524,11 행복을만드는공인중개사사무소 부동산,11 행복을만드는공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:12:13+09:00,2026-06-11T11:12:13+09:00,2026-06-11T11:12:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,32000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,24.2,80.0,24.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 단지내상가,,복대동,상가,매매,80.0,https://fin.land.naver.com/articles/2631416524,2631416524,https://fin.land.naver.com/articles/2631416524,2631416524,11 행복을만드는공인중개사사무소 부동산,11 행복을만드는공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:12:13+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,32000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,24.2,80.0,24.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 단지내상가
 매매 3억 2,000
 상가점포1990.08(36년차)계약80㎡ (전용80)1/2층
@@ -286,7 +296,7 @@
 확인매물 2026.06.11
 행복을만드는공인중개사사무소
 부동산써브
-매물 보러가기",매매,"3억 2,000",0.0,0.0,32000.0,0.0,80.0,24.2,청주시,흥덕구,복대동,청주시 흥덕구 복대동,32000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
+매물 보러가기",매매,"3억 2,000",0.0,0.0,32000.0,0.0,80.0,24.2,청주시,흥덕구,복대동,청주시 흥덕구 복대동,32000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
 덕일 1동,,청주시,아파트,월세,58.0,https://fin.land.naver.com/articles/2631483425,2631483425,https://fin.land.naver.com/articles/2631483425,2631483425,11 보배공인중개사사무소 부동산,11 보배공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:12:13+09:00,2026-06-11T11:12:13+09:00,2026-06-11T11:12:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,45.0,0.0,0.0,0.0,0.0,17.55,58.0,17.55,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 덕일 1동
 월세 500/45
@@ -313,7 +323,7 @@
 행복을만드는공인중개사사무소
 부동산써브
 매물 보러가기",매매,"1억 4,000",0.0,0.0,14000.0,0.0,69.0,20.87,청주시,,,청주시,14000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 복합상가,,복대동,상가,월세,199.92,https://fin.land.naver.com/articles/2631502822,2631502822,https://fin.land.naver.com/articles/2631502822,2631502822,11 큰터공인중개사사무소 매경부동산,11 큰터공인중개사사무소 매경부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:12:13+09:00,2026-06-11T11:12:13+09:00,2026-06-11T11:12:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,5000.0,500.0,0.0,0.0,0.0,0.0,60.48,199.92,60.48,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 복합상가,,복대동,상가,월세,199.92,https://fin.land.naver.com/articles/2631502822,2631502822,https://fin.land.naver.com/articles/2631502822,2631502822,11 큰터공인중개사사무소 매경부동산,11 큰터공인중개사사무소 매경부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:12:13+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,5000.0,500.0,0.0,0.0,0.0,0.0,60.48,199.92,60.48,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 복합상가
 월세 5,000/500
 상가점포2001.11(25년차)계약199.92㎡ (전용166)1/4층
@@ -325,16 +335,16 @@
 확인매물 2026.06.11
 큰터공인중개사사무소
 매경부동산
-매물 보러가기",월세,"5,000/500",5000.0,500.0,0.0,0.0,199.92,60.48,청주시,흥덕구,복대동,청주시 흥덕구 복대동,500.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 일반상가,,복대동,상가,월세,85.88,https://fin.land.naver.com/articles/2631448232,2631448232,https://fin.land.naver.com/articles/2631448232,2631448232,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:12:13+09:00,2026-06-11T11:12:13+09:00,2026-06-11T11:12:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,2000.0,140.0,0.0,0.0,0.0,0.0,25.98,85.88,25.98,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",월세,"5,000/500",5000.0,500.0,0.0,0.0,199.92,60.48,청주시,흥덕구,복대동,청주시 흥덕구 복대동,500.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,85.88,https://fin.land.naver.com/articles/2631448232,2631448232,https://fin.land.naver.com/articles/2631448232,2631448232,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:12:13+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,2000.0,140.0,0.0,0.0,0.0,0.0,25.98,85.88,25.98,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 일반상가
 월세 2,000/140
 상가점포2001.11(25년차)계약85.88㎡ (전용72.72)1/5층
 확인매물 2026.06.11
 건우다솔공인중개사무소
 부동산써브
-매물 보러가기",월세,"2,000/140",2000.0,140.0,0.0,0.0,85.88,25.98,청주시,흥덕구,복대동,청주시 흥덕구 복대동,140.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 다가구,,복대동,토지,매매,255.0,https://fin.land.naver.com/articles/2631435710,2631435710,https://fin.land.naver.com/articles/2631435710,2631435710,11 e복덕방공인중개사사무소 부동산,11 e복덕방공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:12:14+09:00,2026-06-11T11:12:14+09:00,2026-06-11T11:12:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,110000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,77.14,255.0,77.14,255.0,77.14,255.0,77.14,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",월세,"2,000/140",2000.0,140.0,0.0,0.0,85.88,25.98,청주시,흥덕구,복대동,청주시 흥덕구 복대동,140.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 다가구,,복대동,토지,매매,255.0,https://fin.land.naver.com/articles/2631435710,2631435710,https://fin.land.naver.com/articles/2631435710,2631435710,11 e복덕방공인중개사사무소 부동산,11 e복덕방공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:12:14+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,110000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,77.14,255.0,77.14,255.0,77.14,255.0,77.14,0.0,0.0,0.0,0.0,"관심매물
 복대동 다가구
 매매 11억
 단독/다가구2018.08(8년차)대지255㎡ (연면적367.11)3/-층
@@ -346,8 +356,8 @@
 확인매물 2026.06.11
 e복덕방공인중개사사무소
 부동산써브
-매물 보러가기",매매,11억,0.0,0.0,110000.0,0.0,255.0,77.14,청주시,흥덕구,복대동,청주시 흥덕구 복대동,110000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 단독,,복대동,기타,전세,30.1,https://fin.land.naver.com/articles/2631410946/out-link-bridge?cpId=toad,2631410946,https://fin.land.naver.com/articles/2631410946/out-link-bridge?cpId=toad,2631410946,11 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,11 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:12:14+09:00,2026-06-11T11:12:14+09:00,2026-06-11T11:12:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,10000.0,0.0,0.0,0.0,0.0,0.0,0.0,9.11,30.1,9.11,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",매매,11억,0.0,0.0,110000.0,0.0,255.0,77.14,청주시,흥덕구,복대동,청주시 흥덕구 복대동,110000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 단독,,복대동,기타,전세,30.1,https://fin.land.naver.com/articles/2631410946/out-link-bridge?cpId=toad,2631410946,https://fin.land.naver.com/articles/2631410946/out-link-bridge?cpId=toad,2631410946,11 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,11 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:12:14+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,10000.0,0.0,0.0,0.0,0.0,0.0,0.0,9.11,30.1,9.11,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 이미지
 10
 개
@@ -363,8 +373,8 @@ e복덕방공인중개사사무소
 차오름부동산공인중개사사무소
 피터팬의 좋은방구하기
 Npay 부동산에서 보기
-매물 보러가기",전세,1억,0.0,0.0,0.0,10000.0,30.1,9.11,청주시,흥덕구,복대동,청주시 흥덕구 복대동,10000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 상가주택,,복대동,토지,매매,199.2,https://fin.land.naver.com/articles/2631472170,2631472170,https://fin.land.naver.com/articles/2631472170,2631472170,11 보배공인중개사사무소 부동산,11 보배공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:12+09:00,2026-06-11T11:22:12+09:00,2026-06-11T11:22:12+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,41000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,60.26,199.2,60.26,199.2,60.26,199.2,60.26,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",전세,1억,0.0,0.0,0.0,10000.0,30.1,9.11,청주시,흥덕구,복대동,청주시 흥덕구 복대동,10000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 상가주택,,복대동,토지,매매,199.2,https://fin.land.naver.com/articles/2631472170,2631472170,https://fin.land.naver.com/articles/2631472170,2631472170,11 보배공인중개사사무소 부동산,11 보배공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:22:12+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,41000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,60.26,199.2,60.26,199.2,60.26,199.2,60.26,0.0,0.0,0.0,0.0,"관심매물
 복대동 상가주택
 매매 4억 1,000
 상가주택1992.07(34년차)대지199.2㎡ (연면적316.34)3/B1층
@@ -376,8 +386,8 @@ Npay 부동산에서 보기
 확인매물 2026.06.11
 보배공인중개사사무소
 부동산써브
-매물 보러가기",매매,"4억 1,000",0.0,0.0,41000.0,0.0,199.2,60.26,청주시,흥덕구,복대동,청주시 흥덕구 복대동,41000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 다가구,,복대동,토지,매매,234.7,https://fin.land.naver.com/articles/2631436184,2631436184,https://fin.land.naver.com/articles/2631436184,2631436184,11 e복덕방공인중개사사무소 부동산,11 e복덕방공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:12+09:00,2026-06-11T11:22:12+09:00,2026-06-11T11:22:12+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,100000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,71.0,234.7,71.0,234.7,71.0,234.7,71.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",매매,"4억 1,000",0.0,0.0,41000.0,0.0,199.2,60.26,청주시,흥덕구,복대동,청주시 흥덕구 복대동,41000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 다가구,,복대동,토지,매매,234.7,https://fin.land.naver.com/articles/2631436184,2631436184,https://fin.land.naver.com/articles/2631436184,2631436184,11 e복덕방공인중개사사무소 부동산,11 e복덕방공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:22:12+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,100000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,71.0,234.7,71.0,234.7,71.0,234.7,71.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 다가구
 매매 10억
 단독/다가구2017.06(9년차)대지234.7㎡ (연면적324.7)3/-층
@@ -389,8 +399,8 @@ Npay 부동산에서 보기
 확인매물 2026.06.11
 e복덕방공인중개사사무소
 부동산써브
-매물 보러가기",매매,10억,0.0,0.0,100000.0,0.0,234.7,71.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,100000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 대형사무실,,복대동,상가,월세,132.0,https://fin.land.naver.com/articles/2631484858,2631484858,https://fin.land.naver.com/articles/2631484858,2631484858,11 두진하트공인중개사사무소,11 두진하트공인중개사사무소,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:12+09:00,2026-06-11T11:22:12+09:00,2026-06-11T11:22:12+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,200.0,0.0,0.0,0.0,0.0,39.93,132.0,39.93,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",매매,10억,0.0,0.0,100000.0,0.0,234.7,71.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,100000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 대형사무실,,복대동,상가,월세,132.0,https://fin.land.naver.com/articles/2631484858,2631484858,https://fin.land.naver.com/articles/2631484858,2631484858,11 두진하트공인중개사사무소,11 두진하트공인중개사사무소,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:22:12+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,200.0,0.0,0.0,0.0,0.0,39.93,132.0,39.93,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 대형사무실
 월세 500/200
 사무실2005.07(21년차)계약132㎡ (전용130)1/10층
@@ -402,8 +412,8 @@ e복덕방공인중개사사무소
 확인매물 2026.06.11
 두진하트공인중개사사무소
 알터
-매물 보러가기",월세,500/200,500.0,200.0,0.0,0.0,132.0,39.93,청주시,흥덕구,복대동,청주시 흥덕구 복대동,200.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 상가주택,,복대동,토지,매매,224.7,https://fin.land.naver.com/articles/2631490917,2631490917,https://fin.land.naver.com/articles/2631490917,2631490917,11 복터공인중개사사무소 부동산,11 복터공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,150000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,67.97,224.7,67.97,224.7,67.97,224.7,67.97,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",월세,500/200,500.0,200.0,0.0,0.0,132.0,39.93,청주시,흥덕구,복대동,청주시 흥덕구 복대동,200.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 상가주택,,복대동,토지,매매,224.7,https://fin.land.naver.com/articles/2631490917,2631490917,https://fin.land.naver.com/articles/2631490917,2631490917,11 복터공인중개사사무소 부동산,11 복터공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:22:13+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,150000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,67.97,224.7,67.97,224.7,67.97,224.7,67.97,0.0,0.0,0.0,0.0,"관심매물
 이미지
 20
 개
@@ -418,8 +428,8 @@ e복덕방공인중개사사무소
 확인매물 2026.06.11
 복터공인중개사사무소
 부동산뱅크
-매물 보러가기",매매,15억,0.0,0.0,150000.0,0.0,224.7,67.97,청주시,흥덕구,복대동,청주시 흥덕구 복대동,150000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 일반상가,,복대동,상가,월세,120.02,https://fin.land.naver.com/articles/2631449825,2631449825,https://fin.land.naver.com/articles/2631449825,2631449825,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,70.0,0.0,0.0,0.0,0.0,36.31,120.02,36.31,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",매매,15억,0.0,0.0,150000.0,0.0,224.7,67.97,청주시,흥덕구,복대동,청주시 흥덕구 복대동,150000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,120.02,https://fin.land.naver.com/articles/2631449825,2631449825,https://fin.land.naver.com/articles/2631449825,2631449825,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:22:13+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,70.0,0.0,0.0,0.0,0.0,36.31,120.02,36.31,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 일반상가
 월세 500/70
 상가점포2004.04(23년차)계약120.02㎡ (전용120.02)2/4층
@@ -431,8 +441,8 @@ e복덕방공인중개사사무소
 확인매물 2026.06.11
 건우다솔공인중개사무소
 부동산써브
-매물 보러가기",월세,500/70,500.0,70.0,0.0,0.0,120.02,36.31,청주시,흥덕구,복대동,청주시 흥덕구 복대동,70.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 다가구,,복대동,토지,매매,194.2,https://fin.land.naver.com/articles/2631476459,2631476459,https://fin.land.naver.com/articles/2631476459,2631476459,11 복터공인중개사사무소 부동산,11 복터공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,67000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,58.75,194.2,58.75,194.2,58.75,194.2,58.75,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",월세,500/70,500.0,70.0,0.0,0.0,120.02,36.31,청주시,흥덕구,복대동,청주시 흥덕구 복대동,70.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 다가구,,복대동,토지,매매,194.2,https://fin.land.naver.com/articles/2631476459,2631476459,https://fin.land.naver.com/articles/2631476459,2631476459,11 복터공인중개사사무소 부동산,11 복터공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:22:13+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,67000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,58.75,194.2,58.75,194.2,58.75,194.2,58.75,0.0,0.0,0.0,0.0,"관심매물
 복대동 다가구
 매매 6억 7,000
 단독/다가구2015.01(12년차)대지194.2㎡ (연면적311.86)3/-층
@@ -444,14 +454,14 @@ e복덕방공인중개사사무소
 확인매물 2026.06.11
 복터공인중개사사무소
 부동산뱅크
-매물 보러가기",매매,"6억 7,000",0.0,0.0,67000.0,0.0,194.2,58.75,청주시,흥덕구,복대동,청주시 흥덕구 복대동,67000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 다가구,,복대동,토지,매매,325.7,https://fin.land.naver.com/articles/2631435107,2631435107,https://fin.land.naver.com/articles/2631435107,2631435107,,,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,115000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,98.52,325.7,98.52,325.7,98.52,325.7,98.52,0.0,0.0,0.0,0.0,"복대동 다가구
+매물 보러가기",매매,"6억 7,000",0.0,0.0,67000.0,0.0,194.2,58.75,청주시,흥덕구,복대동,청주시 흥덕구 복대동,67000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 다가구,,복대동,토지,매매,325.7,https://fin.land.naver.com/articles/2631435107,2631435107,https://fin.land.naver.com/articles/2631435107,2631435107,,,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:22:13+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,115000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,98.52,325.7,98.52,325.7,98.52,325.7,98.52,0.0,0.0,0.0,0.0,"복대동 다가구
 매매 11억 5,000
 단독/다가구2011.12(15년차)대지325.7㎡ (연면적559.92)4/-층
 확인매물 2026.06.11
 중개사 2곳에서 등록했어요
-매물목록 펼치기",매매,"11억 5,000",0.0,0.0,115000.0,0.0,325.7,98.52,청주시,흥덕구,복대동,청주시 흥덕구 복대동,115000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 일반상가,,복대동,상가,월세,161.02,https://fin.land.naver.com/articles/2631450139,2631450139,https://fin.land.naver.com/articles/2631450139,2631450139,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,2026-06-11T11:22:13+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,70.0,0.0,0.0,0.0,0.0,48.71,161.02,48.71,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물목록 펼치기",매매,"11억 5,000",0.0,0.0,115000.0,0.0,325.7,98.52,청주시,흥덕구,복대동,청주시 흥덕구 복대동,115000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,161.02,https://fin.land.naver.com/articles/2631450139,2631450139,https://fin.land.naver.com/articles/2631450139,2631450139,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:22:13+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,70.0,0.0,0.0,0.0,0.0,48.71,161.02,48.71,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 일반상가
 월세 1,000/70
 상가점포2001.05(26년차)계약161.02㎡ (전용138.84)3/4층
@@ -463,8 +473,8 @@ e복덕방공인중개사사무소
 확인매물 2026.06.11
 건우다솔공인중개사무소
 부동산써브
-매물 보러가기",월세,"1,000/70",1000.0,70.0,0.0,0.0,161.02,48.71,청주시,흥덕구,복대동,청주시 흥덕구 복대동,70.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 상가주택,,복대동,토지,매매,330.0,https://fin.land.naver.com/articles/2631435273,2631435273,https://fin.land.naver.com/articles/2631435273,2631435273,11 e복덕방공인중개사사무소 부동산,11 e복덕방공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,115000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,99.83,330.0,99.83,330.0,99.83,330.0,99.83,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",월세,"1,000/70",1000.0,70.0,0.0,0.0,161.02,48.71,청주시,흥덕구,복대동,청주시 흥덕구 복대동,70.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 상가주택,,복대동,토지,매매,330.0,https://fin.land.naver.com/articles/2631435273,2631435273,https://fin.land.naver.com/articles/2631435273,2631435273,11 e복덕방공인중개사사무소 부동산,11 e복덕방공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:22:14+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,115000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,99.83,330.0,99.83,330.0,99.83,330.0,99.83,0.0,0.0,0.0,0.0,"관심매물
 복대동 상가주택
 매매 11억 5,000
 상가주택2016.10(10년차)대지330㎡ (연면적604.9)4/-층
@@ -476,8 +486,8 @@ e복덕방공인중개사사무소
 확인매물 2026.06.11
 e복덕방공인중개사사무소
 부동산써브
-매물 보러가기",매매,"11억 5,000",0.0,0.0,115000.0,0.0,330.0,99.83,청주시,흥덕구,복대동,청주시 흥덕구 복대동,115000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 일반상가,,복대동,상가,월세,133.35,https://fin.land.naver.com/articles/2631449389,2631449389,https://fin.land.naver.com/articles/2631449389,2631449389,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,2000.0,100.0,0.0,0.0,0.0,0.0,40.34,133.35,40.34,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",매매,"11억 5,000",0.0,0.0,115000.0,0.0,330.0,99.83,청주시,흥덕구,복대동,청주시 흥덕구 복대동,115000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,133.35,https://fin.land.naver.com/articles/2631449389,2631449389,https://fin.land.naver.com/articles/2631449389,2631449389,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:22:14+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,2000.0,100.0,0.0,0.0,0.0,0.0,40.34,133.35,40.34,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 일반상가
 월세 2,000/100
 상가점포2002.04(25년차)계약133.35㎡ (전용130)2/4층
@@ -489,7 +499,7 @@ e복덕방공인중개사사무소
 확인매물 2026.06.11
 건우다솔공인중개사무소
 부동산써브
-매물 보러가기",월세,"2,000/100",2000.0,100.0,0.0,0.0,133.35,40.34,청주시,흥덕구,복대동,청주시 흥덕구 복대동,100.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
+매물 보러가기",월세,"2,000/100",2000.0,100.0,0.0,0.0,133.35,40.34,청주시,흥덕구,복대동,청주시 흥덕구 복대동,100.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
 현대2차 205동,,청주시,아파트,월세,0.0,https://fin.land.naver.com/articles/2631420655,2631420655,https://fin.land.naver.com/articles/2631420655,2631420655,11 파랑새공인중개사 부동산,11 파랑새공인중개사 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,88.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 현대2차 205동
 월세 1,000/88
@@ -503,7 +513,7 @@ e복덕방공인중개사사무소
 파랑새공인중개사
 부동산뱅크
 매물 보러가기",월세,"1,000/88",1000.0,88.0,0.0,0.0,0.0,0,청주시,,,청주시,88.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 다가구,,복대동,원룸,월세,26.44,https://fin.land.naver.com/articles/2631487646,2631487646,https://fin.land.naver.com/articles/2631487646,2631487646,11 건우다솔공인중개사사무소,11 건우다솔공인중개사사무소,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,200.0,35.0,0.0,0.0,0.0,0.0,8.0,26.44,8.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 다가구,,복대동,원룸,월세,26.44,https://fin.land.naver.com/articles/2631487646,2631487646,https://fin.land.naver.com/articles/2631487646,2631487646,11 건우다솔공인중개사사무소,11 건우다솔공인중개사사무소,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:22:14+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,200.0,35.0,0.0,0.0,0.0,0.0,8.0,26.44,8.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 다가구
 월세 200/35
 단독/다가구2001.06(25년차)전용26.44㎡2/3층
@@ -515,8 +525,8 @@ e복덕방공인중개사사무소
 확인매물 2026.06.11
 건우다솔공인중개사사무소
 이실장플러스
-매물 보러가기",월세,200/35,200.0,35.0,0.0,0.0,26.44,8.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,35.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 일반상가,,복대동,상가,월세,40.0,https://fin.land.naver.com/articles/2631460923,2631460923,https://fin.land.naver.com/articles/2631460923,2631460923,11 하트리움공인중개사사무소,11 하트리움공인중개사사무소,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,2026-06-11T11:22:14+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,50.0,0.0,0.0,0.0,0.0,12.1,40.0,12.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",월세,200/35,200.0,35.0,0.0,0.0,26.44,8.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,35.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,40.0,https://fin.land.naver.com/articles/2631460923,2631460923,https://fin.land.naver.com/articles/2631460923,2631460923,11 하트리움공인중개사사무소,11 하트리움공인중개사사무소,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:22:14+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,50.0,0.0,0.0,0.0,0.0,12.1,40.0,12.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 일반상가
 월세 500/50
 상가점포1990.07(36년차)계약40㎡ (전용40)5/5층
@@ -528,8 +538,8 @@ sk하이닉스근접소형사무실 흥덕보건소앞 냉난방시설,싱크대
 확인매물 2026.06.11
 하트리움공인중개사사무소
 알터
-매물 보러가기",월세,500/50,500.0,50.0,0.0,0.0,40.0,12.1,청주시,흥덕구,복대동,청주시 흥덕구 복대동,50.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 다가구,,복대동,토지,매매,295.1,https://fin.land.naver.com/articles/2631474629,2631474629,https://fin.land.naver.com/articles/2631474629,2631474629,11 복터공인중개사사무소 부동산,11 복터공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:15+09:00,2026-06-11T11:22:15+09:00,2026-06-11T11:22:15+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,245000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,89.27,295.1,89.27,295.1,89.27,295.1,89.27,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",월세,500/50,500.0,50.0,0.0,0.0,40.0,12.1,청주시,흥덕구,복대동,청주시 흥덕구 복대동,50.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 다가구,,복대동,토지,매매,295.1,https://fin.land.naver.com/articles/2631474629,2631474629,https://fin.land.naver.com/articles/2631474629,2631474629,11 복터공인중개사사무소 부동산,11 복터공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:22:15+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,245000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,89.27,295.1,89.27,295.1,89.27,295.1,89.27,0.0,0.0,0.0,0.0,"관심매물
 이미지
 15
 개
@@ -544,8 +554,8 @@ sk하이닉스근접소형사무실 흥덕보건소앞 냉난방시설,싱크대
 확인매물 2026.06.11
 복터공인중개사사무소
 부동산뱅크
-매물 보러가기",매매,"24억 5,000",0.0,0.0,245000.0,0.0,295.1,89.27,청주시,흥덕구,복대동,청주시 흥덕구 복대동,245000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 일반상가,,복대동,상가,월세,193.71,https://fin.land.naver.com/articles/2631448606,2631448606,https://fin.land.naver.com/articles/2631448606,2631448606,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:15+09:00,2026-06-11T11:22:15+09:00,2026-06-11T11:22:15+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,5000.0,140.0,0.0,0.0,0.0,0.0,58.6,193.71,58.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",매매,"24억 5,000",0.0,0.0,245000.0,0.0,295.1,89.27,청주시,흥덕구,복대동,청주시 흥덕구 복대동,245000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,193.71,https://fin.land.naver.com/articles/2631448606,2631448606,https://fin.land.naver.com/articles/2631448606,2631448606,11 건우다솔공인중개사무소 부동산,11 건우다솔공인중개사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:22:15+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,5000.0,140.0,0.0,0.0,0.0,0.0,58.6,193.71,58.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 일반상가
 월세 5,000/140
 상가점포2003.01(24년차)계약193.71㎡ (전용174.87)3/6층
@@ -557,8 +567,8 @@ sk하이닉스근접소형사무실 흥덕보건소앞 냉난방시설,싱크대
 확인매물 2026.06.11
 건우다솔공인중개사무소
 부동산써브
-매물 보러가기",월세,"5,000/140",5000.0,140.0,0.0,0.0,193.71,58.6,청주시,흥덕구,복대동,청주시 흥덕구 복대동,140.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 일반상가,,복대동,상가,월세,60.48,https://fin.land.naver.com/articles/2631444607,2631444607,https://fin.land.naver.com/articles/2631444607,2631444607,11 지구부동산공인중개사사무소 부동산,11 지구부동산공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:15+09:00,2026-06-11T11:22:15+09:00,2026-06-11T11:22:15+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,100.0,0.0,0.0,0.0,0.0,18.3,60.48,18.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+매물 보러가기",월세,"5,000/140",5000.0,140.0,0.0,0.0,193.71,58.6,청주시,흥덕구,복대동,청주시 흥덕구 복대동,140.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,60.48,https://fin.land.naver.com/articles/2631444607,2631444607,https://fin.land.naver.com/articles/2631444607,2631444607,11 지구부동산공인중개사사무소 부동산,11 지구부동산공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T12:44:10+09:00,2026-06-11T11:22:15+09:00,2026-06-11T12:44:10+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,100.0,0.0,0.0,0.0,0.0,18.3,60.48,18.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 복대동 일반상가
 월세 1,000/100
 상가점포1990.04(37년차)계약60.48㎡ (전용60.48)1/2층
@@ -570,7 +580,7 @@ sk하이닉스근접소형사무실 흥덕보건소앞 냉난방시설,싱크대
 확인매물 2026.06.11
 지구부동산공인중개사사무소
 부동산뱅크
-매물 보러가기",월세,"1,000/100",1000.0,100.0,0.0,0.0,60.48,18.3,청주시,흥덕구,복대동,청주시 흥덕구 복대동,100.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
+매물 보러가기",월세,"1,000/100",1000.0,100.0,0.0,0.0,60.48,18.3,청주시,흥덕구,복대동,청주시 흥덕구 복대동,100.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
 지이 1동,,청주시,오피스텔,월세,0.0,https://fin.land.naver.com/articles/2631500971,2631500971,https://fin.land.naver.com/articles/2631500971,2631500971,11 지웰시티뷰공인중개사사무소 부동산,11 지웰시티뷰공인중개사사무소 부동산,확인매물,2026.06.11,네이버부동산,예,2026-06-11T11:22:15+09:00,2026-06-11T11:22:15+09:00,2026-06-11T11:22:15+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,60.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 지이 1동
 월세 500/60
@@ -796,7 +806,7 @@ sk하이닉스근접소형사무실 흥덕보건소앞 냉난방시설,싱크대
 금호어울림공인중개사사무소
 매경부동산
 매물 보러가기",월세,"1,000/90",1000.0,90.0,0.0,0.0,46.54,14.08,청주시,흥덕구,복대동,청주시 흥덕구 복대동,90.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 단독,,복대동,기타,월세,29.9,https://fin.land.naver.com/articles/2631379576/out-link-bridge?cpId=toad,2631379576,https://fin.land.naver.com/articles/2631379576/out-link-bridge?cpId=toad,2631379576,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,2026-06-11T11:32:16+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,45.0,0.0,0.0,0.0,0.0,9.04,29.9,9.04,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 단독,,복대동,기타,월세,29.9,https://fin.land.naver.com/articles/2631379576/out-link-bridge?cpId=toad,2631379576,https://fin.land.naver.com/articles/2631379576/out-link-bridge?cpId=toad,2631379576,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:32:16+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,45.0,0.0,0.0,0.0,0.0,9.04,29.9,9.04,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 이미지
 12
 개
@@ -813,7 +823,7 @@ sk하이닉스근접소형사무실 흥덕보건소앞 냉난방시설,싱크대
 차오름부동산공인중개사사무소
 피터팬의 좋은방구하기
 Npay 부동산에서 보기
-매물 보러가기",월세,"1,000/45",1000.0,45.0,0.0,0.0,29.9,9.04,청주시,흥덕구,복대동,청주시 흥덕구 복대동,45.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
+매물 보러가기",월세,"1,000/45",1000.0,45.0,0.0,0.0,29.9,9.04,청주시,흥덕구,복대동,청주시 흥덕구 복대동,45.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
 더샵청주센트럴 102동,,청주시,아파트,매매,0.0,https://fin.land.naver.com/articles/2631308535,2631308535,https://fin.land.naver.com/articles/2631308535,2631308535,,,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,56000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"이미지
 3
 개
@@ -836,7 +846,7 @@ Npay 부동산에서 보기
 지웰선우공인중개사사무소
 매경부동산
 매물 보러가기",전세,"8억 5,000",0.0,0.0,0.0,85000.0,162.0,49.01,청주시,,,청주시,85000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
-복대동 단독,,복대동,기타,전세,29.75,https://fin.land.naver.com/articles/2631207974/out-link-bridge?cpId=toad,2631207974,https://fin.land.naver.com/articles/2631207974/out-link-bridge?cpId=toad,2631207974,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,9000.0,0.0,0.0,29.75,9.0,29.75,9.0,9.0,29.75,9.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 단독,,복대동,기타,전세,29.75,https://fin.land.naver.com/articles/2631207974/out-link-bridge?cpId=toad,2631207974,https://fin.land.naver.com/articles/2631207974/out-link-bridge?cpId=toad,2631207974,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,10 차오름부동산공인중개사사무소 피터팬의 좋은방구하기 Npay 부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T11:32:17+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,9000.0,0.0,0.0,29.75,9.0,29.75,9.0,9.0,29.75,9.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 이미지
 10
 개
@@ -852,7 +862,7 @@ Npay 부동산에서 보기
 차오름부동산공인중개사사무소
 피터팬의 좋은방구하기
 Npay 부동산에서 보기
-매물 보러가기",전세,"9,000",0.0,0.0,0.0,9000.0,29.75,9.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,9000.0,신규,변동 없음,변동 없음,0.0,0.0,0,,,,0,0,0
+매물 보러가기",전세,"9,000",0.0,0.0,0.0,9000.0,29.75,9.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,9000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
 두산위브지웰시티2차(주상복합) 207동,,청주시,아파트,매매,0.0,https://fin.land.naver.com/articles/2631415717,2631415717,https://fin.land.naver.com/articles/2631415717,2631415717,10 지웰왕대박공인중개사사무소 매경부동산,10 지웰왕대박공인중개사사무소 매경부동산,확인매물,2026.06.10,네이버부동산,예,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,2026-06-11T11:32:17+09:00,https://fin.land.naver.com/map?center=3zAPcq-2A94uJ&zoom=14.313509941651903&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A01-A04-B01-A02-A05-A06-A07-C02-B02-C01-C03-C04-F01-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEyiVBhwiA9vIB2AcwAq3XvAAigzVNx6pI-mAC%2BlgLpA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,96000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 두산위브지웰시티2차(주상복합) 207동
 매매 9억 6,000
@@ -1290,7 +1300,7 @@ GS자이공인중개사사무소
 더샵스마트 공인중개사사무소
 부동산뱅크
 매물 보러가기",월세,300/30,300.0,30.0,0.0,0.0,26.4,7.99,청주시,흥덕구,복대동,청주시 흥덕구 복대동,30.0,신규,변동 없음,변동 없음,0.0,0.0,full_scan,10.0,,,0,0,0
-복대동 일반원룸,,복대동,원룸,월세,26.44,https://fin.land.naver.com/articles/2631208159,2631208159,https://fin.land.naver.com/articles/2631208159,2631208159,09 재일공인중개사합동사무소 부동산,09 재일공인중개사합동사무소 부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:33:08+09:00,2026-06-11T12:33:08+09:00,2026-06-11T12:33:08+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,200.0,25.0,0.0,0.0,0.0,0.0,8.0,26.44,8.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 일반원룸,,복대동,원룸,월세,26.44,https://fin.land.naver.com/articles/2631208159,2631208159,https://fin.land.naver.com/articles/2631208159,2631208159,09 재일공인중개사합동사무소 부동산,09 재일공인중개사합동사무소 부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:05+09:00,2026-06-11T12:33:08+09:00,2026-06-11T12:44:05+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,200.0,25.0,0.0,0.0,0.0,0.0,8.0,26.44,8.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
 이미지
 8
 개
@@ -1305,4 +1315,282 @@ GS자이공인중개사사무소
 집주인확인매물 2026.06.09
 재일공인중개사합동사무소
 부동산써브
-매물 보러가기",월세,200/25,200.0,25.0,0.0,0.0,26.44,8.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,25.0,신규,변동 없음,변동 없음,0.0,0.0,full_scan,10.0,,,0,0,0
+매물 보러가기",월세,200/25,200.0,25.0,0.0,0.0,26.44,8.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,25.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,10.0,,,0,0,0
+복대동 단지내상가,,복대동,상가,매매,58.63,https://fin.land.naver.com/articles/2631101280,2631101280,https://fin.land.naver.com/articles/2631101280,2631101280,09 지웰최고공인중개사사무소 매경부동산,09 지웰최고공인중개사사무소 매경부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:05+09:00,2026-06-11T12:44:05+09:00,2026-06-11T12:44:05+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,43000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,17.74,58.63,17.74,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 단지내상가
+매매 4억 3,000
+상가점포2018.11(8년차)계약58.63㎡ (전용38.63)1/1층
+
+""
+최근 편의점입점 임대수익 보장된상가 공실걱정없는 코너상가
+""
+
+소유자확인매물 2026.06.09
+지웰최고공인중개사사무소
+매경부동산
+매물 보러가기",매매,"4억 3,000",0.0,0.0,43000.0,0.0,58.63,17.74,청주시,흥덕구,복대동,청주시 흥덕구 복대동,43000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,39.0,https://fin.land.naver.com/articles/2631023309,2631023309,https://fin.land.naver.com/articles/2631023309,2631023309,09 큰터공인중개사사무소 매경부동산,09 큰터공인중개사사무소 매경부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:05+09:00,2026-06-11T12:44:05+09:00,2026-06-11T12:44:05+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,2000.0,100.0,0.0,0.0,0.0,0.0,11.8,39.0,11.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 일반상가
+월세 2,000/100
+상가점포2009.04(18년차)계약39㎡ (전용35)1/4층
+
+""
+무권리, 공실, 가격 절충 가능, 교습소,의류점,네일,무인샾 추천
+""
+
+소유자확인매물 2026.06.09
+큰터공인중개사사무소
+매경부동산
+매물 보러가기",월세,"2,000/100",2000.0,100.0,0.0,0.0,39.0,11.8,청주시,흥덕구,복대동,청주시 흥덕구 복대동,100.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 다가구,,복대동,토지,매매,249.0,https://fin.land.naver.com/articles/2631006011,2631006011,https://fin.land.naver.com/articles/2631006011,2631006011,09 미래n공인중개사사무소 부동산,09 미래n공인중개사사무소 부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:05+09:00,2026-06-11T12:44:05+09:00,2026-06-11T12:44:05+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,80000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,75.32,249.0,75.32,249.0,75.32,249.0,75.32,0.0,0.0,0.0,0.0,"관심매물
+복대동 다가구
+매매 8억
+단독/다가구2012.02(15년차)대지249㎡ (연면적329)3/-층
+
+""
+충북대 인근 공실없는 원룸건물 수익률13.1프로 월750만원
+""
+
+집주인확인매물 2026.06.09
+미래n공인중개사사무소
+부동산뱅크
+매물 보러가기",매매,8억,0.0,0.0,80000.0,0.0,249.0,75.32,청주시,흥덕구,복대동,청주시 흥덕구 복대동,80000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,24.0,https://fin.land.naver.com/articles/2630909325,2630909325,https://fin.land.naver.com/articles/2630909325,2630909325,,,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:06+09:00,2026-06-11T12:44:06+09:00,2026-06-11T12:44:06+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,35.0,0.0,0.0,0.0,0.0,7.26,24.0,7.26,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"이미지
+9
+개
+복대동 일반원룸
+월세 300/35
+원룸관리비 10만원전용24㎡
+집주인확인매물 2026.06.08
+중개사 2곳에서 등록했어요
+매물목록 펼치기",월세,300/35,300.0,35.0,0.0,0.0,24.0,7.26,청주시,흥덕구,복대동,청주시 흥덕구 복대동,35.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,10.0,,,0,0,0
+복대동 다가구,,복대동,토지,매매,256.3,https://fin.land.naver.com/articles/2631208920,2631208920,https://fin.land.naver.com/articles/2631208920,2631208920,09 지웰부자공인중개사사무소 매경부동산,09 지웰부자공인중개사사무소 매경부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:06+09:00,2026-06-11T12:44:06+09:00,2026-06-11T12:44:06+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,75000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,77.53,256.3,77.53,256.3,77.53,256.3,77.53,0.0,0.0,0.0,0.0,"관심매물
+복대동 다가구
+매매 7억 5,000
+단독/다가구2011.06(16년차)대지256.3㎡ (연면적475.63)4/B4층
+
+""
+충북대인근 다가구주택 고수익
+""
+
+집주인확인매물 2026.06.09
+지웰부자공인중개사사무소
+매경부동산
+매물 보러가기",매매,"7억 5,000",0.0,0.0,75000.0,0.0,256.3,77.53,청주시,흥덕구,복대동,청주시 흥덕구 복대동,75000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 단독,,복대동,기타,월세,25.0,https://fin.land.naver.com/articles/2630973095,2630973095,https://fin.land.naver.com/articles/2630973095,2630973095,09 다가치공인중개사사무소 부동산,09 다가치공인중개사사무소 부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:06+09:00,2026-06-11T12:44:06+09:00,2026-06-11T12:44:06+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,40.0,0.0,0.0,0.0,0.0,7.56,25.0,7.56,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+7
+개
+복대동 단독
+월세 300/40
+단독/다가구2012.07(14년차)전용25㎡2/4층
+
+""
+복대사거리 깔끔한 분리형 투베이 컨디션 좋아요
+""
+
+집주인확인매물 2026.06.09
+다가치공인중개사사무소
+부동산뱅크
+매물 보러가기",월세,300/40,300.0,40.0,0.0,0.0,25.0,7.56,청주시,흥덕구,복대동,청주시 흥덕구 복대동,40.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,20.0,https://fin.land.naver.com/articles/2630964244,2630964244,https://fin.land.naver.com/articles/2630964244,2630964244,09 청주SK뷰자이월드공인중개사사무소 부동산,09 청주SK뷰자이월드공인중개사사무소 부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,50.0,0.0,0.0,0.0,0.0,6.05,20.0,6.05,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+10
+개
+복대동 일반원룸
+월세 500/50
+원룸관리비 15만원전용20㎡
+
+""
+충대 쪽문 인근 26.5 초신축 풀옵션 원룸, 입주가능
+""
+
+집주인확인매물 2026.06.09
+청주SK뷰자이월드공인중개사사무소
+부동산포스
+매물 보러가기",월세,500/50,500.0,50.0,0.0,0.0,20.0,6.05,청주시,흥덕구,복대동,청주시 흥덕구 복대동,50.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,15.0,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,23.14,https://fin.land.naver.com/articles/2630833646,2630833646,https://fin.land.naver.com/articles/2630833646,2630833646,08 더샵스마트공인중개사사무소,08 더샵스마트공인중개사사무소,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,30.0,23.14,7.0,23.14,7.0,7.0,23.14,7.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+9
+개
+복대동 일반원룸
+월세 300/30
+원룸관리비 10만원공급23.14㎡ (전용23.14)
+
+""
+준신축 조건좋은 조용하고깔끔한풀옵션원룸
+""
+
+집주인확인매물 2026.06.08
+더샵스마트공인중개사사무소
+텐컴즈
+매물 보러가기",월세,300/30,300.0,30.0,0.0,0.0,23.14,7.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,30.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,10.0,,,0,0,0
+복대동 다가구,,복대동,기타,전세,130.0,https://fin.land.naver.com/articles/2631187583,2631187583,https://fin.land.naver.com/articles/2631187583,2631187583,09 솔밭공인중개사사무소 매경부동산,09 솔밭공인중개사사무소 매경부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,15000.0,0.0,0.0,130.0,39.33,130.0,39.33,39.33,130.0,39.33,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+10
+개
+복대동 다가구
+전세 1억 5,000
+단독/다가구2010.10(16년차)공급130㎡ (전용120)3/3층
+
+""
+사진참고.큰 거실과 주방. 방3 욕실2. 태양광 .옥상정원 채소가능
+""
+
+집주인확인매물 2026.06.09
+솔밭공인중개사사무소
+매경부동산
+매물 보러가기",전세,"1억 5,000",0.0,0.0,0.0,15000.0,130.0,39.33,청주시,흥덕구,복대동,청주시 흥덕구 복대동,15000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,3.0,2.0,0,0,0
+대농지구롯데캐슬시티 1동,,청주시,오피스텔,매매,0.0,https://fin.land.naver.com/articles/2630930973,2630930973,https://fin.land.naver.com/articles/2630930973,2630930973,08 우리동네공인중개사사무소 부동산,08 우리동네공인중개사사무소 부동산,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,23000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+대농지구롯데캐슬시티 1동
+매매 2억 3,000
+오피스텔106G㎡ (전용50G)12/15층동향
+
+""
+세안고매매 집상태최상 하이닉스 도보10분
+""
+
+집주인확인매물 2026.06.08
+우리동네공인중개사사무소
+부동산써브
+매물 보러가기",매매,"2억 3,000",0.0,0.0,23000.0,0.0,0.0,0,청주시,,,청주시,23000.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,26.45,https://fin.land.naver.com/articles/2630725050,2630725050,https://fin.land.naver.com/articles/2630725050,2630725050,08 더샵스마트공인중개사사무소,08 더샵스마트공인중개사사무소,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,2026-06-11T12:44:07+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,30.0,26.45,8.0,26.45,8.0,8.0,26.45,8.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+8
+개
+복대동 일반원룸
+월세 300/30
+원룸관리비 8만원공급26.45㎡ (전용26.45)
+
+""
+가성비좋은 깔끔한 풀옵션원룸
+""
+
+집주인확인매물 2026.06.08
+더샵스마트공인중개사사무소
+텐컴즈
+매물 보러가기",월세,300/30,300.0,30.0,0.0,0.0,26.45,8.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,30.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,8.0,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,26.45,https://fin.land.naver.com/articles/2630836322,2630836322,https://fin.land.naver.com/articles/2630836322,2630836322,08 더샵스마트공인중개사사무소,08 더샵스마트공인중개사사무소,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:08+09:00,2026-06-11T12:44:08+09:00,2026-06-11T12:44:08+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,35.0,26.45,8.0,26.45,8.0,8.0,26.45,8.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+11
+개
+복대동 일반원룸
+월세 300/35
+원룸관리비 10만원공급26.45㎡ (전용26.45)
+
+""
+준신축 조용하고깔끔한 풀옵션원룸
+""
+
+집주인확인매물 2026.06.08
+더샵스마트공인중개사사무소
+텐컴즈
+매물 보러가기",월세,300/35,300.0,35.0,0.0,0.0,26.45,8.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,35.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,10.0,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,71.46,https://fin.land.naver.com/articles/2631000831,2631000831,https://fin.land.naver.com/articles/2631000831,2631000831,09 지구부동산공인중개사사무소 부동산,09 지구부동산공인중개사사무소 부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:08+09:00,2026-06-11T12:44:08+09:00,2026-06-11T12:44:08+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,1000.0,90.0,0.0,0.0,0.0,0.0,21.62,71.46,21.62,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 일반상가
+월세 1,000/90
+상가점포2023.02(4년차)계약71.46㎡ (전용71.46)1/4층
+
+""
+사진o복대사거리 죽천교인근 기본인테리어된 깨끗한 상가, 공방, 사무실
+""
+
+소유자확인매물 2026.06.09
+지구부동산공인중개사사무소
+부동산뱅크
+매물 보러가기",월세,"1,000/90",1000.0,90.0,0.0,0.0,71.46,21.62,청주시,흥덕구,복대동,청주시 흥덕구 복대동,90.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,30.0,https://fin.land.naver.com/articles/2630897513,2630897513,https://fin.land.naver.com/articles/2630897513,2630897513,08 솔밭공인중개사사무소 매경부동산,08 솔밭공인중개사사무소 매경부동산,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:08+09:00,2026-06-11T12:44:08+09:00,2026-06-11T12:44:08+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,300.0,30.0,30.0,9.08,30.0,9.08,9.08,30.0,9.08,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+7
+개
+복대동 일반원룸
+월세 300/30
+원룸관리비 10만원공급30㎡ (전용26)
+
+""
+정남향. 주방 거실 분리형. 욕실 싱크대 리모델링.서청주우체국 앞
+""
+
+집주인확인매물 2026.06.08
+솔밭공인중개사사무소
+매경부동산
+매물 보러가기",월세,300/30,300.0,30.0,0.0,0.0,30.0,9.08,청주시,흥덕구,복대동,청주시 흥덕구 복대동,30.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,10.0,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,183.38,https://fin.land.naver.com/articles/2631213215,2631213215,https://fin.land.naver.com/articles/2631213215,2631213215,09 호반공인중개사사무소 매경부동산,09 호반공인중개사사무소 매경부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,2000.0,140.0,0.0,0.0,0.0,0.0,55.47,183.38,55.47,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 일반상가
+월세 2,000/140
+상가점포2002.01(25년차)계약183.38㎡ (전용180)2/6층
+
+""
+유동인구많고 상권형성된코너상가,내부화장실,렌트프리.
+""
+
+소유자확인매물 2026.06.09
+호반공인중개사사무소
+매경부동산
+매물 보러가기",월세,"2,000/140",2000.0,140.0,0.0,0.0,183.38,55.47,청주시,흥덕구,복대동,청주시 흥덕구 복대동,140.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,30.0,https://fin.land.naver.com/articles/2630726564,2630726564,https://fin.land.naver.com/articles/2630726564,2630726564,08 스피드공인중개사사무소,08 스피드공인중개사사무소,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,45.0,30.0,9.08,30.0,9.08,9.08,30.0,9.08,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 일반원룸
+월세 500/45
+원룸관리비 10만원공급30㎡ (전용30)
+
+""
+넓은투베이 풀옵션 즉시입주
+""
+
+집주인확인매물 2026.06.08
+스피드공인중개사사무소
+알터
+매물 보러가기",월세,500/45,500.0,45.0,0.0,0.0,30.0,9.08,청주시,흥덕구,복대동,청주시 흥덕구 복대동,45.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,10.0,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,50.0,https://fin.land.naver.com/articles/2630988905,2630988905,https://fin.land.naver.com/articles/2630988905,2630988905,09 명장공인중개사사무소,09 명장공인중개사사무소,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,500.0,50.0,0.0,0.0,0.0,0.0,15.13,50.0,15.13,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 일반상가
+월세 500/50
+상가점포1990.07(36년차)계약50㎡ (전용40)5/5층
+
+""
+엘베 사무실 작업실 2종근생가능
+""
+
+소유자확인매물 2026.06.09
+명장공인중개사사무소
+알터
+매물 보러가기",월세,500/50,500.0,50.0,0.0,0.0,50.0,15.13,청주시,흥덕구,복대동,청주시 흥덕구 복대동,50.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반상가,,복대동,상가,월세,165.0,https://fin.land.naver.com/articles/2631010458,2631010458,https://fin.land.naver.com/articles/2631010458,2631010458,09 미래n공인중개사사무소 부동산,09 미래n공인중개사사무소 부동산,확인매물,2026.06.09,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,3000.0,100.0,0.0,0.0,0.0,0.0,49.91,165.0,49.91,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+복대동 일반상가
+월세 3,000/100
+상가점포1990.12(36년차)계약165㎡ (전용165)3/3층
+
+""
+4거리 코너 3층상가 광고효과 좋은곳 업종제한 없습니다.
+""
+
+소유자확인매물 2026.06.09
+미래n공인중개사사무소
+부동산뱅크
+매물 보러가기",월세,"3,000/100",3000.0,100.0,0.0,0.0,165.0,49.91,청주시,흥덕구,복대동,청주시 흥덕구 복대동,100.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,29.7,https://fin.land.naver.com/articles/2630616330,2630616330,https://fin.land.naver.com/articles/2630616330,2630616330,08 더샵스마트 공인중개사사무소 부동산,08 더샵스마트 공인중개사사무소 부동산,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,200.0,30.0,0.0,0.0,0.0,0.0,8.98,29.7,8.98,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+12
+개
+복대동 일반원룸
+월세 200/30
+원룸관리비 12만원전용29.7㎡
+
+""
+주차가능 즉시입주 채광 출퇴근 위치 좋은 풀옵션 원룸
+""
+
+집주인확인매물 2026.06.08
+더샵스마트 공인중개사사무소
+부동산뱅크
+매물 보러가기",월세,200/30,200.0,30.0,0.0,0.0,29.7,8.98,청주시,흥덕구,복대동,청주시 흥덕구 복대동,30.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,12.0,,,0,0,0
+복대동 일반원룸,,복대동,원룸,월세,23.14,https://fin.land.naver.com/articles/2630721475,2630721475,https://fin.land.naver.com/articles/2630721475,2630721475,08 더샵스마트공인중개사사무소,08 더샵스마트공인중개사사무소,확인매물,2026.06.08,네이버부동산,예,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,2026-06-11T12:44:09+09:00,https://fin.land.naver.com/map?center=3zB1BZ-2A9gKM&zoom=14.236066429327362&showOnlySelectedRegion=true&tradeTypes=A1-B1-B2-B3&realEstateTypes=A02-A05-A06-A07-C02-C01-C03-C04-D05-D02-E03-D01-E02-D03-D04-E01-Z00&layer=NobwRAlgJmBcYEMBOAXCBjANgUwPqYgGcUwAaMQ7ZdACwAVkEBbQucFATwAds4wBhAIJ0AygFUAMgFEwAX1kBdIA,"{""id"": ""20260610094838704354"", ""regions"": [""청주시""], ""property_types"": [""전체""], ""deal_types"": [""전체""], ""min_price"": 0.0, ""max_price"": 0.0, ""enabled"": true, ""search_url"": """", ""registered_at"": ""2026-06-10T09:48:38"", ""last_collected_at"": ""2026-06-10T20:02:36+09:00"", ""new_listing_count"": 0}",사용자 Chrome 화면 수집,,신규,0.0,0.0,100.0,27.0,23.14,7.0,23.14,7.0,7.0,23.14,7.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,"관심매물
+이미지
+7
+개
+복대동 일반원룸
+월세 100/27
+원룸관리비 10만원공급23.14㎡ (전용23.14)
+집주인확인매물 2026.06.08
+더샵스마트공인중개사사무소
+텐컴즈
+매물 보러가기",월세,100/27,100.0,27.0,0.0,0.0,23.14,7.0,청주시,흥덕구,복대동,청주시 흥덕구 복대동,27.0,신규,변동 없음,변동 없음,0.0,0.0,quick_scan,10.0,,,0,0,0
