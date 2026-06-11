@@ -8,14 +8,29 @@ from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from db_store import add_log, insert_listing, load_conditions, load_listings, replace_listings
+from collection_settings import MAX_SAVE_PER_RUN
+from region_classifier import classify_cheongju_region, enrich_listing_region
+from db_store import (
+    add_log,
+    load_conditions,
+    load_listings,
+    replace_listings,
+    upsert_collected_listing,
+)
 
 
 ROOT = Path(__file__).resolve().parent
 CDP_URL = "http://localhost:9222"
 LISTINGS_FILE = ROOT / "listings.csv"
 LOG_FILE = ROOT / "collect_logs.csv"
-MAX_NEW = 3
+MAX_NEW = MAX_SAVE_PER_RUN
+REQUIRED_EXPORT_COLUMNS = [
+    "city", "district", "neighborhood",
+    "대지면적(㎡)", "대지면적(평)", "전용면적(㎡)", "전용면적(평)",
+    "공급면적(㎡)", "공급면적(평)", "건물면적(㎡)", "건물면적(평)",
+    "supply_area_m2", "supply_area_pyeong", "exclusive_area_m2", "exclusive_area_pyeong",
+    "land_area_m2", "land_area_pyeong", "building_area_m2", "building_area_pyeong",
+]
 LAND_HOSTS = ("land.naver.com", "new.land.naver.com", "fin.land.naver.com")
 REJECTED_PATHS = ("/news", "/404", "headline")
 FAILURE_MESSAGE = (
@@ -23,6 +38,7 @@ FAILURE_MESSAGE = (
     "네이버부동산에서 검색 결과 화면을 열어주세요."
 )
 BLOCKED_TEXTS = ("captcha", "비정상적인 접근", "접근이 제한", "요청이 너무 많")
+PYEONG_M2 = 3.305785
 SKIP_TITLE_TEXTS = (
     "본문 바로가기",
     "메뉴 바로가기",
@@ -107,6 +123,83 @@ def parse_price(value):
     return parse_number(text)
 
 
+def parse_deal_and_price(card_text):
+    """Parse the price line first so floor/area slash values cannot become monthly rent."""
+    lines = [
+        re.sub(r"\s+", " ", line).strip()
+        for line in str(card_text).splitlines()
+        if re.sub(r"\s+", " ", line).strip()
+    ]
+    price_line = next(
+        (
+            line for line in lines
+            if re.match(r"^(?:매매|전세)\s+[\d,.]", line)
+            or re.match(r"^월세\s+[\d,.억천만]+\s*/\s*[\d,.억천만]+", line)
+        ),
+        "",
+    )
+    if not price_line:
+        price_line = next(
+            (line for line in lines if re.search(r"\b(매매|전세|월세)\b", line)),
+            "",
+        )
+    deal_match = re.search(r"\b(매매|전세|월세)\b", price_line)
+    deal_type = deal_match.group(1) if deal_match else "기타"
+    price_text = price_line[deal_match.end():].strip(" :：") if deal_match else ""
+    result = {
+        "거래유형": deal_type,
+        "parsed_price_text": price_text,
+        "매매가(만원)": 0,
+        "전세금(만원)": 0,
+        "보증금(만원)": 0,
+        "월세(만원)": 0,
+    }
+    if deal_type == "월세":
+        slash = re.search(r"([\d,.억천만]+)\s*/\s*([\d,.억천만]+)", price_text)
+        if slash:
+            result["보증금(만원)"] = parse_price(slash.group(1))
+            result["월세(만원)"] = parse_price(slash.group(2))
+    elif deal_type == "매매":
+        result["매매가(만원)"] = parse_price(price_text)
+    elif deal_type == "전세":
+        result["전세금(만원)"] = parse_price(price_text)
+    return result
+
+
+def parse_area_fields(card_text):
+    text = re.sub(r"\s+", " ", str(card_text))
+    values = {"supply": 0.0, "exclusive": 0.0, "land": 0.0, "building": 0.0}
+    labels = {
+        "supply": ("공급면적", "공급"),
+        "exclusive": ("전용면적", "전용"),
+        "land": ("대지면적", "대지", "토지면적"),
+        "building": ("건물면적", "연면적", "건물"),
+    }
+    for key, names in labels.items():
+        pattern = rf"(?:{'|'.join(map(re.escape, names))})\s*[:：]?\s*([\d,.]+)\s*(㎡|m2|m²|평)"
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            area = parse_number(match.group(1))
+            values[key] = area * PYEONG_M2 if match.group(2) == "평" else area
+    unlabeled = re.search(r"([\d,.]+)\s*(?:㎡|m2|m²)", text, re.IGNORECASE)
+    if unlabeled and not values["exclusive"]:
+        values["exclusive"] = parse_number(unlabeled.group(1))
+    result = {}
+    for key, korean in (
+        ("supply", "공급면적"),
+        ("exclusive", "전용면적"),
+        ("land", "대지면적"),
+        ("building", "건물면적"),
+    ):
+        m2 = round(values[key], 2)
+        pyeong = round(m2 / PYEONG_M2, 2) if m2 else 0
+        result[f"{korean}(㎡)"] = m2
+        result[f"{korean}(평)"] = pyeong
+        result[f"{key}_area_m2"] = m2
+        result[f"{key}_area_pyeong"] = pyeong
+    return result
+
+
 def detect_property_type(text):
     rules = (
         ("공장", ("공장",)),
@@ -125,25 +218,12 @@ def detect_property_type(text):
 
 
 def detect_deal_type(text):
-    if "월세" in text or re.search(r"\d[\d,]*\s*/\s*\d[\d,]*", text):
-        return "월세"
-    if "전세" in text:
-        return "전세"
-    if "매매" in text:
-        return "매매"
-    return "기타"
+    return parse_deal_and_price(text)["거래유형"]
 
 
 def price_fields(text, deal_type):
-    slash = re.search(r"(\d[\d,]*)\s*/\s*(\d[\d,]*)", text)
-    labeled = re.search(r"(?:매매|전세|가격)\s*([\d,.]+\s*억(?:\s*[\d,.]+)?|[\d,.]+)", text)
-    price = parse_price(labeled.group(1)) if labeled else 0
-    return {
-        "매매가(만원)": price if deal_type == "매매" else 0,
-        "전세금(만원)": price if deal_type == "전세" else 0,
-        "보증금(만원)": parse_price(slash.group(1)) if slash else 0,
-        "월세(만원)": parse_price(slash.group(2)) if slash else 0,
-    }
+    parsed = parse_deal_and_price(text)
+    return {key: parsed[key] for key in ("매매가(만원)", "전세금(만원)", "보증금(만원)", "월세(만원)")}
 
 
 def is_land_tab_url(url):
@@ -235,13 +315,54 @@ def collect_visible_cards(page):
     )
 
 
+def parsed_price_has_value(parsed):
+    return any(
+        parsed.get(key, 0) > 0
+        for key in ("매매가(만원)", "전세금(만원)", "보증금(만원)", "월세(만원)")
+    )
+
+
+def verify_uncertain_cards(context, cards, condition, max_details=MAX_NEW):
+    checked = 0
+    for card in cards:
+        parsed = parse_deal_and_price(card.get("text", ""))
+        if parsed["거래유형"] != "기타" and parsed_price_has_value(parsed):
+            continue
+        if checked >= max_details:
+            break
+        url = str(card.get("url", "")).strip()
+        if not article_id(url):
+            continue
+        checked += 1
+        detail_page = None
+        try:
+            detail_page = context.new_page()
+            detail_page.goto(url, wait_until="domcontentloaded", timeout=30000)
+            detail_page.wait_for_timeout(1500)
+            detail_text = detail_page.locator("body").inner_text(timeout=10000)
+            detail_parsed = parse_deal_and_price(detail_text)
+            if detail_parsed["거래유형"] != "기타" and parsed_price_has_value(detail_parsed):
+                card["detail_text"] = detail_text
+                write_log("Detail verification success", article_id(url), url, condition)
+            else:
+                write_log("Detail verification failed", "거래유형 또는 가격을 확인하지 못했습니다.", url, condition)
+        except Exception as error:
+            write_log("Detail verification failed", f"{type(error).__name__}: {error}", url, condition)
+        finally:
+            if detail_page is not None:
+                detail_page.close()
+    return cards
+
+
 def card_to_row(card, page_url, condition):
-    text = re.sub(r"\s+", " ", str(card.get("text", ""))).strip()
+    raw_text = str(card.get("detail_text") or card.get("text", "")).strip()
+    text = re.sub(r"\s+", " ", raw_text).strip()
     url = str(card.get("url", "")).strip()
     aid = str(card.get("articleNo", "")).strip() or article_id(url)
     lines = listing_lines(card)
-    deal_type = detect_deal_type(text)
-    area_match = re.search(r"([\d,.]+)\s*(?:㎡|m2|m²|평)", text, re.IGNORECASE)
+    parsed_price = parse_deal_and_price(raw_text)
+    deal_type = parsed_price["거래유형"]
+    area_fields = parse_area_fields(raw_text)
     agency_match = re.search(r"([가-힣A-Za-z0-9 ]+(?:공인중개사사무소|부동산))", text)
     verified_match = re.search(r"확인매물|확인\s*\d{2}[./-]\d{2}[./-]\d{2}", text)
     date_match = re.search(r"\b(\d{2,4}[./-]\d{1,2}[./-]\d{1,2})\b", text)
@@ -253,7 +374,7 @@ def card_to_row(card, page_url, condition):
         "지역": region,
         "매물종류": detect_property_type(text),
         "거래유형": deal_type,
-        "전용면적(㎡)": parse_number(area_match.group(1)) if area_match else 0,
+        **area_fields,
         "네이버부동산 링크": url,
         "네이버 매물 ID": aid,
         "naver_url": url,
@@ -272,9 +393,44 @@ def card_to_row(card, page_url, condition):
         "extraction_status": "사용자 Chrome 화면 수집",
         "extraction_error": "",
         "매물 상태": "신규",
+        "raw_card_text": str(card.get("text", "")).strip()[:2000],
+        "parsed_deal_type": deal_type,
+        "parsed_price_text": parsed_price["parsed_price_text"],
+        "parsed_deposit": parsed_price["보증금(만원)"],
+        "parsed_monthly_rent": parsed_price["월세(만원)"],
+        "parsed_sale_price": parsed_price["매매가(만원)"],
+        "parsed_jeonse_price": parsed_price["전세금(만원)"],
+        "area_m2": area_fields["exclusive_area_m2"],
+        "area_pyeong": area_fields["exclusive_area_pyeong"],
     }
-    row.update(price_fields(text, deal_type))
+    row.update({key: parsed_price[key] for key in ("매매가(만원)", "전세금(만원)", "보증금(만원)", "월세(만원)")})
+    row = enrich_listing_region(row)
+    detected_region = classify_cheongju_region(raw_text, card.get("text", ""), region)
+    row.update(detected_region)
+    row["지역"] = (
+        detected_region["neighborhood"]
+        or detected_region["district"]
+        or detected_region["city"]
+        or row["지역"]
+    )
     return row
+
+
+def log_parsed_listing(row, condition):
+    url = str(row.get("naver_url", ""))
+    for status, key in (
+        ("raw_card_text", "raw_card_text"),
+        ("parsed_deal_type", "parsed_deal_type"),
+        ("parsed_price_text", "parsed_price_text"),
+        ("parsed_deposit", "parsed_deposit"),
+        ("parsed_monthly_rent", "parsed_monthly_rent"),
+        ("parsed_sale_price", "parsed_sale_price"),
+        ("parsed_jeonse_price", "parsed_jeonse_price"),
+        ("area_m2", "area_m2"),
+        ("area_pyeong", "area_pyeong"),
+    ):
+        message = str(row.get(key, ""))
+        write_log(status, message[:2000], url, condition)
 
 
 def unique_cards(cards):
@@ -329,14 +485,52 @@ def cleanup_invalid_ui_listings():
         if is_invalid_saved_listing(row):
             continue
         item = dict(row)
-        if not str(item.get("지역", "")).strip():
-            item["지역"] = "청주시"
+        item = enrich_listing_region(item)
         cleaned.append(item)
     removed = len(rows) - len(cleaned)
     if removed or cleaned != rows:
         replace_listings(cleaned)
         export_csv()
     return removed
+
+
+def save_candidate_cards(cards, page_url, condition, max_new=MAX_NEW):
+    existing_rows = load_listings()
+    known_ids = {
+        str(row.get("naver_article_id") or row.get("네이버 매물 ID", "")).strip()
+        for row in existing_rows
+    }
+    known_urls = {
+        str(row.get("naver_url") or row.get("네이버부동산 링크", "")).strip()
+        for row in existing_rows
+    }
+    known_ids.discard("")
+    known_urls.discard("")
+
+    new_count = 0
+    duplicate_count = 0
+    price_changed_count = 0
+    limit_skipped_count = 0
+    for card in cards:
+        url = str(card.get("url", "")).strip()
+        aid = str(card.get("articleNo", "")).strip() or article_id(url)
+        is_known = aid in known_ids or url in known_urls
+        if not is_known and new_count >= max_new:
+            limit_skipped_count += 1
+            continue
+        row = card_to_row(card, page_url, condition)
+        log_parsed_listing(row, condition)
+        status = upsert_collected_listing(row)
+        if status == "new":
+            new_count += 1
+            known_ids.add(aid)
+            known_urls.add(url)
+        elif status == "price_changed":
+            price_changed_count += 1
+            duplicate_count += 1
+        else:
+            duplicate_count += 1
+    return new_count, duplicate_count, price_changed_count, limit_skipped_count
 
 
 def make_listing_title(card):
@@ -378,11 +572,19 @@ def export_csv():
     rows = load_listings()
     if not rows:
         return
-    columns = list(dict.fromkeys(key for row in rows for key in row))
+    columns = list(dict.fromkeys([*(key for row in rows for key in row), *REQUIRED_EXPORT_COLUMNS]))
     with LISTINGS_FILE.open("w", encoding="utf-8-sig", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=columns, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows(
+            [
+                {
+                    **{column: 0 for column in REQUIRED_EXPORT_COLUMNS},
+                    **row,
+                }
+                for row in rows
+            ]
+        )
 
 
 def main():
@@ -395,7 +597,7 @@ def main():
 
     conditions = [item for item in load_conditions() if item.get("enabled", True)]
     condition = conditions[0] if conditions else {}
-    write_log("실행 시간", now(), condition=condition)
+    write_log("Collection time", now(), condition=condition)
     removed_ui_rows = cleanup_invalid_ui_listings()
     write_log("Removed existing UI items", str(removed_ui_rows), condition=condition)
     new_count = 0
@@ -409,20 +611,24 @@ def main():
                 raise RuntimeError("CAPTCHA 또는 접근 제한 화면이 감지되었습니다.")
             candidate_cards = collect_visible_cards(page)
             cards = unique_cards(candidate_cards)
+            cards = verify_uncertain_cards(page.context, cards, condition)
             excluded_count = len(candidate_cards) - len(cards)
             write_log("Candidate cards found", str(len(candidate_cards)), page.url, condition)
             write_log("Excluded UI items", str(excluded_count), page.url, condition)
             write_log("Listing cards found", str(len(cards)), page.url, condition)
+            write_log("Candidate listings", str(len(cards)), page.url, condition)
             first_title, first_price = first_listing_summary(cards)
             write_log("First listing title", first_title or "매물을 찾지 못했습니다", page.url, condition)
             write_log("First listing price", first_price or "가격을 찾지 못했습니다", page.url, condition)
-            for card in cards[:MAX_NEW]:
-                if insert_listing(card_to_row(card, page.url, condition)):
-                    new_count += 1
-                else:
-                    duplicate_count += 1
+            new_count, duplicate_count, price_changed_count, limit_skipped_count = save_candidate_cards(
+                cards, page.url, condition
+            )
             export_csv()
             write_log("Actual listings saved", str(new_count), page.url, condition)
+            write_log("New listings saved", str(new_count), page.url, condition)
+            write_log("Duplicate skipped", str(duplicate_count), page.url, condition)
+            write_log("Price changes detected", str(price_changed_count), page.url, condition)
+            write_log("Save limit skipped", str(limit_skipped_count), page.url, condition)
             write_log("Saved count", str(new_count), page.url, condition)
             write_log("중복 제외 개수", str(duplicate_count), page.url, condition)
             # Exiting sync_playwright disconnects CDP. It does not close the user's Chrome.
@@ -430,7 +636,7 @@ def main():
         message = FAILURE_MESSAGE if "connect_over_cdp" in str(error) else str(error)
         if not message:
             message = FAILURE_MESSAGE
-        write_log("실패 사유", message, condition=condition)
+        write_log("Collection failed", message, condition=condition)
         print(FAILURE_MESSAGE if message == FAILURE_MESSAGE else message)
         return 1
 

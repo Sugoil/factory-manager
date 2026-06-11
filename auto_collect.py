@@ -12,6 +12,7 @@ from urllib.parse import urlencode
 
 import requests
 
+from collection_settings import MAX_SAVE_PER_RUN
 from db_store import (
     DB_FILE,
     add_log as db_add_log,
@@ -27,7 +28,7 @@ ROOT = Path(__file__).parent
 LISTINGS_FILE = ROOT / "listings.csv"
 CONDITIONS_FILE = ROOT / "search_conditions.json"
 LOG_FILE = ROOT / "collect_logs.csv"
-MAX_NEW = 3
+MAX_NEW = MAX_SAVE_PER_RUN
 MAX_CANDIDATES = 10
 MAX_REQUESTS_PER_RUN = 2
 MIN_RANDOM_DELAY = 10

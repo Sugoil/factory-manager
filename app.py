@@ -13,6 +13,7 @@ import pandas as pd
 import requests
 import streamlit as st
 
+from region_classifier import enrich_listing_region
 from db_store import (
     DB_FILE,
     init_db,
@@ -27,7 +28,7 @@ from db_store import (
 DATA_FILE = Path(__file__).with_name("listings.csv")
 CONDITIONS_FILE = Path(__file__).with_name("search_conditions.json")
 COLLECT_LOG_FILE = Path(__file__).with_name("collect_logs.csv")
-PYEONG = 3.3058
+PYEONG = 3.305785
 PROPERTY_TYPES = [
     "공장", "창고", "토지", "상가", "원룸", "투룸", "쓰리룸",
     "아파트", "빌라", "오피스텔", "사무실", "분양권", "재개발", "기타",
@@ -52,7 +53,8 @@ INVALID_UI_LISTING_TERMS = [
 ]
 
 COLUMNS = [
-    "매물명", "주소", "지역", "매물종류", "거래유형", "네이버 매물 ID", "네이버부동산 링크",
+    "매물명", "주소", "지역", "city", "district", "neighborhood",
+    "매물종류", "거래유형", "네이버 매물 ID", "네이버부동산 링크",
     "사진 파일명", "사진 데이터", "매매가(만원)", "전세금(만원)", "보증금(만원)", "월세(만원)",
     "관리비(만원)", "권리금(만원)", "대지면적(㎡)", "전용면적(㎡)", "공급면적(㎡)",
     "건축면적(㎡)", "건물면적(㎡)", "대지면적(평)", "전용면적(평)", "공급면적(평)",
@@ -75,6 +77,11 @@ COLUMNS = [
     "ai_investment_points", "ai_location_score", "ai_price_score",
     "ai_access_score", "ai_investment_score", "ai_scarcity_score", "ai_total_score",
     "건폐율(%)", "용적률(%)", "전력당 가격(만원/kW)", "메모",
+    "previous_price", "current_price", "price_changed_at", "price_change_amount", "신규 표시",
+    "supply_area_m2", "supply_area_pyeong", "exclusive_area_m2", "exclusive_area_pyeong",
+    "land_area_m2", "land_area_pyeong", "building_area_m2", "building_area_pyeong",
+    "raw_card_text", "parsed_deal_type", "parsed_price_text", "parsed_deposit",
+    "parsed_monthly_rent", "parsed_sale_price", "parsed_jeonse_price", "area_m2", "area_pyeong",
 ]
 
 NUMBER_COLUMNS = [
@@ -84,6 +91,11 @@ NUMBER_COLUMNS = [
     "층고(m)", "허용 건폐율(%)", "허용 용적률(%)", "예상 수익률(%)",
     "ai_location_score", "ai_price_score", "ai_access_score", "ai_investment_score",
     "ai_scarcity_score", "ai_total_score",
+    "previous_price", "current_price", "price_change_amount",
+    "supply_area_m2", "supply_area_pyeong", "exclusive_area_m2", "exclusive_area_pyeong",
+    "land_area_m2", "land_area_pyeong", "building_area_m2", "building_area_pyeong",
+    "parsed_deposit", "parsed_monthly_rent", "parsed_sale_price", "parsed_jeonse_price",
+    "area_m2", "area_pyeong",
 ]
 
 
@@ -803,6 +815,14 @@ def calculate(row):
         "전력당 가격(만원/kW)": round(sale_price / row["전력량(kW)"], 2)
         if row["전력량(kW)"] > 0
         else 0,
+        "land_area_m2": round(row["대지면적(㎡)"], 2),
+        "land_area_pyeong": round(row["대지면적(㎡)"] / PYEONG, 2),
+        "exclusive_area_m2": round(row["전용면적(㎡)"], 2),
+        "exclusive_area_pyeong": round(row["전용면적(㎡)"] / PYEONG, 2),
+        "supply_area_m2": round(row["공급면적(㎡)"], 2),
+        "supply_area_pyeong": round(row["공급면적(㎡)"] / PYEONG, 2),
+        "building_area_m2": round(row["건물면적(㎡)"], 2),
+        "building_area_pyeong": round(row["건물면적(㎡)"] / PYEONG, 2),
     }
     return result
 
@@ -835,10 +855,15 @@ def prepare_listings(data):
     rows = []
     for _, source in data.iterrows():
         row = source.to_dict()
-        row["지역"] = get_region(row["주소"]) if str(row["주소"]).strip() else (
-            str(row.get("지역", "")).strip() or "지역 미입력"
-        )
+        row = enrich_listing_region(row)
         row.update(calculate(row))
+        collected_at = pd.to_datetime(row.get("collected_at", ""), errors="coerce", utc=True)
+        row["신규 표시"] = (
+            "신규"
+            if pd.notna(collected_at)
+            and collected_at >= pd.Timestamp.now(tz="UTC") - pd.Timedelta(hours=24)
+            else ""
+        )
         if not row.get("ai_summary"):
             row.update(generate_ai_analysis(row))
         rows.append(row)
@@ -847,13 +872,18 @@ def prepare_listings(data):
 
 def filter_listings(
     data, keyword="", region_keyword="", property_types=None, regions=None,
+    cities=None, districts=None, neighborhoods=None,
     deal_types=None, managers=None, statuses=None, favorites_only=False,
     agencies=None, agency_contacts=None,
-    min_price=0, max_price=0, min_rent=0, max_rent=0, sort_order="입력 순",
+    min_price=0, max_price=0, min_rent=0, max_rent=0,
+    new_only=False, price_changed_only=False, sort_order="입력 순",
 ):
     filtered = data.copy()
     property_types = property_types or []
     regions = regions or []
+    cities = cities or []
+    districts = districts or []
+    neighborhoods = neighborhoods or []
     deal_types = deal_types or []
     managers = managers or []
     statuses = statuses or []
@@ -862,7 +892,8 @@ def filter_listings(
 
     if keyword:
         search_columns = [
-            "매물명", "주소", "지역", "메모", "옵션", "용도지역", "업종 제한",
+            "매물명", "주소", "지역", "city", "district", "neighborhood",
+            "메모", "옵션", "용도지역", "업종 제한",
             "유동인구 메모", "개발 가능성 메모", "투자 메모", "담당자", "연락처",
             "agency_name", "agency_owner", "agent_name", "agent_phone", "office_phone",
             "mobile_phone", "agency_address", "agency_registration_number", "ai_summary",
@@ -878,6 +909,12 @@ def filter_listings(
         filtered = filtered[filtered["매물종류"].isin(property_types)]
     if regions:
         filtered = filtered[filtered["지역"].isin(regions)]
+    if cities:
+        filtered = filtered[filtered["city"].isin(cities)]
+    if districts:
+        filtered = filtered[filtered["district"].isin(districts)]
+    if neighborhoods:
+        filtered = filtered[filtered["neighborhood"].isin(neighborhoods)]
     if deal_types:
         filtered = filtered[filtered["거래유형"].isin(deal_types)]
     if managers:
@@ -895,6 +932,10 @@ def filter_listings(
             + filtered["mobile_phone"].fillna("").astype(str)
         )
         filtered = filtered[contact_text.apply(lambda value: any(item in value for item in agency_contacts))]
+    if new_only:
+        filtered = filtered[filtered["신규 표시"] == "신규"]
+    if price_changed_only:
+        filtered = filtered[filtered["price_changed_at"].fillna("").astype(str) != ""]
 
     filtered = filtered[filtered["매매가(만원)"] >= min_price]
     filtered = filtered[filtered["월세(만원)"] >= min_rent]
@@ -932,10 +973,57 @@ def load_listings():
         return pd.DataFrame(columns=COLUMNS)
 
 
+def listings_data_version():
+    if DB_FILE.exists():
+        stat = DB_FILE.stat()
+        return ("db", stat.st_mtime_ns, stat.st_size)
+    if DATA_FILE.exists():
+        stat = DATA_FILE.stat()
+        return ("csv", stat.st_mtime_ns, stat.st_size)
+    return ("empty", 0, 0)
+
+
+def recent_collection_runs(limit=20):
+    logs = db_load_logs(limit=500)
+    if not logs and COLLECT_LOG_FILE.exists():
+        source = read_csv_file(COLLECT_LOG_FILE)
+        logs = source.rename(
+            columns={"수집시간": "collected_at", "상태": "status", "메시지": "message"}
+        ).to_dict("records")
+    runs = {}
+    for item in logs:
+        collected_at = str(item.get("collected_at", ""))
+        run_key = collected_at[:16]
+        status = str(item.get("status", ""))
+        message = str(item.get("message", ""))
+        run = runs.setdefault(
+            run_key,
+            {
+                "수집 시간": collected_at,
+                "후보 매물 수": 0,
+                "신규 저장 수": 0,
+                "중복 제외 수": 0,
+                "실패 여부": "정상",
+                "실패 사유": "",
+            },
+        )
+        if status == "Candidate listings":
+            run["후보 매물 수"] = int(float(message or 0))
+        elif status == "New listings saved":
+            run["신규 저장 수"] = int(float(message or 0))
+        elif status == "Duplicate skipped":
+            run["중복 제외 수"] = int(float(message or 0))
+        elif "실패" in status or "failed" in status.lower() or status == "실패 사유":
+            run["실패 여부"] = "실패"
+            run["실패 사유"] = message
+    return list(runs.values())[:limit]
+
+
 def save_listings(data):
     prepared = prepare_listings(data)
     db_replace_listings(prepared.to_dict("records"))
     prepared.to_csv(DATA_FILE, index=False, encoding="utf-8-sig")
+    st.session_state.listings_data_version = listings_data_version()
 
 
 def load_conditions():
@@ -1172,6 +1260,17 @@ def show_table(data, key):
             "예상 수익률(%)": st.column_config.NumberColumn(format="%.2f%%"),
             "전세가율(%)": st.column_config.NumberColumn(format="%.2f%%"),
             "매매가 대비 보증금 비율(%)": st.column_config.NumberColumn(format="%.2f%%"),
+            "전용면적(㎡)": st.column_config.NumberColumn(format="%.2f"),
+            "전용면적(평)": st.column_config.NumberColumn(format="%.2f"),
+            "공급면적(㎡)": st.column_config.NumberColumn(format="%.2f"),
+            "공급면적(평)": st.column_config.NumberColumn(format="%.2f"),
+            "대지면적(㎡)": st.column_config.NumberColumn(format="%.2f"),
+            "대지면적(평)": st.column_config.NumberColumn(format="%.2f"),
+            "건물면적(㎡)": st.column_config.NumberColumn(format="%.2f"),
+            "건물면적(평)": st.column_config.NumberColumn(format="%.2f"),
+            "city": st.column_config.TextColumn("시"),
+            "district": st.column_config.TextColumn("구"),
+            "neighborhood": st.column_config.TextColumn("동/읍/면"),
         },
     )
     csv_data = data.to_csv(index=False).encode("utf-8-sig")
@@ -1213,6 +1312,10 @@ if not st.session_state.get("authenticated", False):
 with st.sidebar:
     st.success("로그인됨")
     st.caption("Cloud에서는 사용 후 CSV를 다운로드해 백업하세요.")
+    if st.button("최신 매물 새로고침", use_container_width=True, key="reload_latest_listings"):
+        st.session_state.pop("listings", None)
+        st.session_state.pop("listings_data_version", None)
+        st.rerun()
     if st.button("로그아웃", use_container_width=True, key="logout_button"):
         st.session_state.authenticated = False
         st.rerun()
@@ -1224,16 +1327,93 @@ st.success(
     "붙여넣으면 자동으로 정리됩니다."
 )
 
-if "listings" not in st.session_state:
+current_listings_version = listings_data_version()
+if (
+    "listings" not in st.session_state
+    or st.session_state.get("listings_data_version") != current_listings_version
+):
     st.session_state.listings = load_listings()
+    st.session_state.listings_data_version = current_listings_version
 
 data = st.session_state.listings
 total = len(data)
+collected_times = pd.to_datetime(data["collected_at"], errors="coerce", utc=True)
+today_start = pd.Timestamp.now(tz="UTC").normalize()
+today_new_mask = collected_times >= today_start
+recent_24h_mask = collected_times >= pd.Timestamp.now(tz="UTC") - pd.Timedelta(hours=24)
+collection_runs = recent_collection_runs()
+last_run = collection_runs[0] if collection_runs else {}
+
+st.subheader("수집 대시보드")
 m1, m2, m3, m4 = st.columns(4)
-m1.metric("전체 매물", f"{total:,}개")
-m2.metric("평균 매매가", f"{data['매매가(만원)'].mean() if total else 0:,.0f}만원")
-m3.metric("평균 수익률", f"{data['월세 수익률(%)'].mean() if total else 0:.2f}%")
-m4.metric("등록 지역", f"{data['지역'].nunique() if total else 0:,}곳")
+m1.metric("오늘 신규 매물", f"{int(today_new_mask.sum()):,}개")
+m2.metric("전체 저장 매물", f"{total:,}개")
+m3.metric("마지막 수집 시간", str(last_run.get("수집 시간", "-"))[:19])
+m4.metric(
+    "마지막 수집 결과",
+    "실패" if last_run.get("실패 여부") == "실패" else f"신규 {last_run.get('신규 저장 수', 0)}개",
+)
+
+recent_columns = [
+    "신규 표시", "매물명", "지역", "매물종류", "거래유형",
+    "매매가(만원)", "보증금(만원)", "월세(만원)", "collected_at", "네이버부동산 링크",
+]
+recent_listings = data.loc[recent_24h_mask].copy()
+recent_listings["_collected_sort"] = collected_times[recent_24h_mask]
+recent_listings = recent_listings.sort_values("_collected_sort", ascending=False).head(10)
+with st.expander("최근 신규 매물 10개", expanded=True):
+    if recent_listings.empty:
+        st.info("최근 24시간 이내 신규 매물이 없습니다.")
+    else:
+        st.dataframe(
+            recent_listings[recent_columns],
+            use_container_width=True,
+            hide_index=True,
+            column_config={"네이버부동산 링크": st.column_config.LinkColumn("매물 열기")},
+        )
+
+stat_types = ["원룸", "투룸", "쓰리룸", "아파트", "빌라", "오피스텔", "상가", "사무실", "공장", "창고", "토지", "기타"]
+type_stats = pd.DataFrame(
+    [
+        {
+            "매물종류": property_type,
+            "전체 저장 개수": int((data["매물종류"] == property_type).sum()),
+            "오늘 신규 개수": int(((data["매물종류"] == property_type) & today_new_mask).sum()),
+        }
+        for property_type in stat_types
+    ]
+)
+region_stats = (
+    data.assign(_today=today_new_mask)
+    .groupby("지역", dropna=False)
+    .agg(**{"전체 저장 개수": ("지역", "size"), "오늘 신규 개수": ("_today", "sum")})
+    .reset_index()
+    .sort_values("전체 저장 개수", ascending=False)
+)
+stats_1, stats_2 = st.columns(2)
+with stats_1:
+    st.markdown("##### 매물종류별 통계")
+    st.dataframe(type_stats, use_container_width=True, hide_index=True)
+with stats_2:
+    st.markdown("##### 지역별 통계")
+    st.dataframe(region_stats, use_container_width=True, hide_index=True)
+
+price_changed_rows = data[data["price_changed_at"].fillna("").astype(str) != ""].copy()
+with st.expander("가격 변동 매물", expanded=False):
+    if price_changed_rows.empty:
+        st.info("가격 변동이 기록된 매물이 없습니다.")
+    else:
+        st.dataframe(
+            price_changed_rows[
+                [
+                    "매물명", "지역", "매물종류", "previous_price", "current_price",
+                    "price_change_amount", "price_changed_at", "네이버부동산 링크",
+                ]
+            ].sort_values("price_changed_at", ascending=False),
+            use_container_width=True,
+            hide_index=True,
+            column_config={"네이버부동산 링크": st.column_config.LinkColumn("매물 열기")},
+        )
 
 with st.expander("CSV 불러오기 / 전체 다운로드"):
     uploaded_csv = st.file_uploader("매물 CSV 불러오기", type="csv", key="csv_upload")
@@ -1255,7 +1435,7 @@ with st.expander("실험 기능: 자동수집 관심 조건 관리", expanded=Fa
         "네이버 API 방식이 제한될 경우 브라우저 수집 방식으로 실행됩니다.\n\n"
         "최초 1회 Playwright 설치가 필요합니다.\n\n"
         "브라우저 창이 열리면 수집이 끝날 때까지 닫지 마세요.\n\n"
-        "`setup_local_scheduler.bat`을 실행하면 3시간마다 자동수집됩니다.\n\n"
+        "`setup_local_scheduler.bat`을 실행하면 10분마다 자동수집됩니다.\n\n"
         "PC가 꺼져 있으면 자동수집은 실행되지 않습니다."
     )
     conditions = load_conditions()
@@ -1802,6 +1982,16 @@ with f2:
     regions = sorted(st.session_state.listings["지역"].dropna().astype(str).unique())
     region_filter = st.multiselect("지역", regions, key="filter_region")
     deal_filter = st.multiselect("거래유형", DEAL_TYPES, key="filter_deal_type")
+    city_options = sorted(value for value in st.session_state.listings["city"].dropna().astype(str).unique() if value)
+    city_filter = st.multiselect("시 선택", city_options, key="filter_city")
+    district_options = sorted(
+        value for value in st.session_state.listings["district"].dropna().astype(str).unique() if value
+    )
+    district_filter = st.multiselect("구 선택", district_options, key="filter_district")
+    neighborhood_options = sorted(
+        value for value in st.session_state.listings["neighborhood"].dropna().astype(str).unique() if value
+    )
+    neighborhood_filter = st.multiselect("동/읍/면 선택", neighborhood_options, key="filter_neighborhood")
 with f3:
     min_price = st.number_input("최소 매매가(만원)", min_value=0.0, step=1000.0, key="filter_min_price")
     max_price = st.number_input("최대 매매가(만원, 0=제한없음)", min_value=0.0, step=1000.0, key="filter_max_price")
@@ -1831,6 +2021,8 @@ with f6:
         if value
     })
     agency_contact_filter = st.multiselect("중개사 연락처", agency_contacts, key="filter_agency_contact")
+    new_only = st.checkbox("신규 매물만 보기", key="filter_new_only")
+    price_changed_only = st.checkbox("가격 변동 매물만 보기", key="filter_price_changed_only")
 
 filtered = filter_listings(
     st.session_state.listings,
@@ -1838,6 +2030,9 @@ filtered = filter_listings(
     region_keyword=region_keyword,
     property_types=type_filter,
     regions=region_filter,
+    cities=city_filter,
+    districts=district_filter,
+    neighborhoods=neighborhood_filter,
     deal_types=deal_filter,
     managers=manager_filter,
     statuses=status_filter,
@@ -1848,6 +2043,8 @@ filtered = filter_listings(
     max_price=max_price,
     min_rent=min_rent,
     max_rent=max_rent,
+    new_only=new_only,
+    price_changed_only=price_changed_only,
     sort_order=sort_order,
 )
 
@@ -1904,6 +2101,13 @@ with st.expander("AI 매물 요약 및 점수", expanded=False):
         s5.metric("희소성", f"{summary_row['ai_scarcity_score']:.0f}")
         s6.metric("총점", f"{summary_row['ai_total_score']:.0f}점")
         st.text(summary_row["ai_summary"])
+
+st.subheader("최근 수집 로그")
+recent_run_rows = recent_collection_runs(limit=20)
+if recent_run_rows:
+    st.dataframe(pd.DataFrame(recent_run_rows), use_container_width=True, hide_index=True)
+else:
+    st.info("저장된 수집 로그가 없습니다.")
 
 st.info(
     "Streamlit Community Cloud 내부 CSV는 영구 저장이 보장되지 않습니다. "

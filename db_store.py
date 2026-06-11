@@ -58,6 +58,17 @@ def init_db(db_file=DB_FILE):
                 url TEXT,
                 message TEXT
             );
+
+            CREATE TABLE IF NOT EXISTS price_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                listing_id INTEGER NOT NULL,
+                naver_article_id TEXT,
+                naver_url TEXT,
+                previous_price REAL NOT NULL,
+                current_price REAL NOT NULL,
+                price_change_amount REAL NOT NULL,
+                price_changed_at TEXT NOT NULL
+            );
             """
         )
 
@@ -65,11 +76,133 @@ def init_db(db_file=DB_FILE):
 def listing_identity(row):
     article_id = str(row.get("naver_article_id") or row.get("네이버 매물 ID", "")).strip()
     url = str(row.get("naver_url") or row.get("네이버부동산 링크", "")).strip()
+    name = str(row.get("매물명", "")).strip()
     address = str(row.get("duplicate_address", row.get("주소", ""))).strip()
     price = row.get("매매가(만원)", 0) or row.get("전세금(만원)", 0) or 0
     area = row.get("전용면적(㎡)") or row.get("건물면적(㎡)") or row.get("대지면적(㎡)") or 0
-    duplicate_key = "|".join([address, str(price), str(area)]) if address or price or area else ""
+    duplicate_key = (
+        "|".join([name or address, str(price), str(area)])
+        if (name or address) and (price or area)
+        else ""
+    )
     return article_id, url, duplicate_key
+
+
+def listing_price(row):
+    return float(
+        row.get("매매가(만원)", 0)
+        or row.get("전세금(만원)", 0)
+        or row.get("월세(만원)", 0)
+        or 0
+    )
+
+
+def upsert_collected_listing(row, db_file=DB_FILE):
+    """Insert a listing or update its price when the same ID/URL already exists."""
+    init_db(db_file)
+    article_id, url, duplicate_key = listing_identity(row)
+    with connect(db_file) as db:
+        existing = None
+        matched_by = ""
+        if article_id:
+            existing = db.execute(
+                "SELECT id, data_json FROM listings WHERE naver_article_id = ?",
+                (article_id,),
+            ).fetchone()
+            if existing is not None:
+                matched_by = "article_id"
+        if existing is None and url:
+            existing = db.execute(
+                "SELECT id, data_json FROM listings WHERE naver_url = ?",
+                (url,),
+            ).fetchone()
+            if existing is not None:
+                matched_by = "url"
+        if existing is None and duplicate_key:
+            existing = db.execute(
+                "SELECT id, data_json FROM listings WHERE duplicate_key = ?",
+                (duplicate_key,),
+            ).fetchone()
+            if existing is not None:
+                matched_by = "duplicate_key"
+
+        if existing is None:
+            payload = json.dumps(row, ensure_ascii=False, default=str)
+            db.execute(
+                """
+                INSERT INTO listings
+                (naver_article_id, naver_url, duplicate_key, auto_collected, collected_at, data_json)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    article_id, url, duplicate_key, str(row.get("auto_collected", "")),
+                    str(row.get("collected_at", "")), payload,
+                ),
+            )
+            return "new"
+
+        if matched_by == "duplicate_key":
+            return "duplicate"
+
+        old_row = json.loads(existing["data_json"])
+        previous_price = listing_price(old_row)
+        current_price = listing_price(row)
+        updated = dict(old_row)
+        updated.update(row)
+        updated["first_seen_at"] = old_row.get("first_seen_at") or row.get("first_seen_at", "")
+        updated["last_seen_at"] = row.get("last_seen_at") or datetime.now().isoformat(timespec="seconds")
+        status = "duplicate"
+        if previous_price != current_price and previous_price > 0 and current_price > 0:
+            changed_at = datetime.now().astimezone().isoformat(timespec="seconds")
+            updated.update(
+                {
+                    "previous_price": previous_price,
+                    "current_price": current_price,
+                    "price_changed_at": changed_at,
+                    "price_change_amount": current_price - previous_price,
+                }
+            )
+            db.execute(
+                """
+                INSERT INTO price_history
+                (listing_id, naver_article_id, naver_url, previous_price, current_price,
+                 price_change_amount, price_changed_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    existing["id"], article_id, url, previous_price, current_price,
+                    current_price - previous_price, changed_at,
+                ),
+            )
+            status = "price_changed"
+        db.execute(
+            """
+            UPDATE listings
+            SET naver_article_id = ?, naver_url = ?, duplicate_key = ?,
+                auto_collected = ?, collected_at = ?, data_json = ?
+            WHERE id = ?
+            """,
+            (
+                article_id, url, duplicate_key, str(updated.get("auto_collected", "")),
+                str(updated.get("collected_at", "")),
+                json.dumps(updated, ensure_ascii=False, default=str), existing["id"],
+            ),
+        )
+        return status
+
+
+def load_price_history(limit=100, db_file=DB_FILE):
+    init_db(db_file)
+    with connect(db_file) as db:
+        rows = db.execute(
+            """
+            SELECT naver_article_id, naver_url, previous_price, current_price,
+                   price_change_amount, price_changed_at
+            FROM price_history ORDER BY id DESC LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+    return [dict(row) for row in rows]
 
 
 def insert_listing(row, db_file=DB_FILE):
